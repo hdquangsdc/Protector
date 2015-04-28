@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.protector.views.CustomFontTextView
+        android:id="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_30"
+        android:background="#c1c1c1"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="2014-4-12"
+        android:textColor="#484949"
+        android:textSize="14sp"
+        font:font="MuseoSans_500.otf" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <com.protector.views.CustomFontTextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="From : Contact"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp"
+                    font:font="MuseoSans_700.otf" />
+
+                <com.protector.views.CustomFontTextView
+                    android:id="@+id/tv_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="17:05"
+                    android:textColor="#484949"
+                    android:textSize="13sp"
+                    font:font="MuseoSans_300.otf" />
+            </LinearLayout>
+
+            <com.protector.views.CustomFontTextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:text="content"
+                android:textColor="#484949"
+                android:textSize="13sp"
+                font:font="MuseoSans_300.otf" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_sms"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:padding="5dp"
+            android:background="@drawable/tick"
+            android:button="@null" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="50dp"
+        android:src="@drawable/ic_app"
+        android:layout_marginLeft="10dp"
+        android:layout_height="50dp" />
+
+    <com.protector.views.CustomFontTextView
+        android:id="@+id/app_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:contentDescription="@string/des_icon"
+        android:layout_weight="1"
+        android:textColor="#000"
+        android:textSize="18sp"
+        font:font="@string/font_main" />
+
+    <ImageView
+        android:id="@+id/checkbox"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/app_name"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/tick" />
+
+    <ImageView
+        android:id="@+id/img_lock"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/app_name"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/locked" />
+
+</LinearLayout>

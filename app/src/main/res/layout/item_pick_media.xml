@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frmQueue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.protector.views.SquareImageView
+        android:id="@+id/imgQueue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image_background" />
+
+    <ImageView
+        android:id="@+id/imgQueueMultiSelected"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:contentDescription="@string/app_name"
+        android:padding="5dp"
+        android:src="@drawable/tick"
+        android:visibility="invisible" />
+
+    <com.protector.views.SquareImageView
+        android:id="@+id/view_boder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/border_media_shape"
+        android:visibility="visible" />
+
+    <com.protector.views.CustomFontTextView
+        android:id="@+id/tv_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:background="@color/border_blue"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="1"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        font:font="@string/font_main" />
+
+</FrameLayout>
