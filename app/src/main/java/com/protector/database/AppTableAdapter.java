@@ -73,27 +73,20 @@ public class AppTableAdapter extends BaseTableAdapter {
         }
     }
 
-    //    public synchronized int remove(String pakageName, int passwordID) {
-//        String folder = Preferences.getInstance(mContext).getHideRootPath();
-//        String DB_PATH = folder + "/" + AppLockContentProviderDB.DATABASE_NAME;
-//        File f = new File(DB_PATH);
-//
-//        if (f.exists()
-//                || Environment.MEDIA_MOUNTED.equals(Environment
-//                .getExternalStorageState())) {
-//        } else {
-//            return -1;
-//        }
-//        Uri contentUri = Uri.withAppendedPath(
-//                AppLockContentProviderDB.CONTENT_URI, TABLE_NAME);
-//        return mContext.getContentResolver().delete(
-//                contentUri,
-//                COL_PACKAGE + "=? AND " + COL_PASSWORD_ID + "= ?",
-//                new String[] { EncryptUtils.encryptV1(pakageName),
-//                        passwordID + "" });
-//    }
-//
-//    public synchronized ArrayList<Integer> getPasswordApp(String pakageName) {
+    public synchronized int remove(String pakageName, int passwordID) {
+        if (!isDBFileExist()) {
+            return -1;
+        }
+        Uri contentUri = Uri.withAppendedPath(
+                AppContentProvider.CONTENT_URI, TABLE_NAME);
+        return mContext.getContentResolver().delete(
+                contentUri,
+                COL_PACKAGE + "=? AND " + COL_PASSWORD_ID + "= ?",
+                new String[]{EncryptUtils.encryptV1(pakageName),
+                        passwordID + ""});
+    }
+
+    //    public synchronized ArrayList<Integer> getPasswordApp(String pakageName) {
 //        ArrayList<Integer> passIDs = new ArrayList<Integer>();
 //        String folder = Preferences.getInstance(mContext).getHideRootPath();
 //        String DB_PATH = folder + "/" + AppLockContentProviderDB.DATABASE_NAME;

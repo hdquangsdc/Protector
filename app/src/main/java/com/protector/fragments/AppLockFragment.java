@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.protector.R;
 import com.protector.adapters.AppAdapter;
 import com.protector.database.AppTableAdapter;
+import com.protector.database.PasswordTableAdapter;
 
 import java.util.ArrayList;
 
@@ -112,11 +113,17 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        reload();
+//        reload();
     }
 
     private void reload() {
         new ReloadAsynTask().execute();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reload();
     }
 
     /**
@@ -141,10 +148,19 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
             case R.id.imv_add:
                 addFragmentStack(new AppPickFragment());
                 break;
+            case R.id.tv_restore_all:
+                restore();
+                break;
             default:
                 break;
         }
     }
+
+    private void restore() {
+
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -181,6 +197,45 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
                 mListView.setVisibility(View.GONE);
 //                findViewById(R.id.tv_message).setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    public class AsynRemove extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Object[] str = mListApp.getSelectedItems().toArray();
+            for (int i = str.length - 1; i >= 0; i--) {
+                String app = str[i].toString();
+                AppTableAdapter.getInstance(getActivity()).remove(
+                        app, PasswordTableAdapter.PASSWORD_CURRENT_ID);
+                // /mAdapter.onRemoveSelect(app);
+                // mAdapter.remove(app);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            Object[] str = mListApp.getSelectedItems().toArray();
+            for (int i = str.length - 1; i >= 0; i--) {
+                String app = str[i].toString();
+                mListApp.onRemoveSelect(app);
+            }
+            mListApp.notifyDataSetChanged();
+//            resetButton();
+//            if (mAdapter.getCount() == 0) {
+//                mListApp.setVisibility(View.GONE);
+//                findViewById(R.id.tv_message).setVisibility(View.VISIBLE);
+//                mAdapter.removeAllSelet();
+//                mAdapter.setSelect(false);
+//                myViewBottom.setVisibility(View.GONE);
+//                myMenuAdd.setVisible(true);
+//                myMenuEdit.setVisible(true);
+//                myTvTitle.setText(getString(R.string.txt_locked_apps));
+//            }
         }
     }
 

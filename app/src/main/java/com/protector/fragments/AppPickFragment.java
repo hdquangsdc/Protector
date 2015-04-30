@@ -97,11 +97,13 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
 //            if (result != null) {
 //                Toast.makeText(getActivity(),
 //                        getString(R.string.txt_no_item_selected),
 //                        Toast.LENGTH_SHORT).show();
 //            }
+            getActivity().onBackPressed();
         }
 
     }

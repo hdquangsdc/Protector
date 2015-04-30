@@ -20,6 +20,9 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionMenuTextColor">@color/actionbar_text</item>
+
+
+
     </style>
 
     <style name="CustomActionBarTheme"
@@ -31,18 +34,18 @@
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
-        <item name="actionMenuTextColor">@color/actionbar_text</item>
+        <item name="actionMenuTextColor">@color/ColorPrimary</item>
     </style>
 
     <!-- ActionBar styles -->
     <style name="MyActionBar"
         parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="android:background">@color/border_blue</item>
+        <item name="android:background">@color/ColorPrimary</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="background">@color/border_blue</item>
+        <item name="background">@color/ColorPrimary</item>
     </style>
 
     <!-- ActionBar title text -->

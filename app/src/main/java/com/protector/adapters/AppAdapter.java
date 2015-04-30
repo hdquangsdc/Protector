@@ -47,6 +47,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
         return mSelectedItems;
     }
 
+    public void onRemoveSelect(String app) {
+        data.removeAll(mSelectedItems);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         View parent;
         ImageView mIcon;
