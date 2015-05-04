@@ -22,7 +22,7 @@ import com.protector.utils.AppUtils;
  */
 public class AppPickFragment extends Fragment implements View.OnClickListener {
     AppAdapter mAdapter;
-    RecyclerView mListView;
+    ListView mListView;
     View mViewBack;
     TextView mDone;
     IChooseImage mChooseMediaListener;
@@ -32,12 +32,8 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_appitem_pick, container,
                 false);
-        mListView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
-        mListView.setHasFixedSize(true);
+        mListView = (ListView) rootView.findViewById(R.id.my_recycler_view);
 
-        // use a linear layout manager
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mListView.setLayoutManager(mLayoutManager);
         mViewBack = (View) rootView.findViewById(R.id.view_back);
         mDone = (TextView) rootView.findViewById(R.id.tv_done);
         return rootView;

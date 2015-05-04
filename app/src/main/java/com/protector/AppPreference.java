@@ -15,6 +15,7 @@ public class AppPreference {
 	private SharedPreferences mSharedPreferences;
 	private static Context mContext;
 	private String KEY_PASSWORD = "password";
+	private String KEY_PACKAGE_NAME = "package_name";
 	private String KEY_LOCKED_TIMEOUT = "locked_time_out";
 	String key = "123456";
 
@@ -111,5 +112,13 @@ public class AppPreference {
 
 	public String getExternalStorageDirectory() {
 		return Environment.getExternalStorageDirectory().getAbsolutePath();
+	}
+
+	public String getPackageName() {
+		return mSharedPreferences.getString(KEY_PACKAGE_NAME, "");
+	}
+
+	public void setPackagename(String packageName) {
+		mSharedPreferences.edit().putString(KEY_PACKAGE_NAME, packageName).commit();
 	}
 }

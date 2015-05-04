@@ -43,7 +43,7 @@
                     android:text="From : Contact"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
-                    font:font="MuseoSans_700.otf" />
+                    font:font="@string/font_main" />
 
                 <com.protector.views.CustomFontTextView
                     android:id="@+id/tv_hours"
@@ -52,7 +52,7 @@
                     android:text="17:05"
                     android:textColor="#484949"
                     android:textSize="13sp"
-                    font:font="MuseoSans_300.otf" />
+                    font:font="@string/font_main" />
             </LinearLayout>
 
             <com.protector.views.CustomFontTextView
@@ -64,7 +64,7 @@
                 android:text="content"
                 android:textColor="#484949"
                 android:textSize="13sp"
-                font:font="MuseoSans_300.otf" />
+                font:font="@string/font_main" />
         </LinearLayout>
 
         <CheckBox
@@ -72,7 +72,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:padding="5dp"
-            android:background="@drawable/tick"
+            android:background="@drawable/check"
             android:button="@null" />
     </LinearLayout>
 

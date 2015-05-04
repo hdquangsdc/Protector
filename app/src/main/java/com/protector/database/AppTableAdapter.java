@@ -86,40 +86,33 @@ public class AppTableAdapter extends BaseTableAdapter {
                         passwordID + ""});
     }
 
-    //    public synchronized ArrayList<Integer> getPasswordApp(String pakageName) {
-//        ArrayList<Integer> passIDs = new ArrayList<Integer>();
-//        String folder = Preferences.getInstance(mContext).getHideRootPath();
-//        String DB_PATH = folder + "/" + AppLockContentProviderDB.DATABASE_NAME;
-//        File f = new File(DB_PATH);
-//
-//        if (f.exists()
-//                || Environment.MEDIA_MOUNTED.equals(Environment
-//                .getExternalStorageState())) {
-//        } else {
-//            return passIDs;
-//        }
-//        Cursor cursor = null;
-//        try {
-//            Uri contentUri = Uri.withAppendedPath(
-//                    AppLockContentProviderDB.CONTENT_URI, TABLE_NAME);
-//            cursor = mContext.getContentResolver().query(contentUri,
-//                    new String[] { COL_PASSWORD_ID }, COL_PACKAGE + " = ?",
-//                    new String[] { EncryptUtils.encryptV1(pakageName) }, null);
-//            while (cursor != null && cursor.moveToNext()) {
-//                passIDs.add(cursor.getInt(cursor
-//                        .getColumnIndex(COL_PASSWORD_ID)));
-//            }
-//        } catch (Exception ex) {
-//
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//        }
-//        return passIDs;
-//    }
-//
-//    public synchronized int clear() {
+    public synchronized ArrayList<Integer> getPasswordApp(String pakageName) {
+        ArrayList<Integer> passIDs = new ArrayList<Integer>();
+        if (!isDBFileExist()) {
+            return passIDs;
+        }
+        Cursor cursor = null;
+        try {
+            Uri contentUri = Uri.withAppendedPath(
+                    AppContentProvider.CONTENT_URI, TABLE_NAME);
+            cursor = mContext.getContentResolver().query(contentUri,
+                    new String[]{COL_PASSWORD_ID}, COL_PACKAGE + " = ?",
+                    new String[]{EncryptUtils.encryptV1(pakageName)}, null);
+            while (cursor != null && cursor.moveToNext()) {
+                passIDs.add(cursor.getInt(cursor
+                        .getColumnIndex(COL_PASSWORD_ID)));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return passIDs;
+    }
+
+    //    public synchronized int clear() {
 //        String folder = Preferences.getInstance(mContext).getHideRootPath();
 //        String DB_PATH = folder + "/" + AppLockContentProviderDB.DATABASE_NAME;
 //        File f = new File(DB_PATH);

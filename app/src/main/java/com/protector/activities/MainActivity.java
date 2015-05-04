@@ -155,7 +155,17 @@ public class MainActivity extends ActionBarActivity implements IMainFunction {
 
 	}
 
-    @Override
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+//		FragmentManager fragmentManager = getSupportFragmentManager();
+//		if (fragmentManager.getBackStackEntryCount()==0){
+//			setResult(RESULT_OK);
+//			finish();
+//		}
+	}
+
+	@Override
     public void onApp() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager

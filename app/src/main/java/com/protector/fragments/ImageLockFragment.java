@@ -1,6 +1,7 @@
 package com.protector.fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.widgets.SnackBar;
 import com.protector.R;
 import com.protector.adapters.EncryptMediaAdapter;
 import com.protector.asynctasks.HideFile;
@@ -169,6 +172,15 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                                 protected void onPostExecute(Void result) {
                                     super.onPostExecute(result);
                                     new AsynReload().execute();
+                                    new SnackBar(getActivity(),
+                                            "Do you want change color of this button to red?",
+                                            "yes", new OnClickListener() {
+
+                                        @Override
+                                        public void onClick(View v) {
+                                        }
+                                    }).show();
+
                                 }
 
                                 ;

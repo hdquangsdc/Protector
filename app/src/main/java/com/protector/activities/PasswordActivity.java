@@ -3,6 +3,7 @@ package com.protector.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -17,6 +18,14 @@ public class PasswordActivity extends FragmentActivity {
 	private String mSetPassword = "";
 	private String mConfirmPassword = "";
 	private Mode mode;
+
+//	private static final String CLASSNAME = LockPatternActivity.class.getName();
+//	public static final String ACTION_CREATE_PATTERN = CLASSNAME
+//			+ ".create_pattern";
+//	char[] savedPattern = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+//	public static final String ACTION_COMPARE_PATTERN = CLASSNAME
+//			+ ".compare_pattern";
+
 
 	private ImageView dot1, dot2, dot3, dot4;
 
@@ -81,8 +90,7 @@ public class PasswordActivity extends FragmentActivity {
 						PasswordTableAdapter.PASSWORD_CURRENT_ID = passID;
 						Intent i = new Intent(PasswordActivity.this,
 								MainActivity.class);
-						startActivity(i);
-						finish();
+						startActivityForResult(i, 1234);
 					}
 				} else if (mode == Mode.SET) {
 					toast(mPassword);
@@ -97,8 +105,7 @@ public class PasswordActivity extends FragmentActivity {
 							PasswordTableAdapter.PASSWORD_CURRENT_TEXT = mSetPassword;
 							Intent i = new Intent(PasswordActivity.this,
 									MainActivity.class);
-							startActivity(i);
-							finish();
+							startActivityForResult(i,1234);
 						}
 
 					} else {
@@ -109,6 +116,17 @@ public class PasswordActivity extends FragmentActivity {
 			}
 		}
 	};
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1234) {
+			if (resultCode == RESULT_OK) {
+//				myIsMainActivity = false;
+				finish();
+			}
+		}
+	}
 
 	private void showDot(String password) {
 		if (password.length() >= 1) {
@@ -192,4 +210,41 @@ public class PasswordActivity extends FragmentActivity {
 		super.onCreate(arg0);
 	}
 
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if (keyCode == KeyEvent.KEYCODE_BACK
+//				&& ACTION_COMPARE_PATTERN.equals(getIntent().getAction())) {
+//			finishWithNegativeResult(RESULT_CANCELED);
+//			return true;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
+//
+//	private void finishWithNegativeResult(int resultCode) {
+//		if (ACTION_COMPARE_PATTERN.equals(getIntent().getAction()))
+//			mIntentResult.putExtra(EXTRA_RETRY_COUNT, mRetryCount);
+//
+//		setResult(resultCode, mIntentResult);
+//		ResultReceiver receiver = getIntent().getParcelableExtra(
+//				EXTRA_RESULT_RECEIVER);
+//		if (receiver != null) {
+//			Bundle resultBundle = null;
+//			if (ACTION_COMPARE_PATTERN.equals(getIntent().getAction())) {
+//				resultBundle = new Bundle();
+//				resultBundle.putInt(EXTRA_RETRY_COUNT, mRetryCount);
+//			}
+//			receiver.send(resultCode, resultBundle);
+//		}
+//		PendingIntent pi = getIntent().getParcelableExtra(
+//				EXTRA_PENDING_INTENT_CANCELLED);
+//		if (pi != null) {
+//			try {
+//				pi.send(this, resultCode, mIntentResult);
+//			} catch (Throwable t) {
+//				Log.e(CLASSNAME, "Error sending PendingIntent: " + pi, t);
+//			}
+//		}
+//
+//		finish();
+//	}
 }

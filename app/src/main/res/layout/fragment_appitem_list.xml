@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    xmlns:font="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context="com.protector.fragments.AppLockFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp" >
+        android:layout_height="50dp">
 
         <LinearLayout
             android:id="@+id/view_back"
@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/pressed_action"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+            android:paddingRight="5dp">
 
             <ImageView
                 android:id="@+id/back"
@@ -51,7 +51,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:gravity="end" >
+            android:gravity="end">
 
             <com.protector.views.CustomFontTextView
                 android:id="@+id/tv_restore_all"
@@ -68,38 +68,63 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="30dp"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/darker_gray" />
 
-            <ImageView
-                android:id="@+id/imv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@drawable/pressed_action"
-                android:contentDescription="@string/ic_back"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/add_contributor" />
+
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <com.gc.materialdesign.views.ButtonFloat
-        android:id="@+id/buttonFloat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="24dp"
-        android:background="#1E88E5"
-        materialdesign:animate="true"
-        materialdesign:iconDrawable="@drawable/ic_action_new" />
+        <ListView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+
+        <LinearLayout
+            android:id="@+id/view_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/first_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/add_photo" />
+
+            <com.protector.views.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="No app here. Tap here to add"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp"
+                font:font="@string/font_main" />
+        </LinearLayout>
+
+
+        <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/ColorPrimary"
+            materialdesign:animate="false"
+            materialdesign:iconDrawable="@drawable/ic_action_new" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@android:id/empty"

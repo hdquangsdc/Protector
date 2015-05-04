@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp" >
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/app_icon"
         android:layout_width="50dp"
-        android:src="@drawable/ic_app"
+        android:layout_height="50dp"
+        android:clickable="false"
         android:layout_marginLeft="10dp"
-        android:layout_height="50dp" />
+        android:src="@drawable/ic_app" />
 
     <com.protector.views.CustomFontTextView
         android:id="@+id/app_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:contentDescription="@string/des_icon"
         android:layout_weight="1"
+        android:contentDescription="@string/des_icon"
         android:textColor="#000"
+        android:clickable="false"
         android:textSize="18sp"
         font:font="@string/font_main" />
 
+    <!--<com.gc.materialdesign.views.CheckBox-->
+        <!--android:id="@+id/checkbox"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#1E88E5"-->
+        <!--materialdesign:check="false" />-->
+
     <ImageView
         android:id="@+id/checkbox"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:padding="5dp"
         android:layout_margin="5dp"
-        android:contentDescription="@string/app_name"
         android:layout_marginRight="10dp"
-        android:src="@drawable/tick" />
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/check" />
 
     <ImageView
         android:id="@+id/img_lock"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="5dp"
-        android:contentDescription="@string/app_name"
         android:layout_marginRight="10dp"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/locked" />
 
 </LinearLayout>

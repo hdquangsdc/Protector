@@ -11,12 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.gc.materialdesign.views.Button;
 import com.protector.R;
 import com.protector.adapters.AppAdapter;
 import com.protector.database.AppTableAdapter;
@@ -48,9 +46,12 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
     /**
      * The fragment's ListView/GridView.
      */
-    private RecyclerView mListView;
+    private ListView mListView;
     private ImageView mImvAdd;
     private View mViewBack;
+    private Button mBtnAdd;
+    private View mViewAdd;
+
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -84,28 +85,30 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        mListApp = new AppAdapter(getActivity(), new ArrayList<String>());
+        mListApp = new AppAdapter(getActivity(), new ArrayList<String>(),false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appitem, container, false);
-        mImvAdd=(ImageView)view.findViewById(R.id.imv_add);
+        mImvAdd=(ImageView)view.findViewById(R.id.first_add);
+        mBtnAdd=(Button) view.findViewById(R.id.btn_add);
 
         // Set the adapter
-        mListView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        mListView.setHasFixedSize(true);
+        mListView = (ListView) view.findViewById(R.id.my_recycler_view);
 
-        // use a linear layout manager
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mListView.setLayoutManager(mLayoutManager);
+
         mListView.setAdapter(mListApp);
         mViewBack = view.findViewById(R.id.view_back);
+        mViewAdd=view.findViewById(R.id.view_add);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mImvAdd.setOnClickListener(this);
         mViewBack.setOnClickListener(this);
+        mBtnAdd.setOnClickListener(this);
+
+        view.findViewById(R.id.tv_restore_all).setOnClickListener(this);
 
         return view;
     }
@@ -113,7 +116,7 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        reload();
+        reload();
     }
 
     private void reload() {
@@ -145,7 +148,8 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
             case R.id.view_back:
                 getActivity().onBackPressed();
                 break;
-            case R.id.imv_add:
+            case R.id.btn_add:
+            case R.id.first_add:
                 addFragmentStack(new AppPickFragment());
                 break;
             case R.id.tv_restore_all:
@@ -157,7 +161,7 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
     }
 
     private void restore() {
-
+        new AsynRemove().execute();
     }
 
 
@@ -188,15 +192,9 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(ArrayList<String> result) {
             super.onPostExecute(result);
-            mListApp = new AppAdapter(getActivity(), result);
+            mListApp = new AppAdapter(getActivity(), result,false);
             mListView.setAdapter(mListApp);
-            if (mListApp.getItemCount() > 0) {
-                mListView.setVisibility(View.VISIBLE);
-//                findViewById(R.id.tv_message).setVisibility(View.GONE);
-            } else {
-                mListView.setVisibility(View.GONE);
-//                findViewById(R.id.tv_message).setVisibility(View.VISIBLE);
-            }
+            refreshView();
         }
     }
 
@@ -219,23 +217,21 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Object[] str = mListApp.getSelectedItems().toArray();
-            for (int i = str.length - 1; i >= 0; i--) {
-                String app = str[i].toString();
-                mListApp.onRemoveSelect(app);
-            }
+            mListApp.onRemoveSelect();
             mListApp.notifyDataSetChanged();
-//            resetButton();
-//            if (mAdapter.getCount() == 0) {
-//                mListApp.setVisibility(View.GONE);
-//                findViewById(R.id.tv_message).setVisibility(View.VISIBLE);
-//                mAdapter.removeAllSelet();
-//                mAdapter.setSelect(false);
-//                myViewBottom.setVisibility(View.GONE);
-//                myMenuAdd.setVisible(true);
-//                myMenuEdit.setVisible(true);
-//                myTvTitle.setText(getString(R.string.txt_locked_apps));
-//            }
+            refreshView();
+        }
+    }
+
+    public void refreshView(){
+        if (mListApp.getCount() == 0) {
+            mListView.setVisibility(View.GONE);
+            mViewAdd.setVisibility(View.VISIBLE);
+            mBtnAdd.setVisibility(View.GONE);
+        } else{
+            mListView.setVisibility(View.VISIBLE);
+            mViewAdd.setVisibility(View.GONE);
+            mBtnAdd.setVisibility(View.VISIBLE);
         }
     }
 
@@ -244,7 +240,7 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
                 .getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

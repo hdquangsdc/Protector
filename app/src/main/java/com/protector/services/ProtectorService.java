@@ -33,7 +33,16 @@ public class ProtectorService extends Service {
 		registerBroadcastReceiver();
 		getHomePackage();
 		handleCommand(intent);
+		registerScreenListener();
 		return Service.START_STICKY;
+	}
+
+	private void registerScreenListener(){
+		final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_USER_PRESENT);
+		final BroadcastReceiver mReceiver = new ScreenReceiver();
+		registerReceiver(mReceiver, filter);
 	}
 
 	@Override
