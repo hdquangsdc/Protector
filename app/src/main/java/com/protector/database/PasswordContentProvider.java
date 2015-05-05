@@ -5,6 +5,8 @@ import android.net.Uri;
 
 import com.protector.AppPreference;
 
+import java.util.ArrayList;
+
 public class PasswordContentProvider extends BaseContentProvider {
 	public static final String AUTHORITY = "com.protector.PasswordContentProvider";
 	public static final String DATABASE_NAME = "PasswordApp";
@@ -16,8 +18,10 @@ public class PasswordContentProvider extends BaseContentProvider {
 	}
 
 	@Override
-	String getSQLCreate() {
-		return PasswordTableAdapter.CREATE_TABLE;
+	ArrayList<String> getSQLCreate() {
+		ArrayList<String> list=new ArrayList<>();
+		list.add(PasswordTableAdapter.CREATE_TABLE);
+		return list;
 	}
 
 	@Override

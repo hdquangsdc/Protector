@@ -14,8 +14,10 @@
     <string name="restore_all">Restore all</string>
     <string name="megabyte">MB</string>
     <string name="no_records">No records found</string>
-    <string name="hide_phone_numbers">Hide phone numbers</string>
-    <string name="hide_messages">Hide messages</string>
+    <string name="hide_phone_numbers">HIDE PHONENUMBERS</string>
+    <string name="hide_messages">HIDE MESSAGES</string>
+    <string name="hide_messages_description">Select messages from your phone and hide them</string>
+    <string name="hide_phone_numbers_description">Once you hide a phone number, all messages and call logs to or from this number will be hidden </string>
 
     <!-- MENU -->
     <string name="action_search">Search</string>

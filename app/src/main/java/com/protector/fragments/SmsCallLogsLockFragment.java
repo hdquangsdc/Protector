@@ -1,5 +1,6 @@
 package com.protector.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.protector.R;
@@ -35,8 +37,17 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
     ImageView mViewAdd;
     ImageFragment mImageFragment;
     TextView tvRestore;
+    ListView mListView;
     private ArrayList<Pair<ContactItem, SmsCallLogItem>> myArrayContact;
     private int myNumContact;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        myArrayContact=new ArrayList<>();
+        myAdapter=new ContactLockedAdapter(getActivity(),
+                myArrayContact);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +55,10 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
         View rootView = inflater.inflate(R.layout.fragment_sms_call_logs_lock, container,
                 false);
 
-        mViewBack = (View) rootView.findViewById(R.id.view_back);
+        mViewBack = rootView.findViewById(R.id.view_back);
         mViewAdd = (ImageView) rootView.findViewById(R.id.imv_add);
         tvRestore = (TextView) rootView.findViewById(R.id.tv_restore_all);
+        mListView = (ListView) rootView.findViewById(R.id.list_video);
 
         return rootView;
     }
@@ -58,12 +70,14 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
         tvRestore.setOnClickListener(this);
 
         myProgressDialog = new ProgressDialog(getActivity());
-        myProgressDialog.setMessage("Loading...");
+        myProgressDialog.setMessage(getString(R.string.loading));
         myProgressDialog.setCancelable(false);
         myProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         myProgressDialog.setCancelable(false);
         super.onActivityCreated(savedInstanceState);
+        new ASynLocked().execute();
     }
+
 
     @Override
     public void onResume() {
@@ -74,7 +88,7 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
 
         @Override
         protected Void doInBackground(Void... params) {
-            // TODO Auto-generated method stub
+
             getAllContact();
             SmsCallLogTableAdapter table = SmsCallLogTableAdapter
                     .getInstance(getActivity());
@@ -85,14 +99,12 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
 
         @Override
         protected void onPreExecute() {
-            // TODO Auto-generated method stub
             super.onPreExecute();
             myProgressDialog.show();
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            // TODO Auto-generated method stub
             super.onPostExecute(result);
             myAdapter.clear();
             myProgressDialog.dismiss();

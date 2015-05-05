@@ -36,9 +36,9 @@ public class AppPreference {
 
 	public String getHideRootPath() {
 		String path = mContext.getFilesDir().getParentFile().getPath()
-				+ "/databases/SystemData/Data";
+				+ "/databases/SystemData/Data/Protector";
 		String SDCardPath = Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/SystemData/Data";
+				.getAbsolutePath() + "/SystemData/Data/Protector";
 
 		String folderPath = this.mSharedPreferences.getString(
 				"file_hide_root_path", null);

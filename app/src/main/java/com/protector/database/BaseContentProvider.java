@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import java.util.ArrayList;
+
 public abstract class BaseContentProvider extends ContentProvider {
 	private DatabaseHelper mDBHelper;
 
@@ -25,7 +27,9 @@ public abstract class BaseContentProvider extends ContentProvider {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			this.mDatabase = db;
-			mDatabase.execSQL(getSQLCreate());
+			for (String strSQLCreate:getSQLCreate()) {
+				mDatabase.execSQL(strSQLCreate);
+			}
 		}
 
 		@Override
@@ -47,7 +51,7 @@ public abstract class BaseContentProvider extends ContentProvider {
 
 	public abstract String getDatabaseName();
 
-	abstract String getSQLCreate();
+	abstract ArrayList<String> getSQLCreate();
 
 	abstract String getRootFolderPath(Context context);
 

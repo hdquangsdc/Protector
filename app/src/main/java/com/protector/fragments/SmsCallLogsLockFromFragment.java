@@ -1,5 +1,8 @@
 package com.protector.fragments;
 
+import android.app.ProgressDialog;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.protector.R;
+import com.protector.database.SmsCallLogTableAdapter;
 import com.protector.objects.SmsCallLogItem;
 
 import java.util.ArrayList;
@@ -56,6 +60,8 @@ public class SmsCallLogsLockFromFragment extends Fragment implements
                     getActivity().onBackPressed();
                     ArrayList<SmsCallLogItem> array=(ArrayList<SmsCallLogItem>) item;
 
+
+
                 }
             });
 			addFragmentStack(fragment);
@@ -75,4 +81,8 @@ public class SmsCallLogsLockFromFragment extends Fragment implements
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
+
+
+
+
 }

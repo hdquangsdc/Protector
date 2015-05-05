@@ -26,12 +26,12 @@ import java.util.Date;
 
 public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
     private OnClickListener myOnClickListener;
-    private ArrayList<Integer> myArrayChecked;
+    private ArrayList<SmsCallLogItem> myArrayChecked;
     private Activity myActivity;
 
     public SmsAdapter(Context context, ArrayList<SmsCallLogItem> arrayJobs) {
         super(context, R.layout.item_sms, arrayJobs);
-        myArrayChecked = new ArrayList<Integer>();
+        myArrayChecked = new ArrayList<>();
         myActivity = (Activity) context;
     }
 
@@ -118,11 +118,12 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
 
             @Override
             public void onClick(View v) {
-                if (myArrayChecked.contains(position)) {
-                    myArrayChecked.remove((Object) position);
+                SmsCallLogItem item=getItem(position);
+                if (myArrayChecked.contains(item)) {
+                    myArrayChecked.remove(item);
                     holder.cb.setChecked(false);
                 } else {
-                    myArrayChecked.add(position);
+                    myArrayChecked.add(item);
                     holder.cb.setChecked(true);
                 }
 //				myActivity.resetButtonNext();
@@ -131,7 +132,7 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         return convertView;
     }
 
-    public ArrayList<Integer> getArrayChecks() {
+    public ArrayList<SmsCallLogItem> getArrayChecks() {
         return myArrayChecked;
     }
 

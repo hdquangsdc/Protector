@@ -5,6 +5,8 @@ import android.net.Uri;
 
 import com.protector.AppPreference;
 
+import java.util.ArrayList;
+
 public class VideoContentProvider extends BaseContentProvider {
 	public static final String AUTHORITY = "com.protector.VideosProvider";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
@@ -16,8 +18,10 @@ public class VideoContentProvider extends BaseContentProvider {
 	}
 
 	@Override
-	String getSQLCreate() {
-		return VideoTableAdapter.CREATE_TABLE;
+	ArrayList<String> getSQLCreate() {
+		ArrayList<String> list=new ArrayList<>();
+		list.add(VideoTableAdapter.CREATE_TABLE);
+		return list;
 	}
 
 	@Override

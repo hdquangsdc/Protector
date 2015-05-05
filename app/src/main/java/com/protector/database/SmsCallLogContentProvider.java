@@ -5,6 +5,8 @@ import android.net.Uri;
 
 import com.protector.AppPreference;
 
+import java.util.ArrayList;
+
 public class SmsCallLogContentProvider extends BaseContentProvider {
 	public static final String AUTHORITY = "com.protector.SmsCallLogContentProvider";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
@@ -16,14 +18,16 @@ public class SmsCallLogContentProvider extends BaseContentProvider {
 	}
 
 	@Override
-	String getSQLCreate() {
-		// TODO Auto-generated method stub
-		return SmsCallLogTableAdapter.CREATE_TABLE;
+	ArrayList<String> getSQLCreate() {
+		ArrayList<String> list=new ArrayList<>();
+		list.add(SmsCallLogTableAdapter.CREATE_TABLE);
+		list.add(PrivateContactTableAdapter.CREATE_TABLE);
+		return list;
 	}
 
 	@Override
 	String getRootFolderPath(Context context) {
-		return AppPreference.getInstance(context).getHideImageRootPath();
+		return AppPreference.getInstance(context).getHideRootPath();
 	}
 
 	@Override

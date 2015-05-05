@@ -15,7 +15,7 @@
         android:text="2014-4-12"
         android:textColor="#484949"
         android:textSize="14sp"
-        font:font="MuseoSans_500.otf" />
+        font:font="@string/font_main" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,11 +27,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="false"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="false"
                 android:orientation="horizontal" >
 
                 <com.protector.views.CustomFontTextView
@@ -43,6 +45,7 @@
                     android:text="From : Contact"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
+                    android:clickable="false"
                     font:font="@string/font_main" />
 
                 <com.protector.views.CustomFontTextView
@@ -50,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="17:05"
+                    android:clickable="false"
                     android:textColor="#484949"
                     android:textSize="13sp"
                     font:font="@string/font_main" />
@@ -62,6 +66,7 @@
                 android:layout_marginTop="5dp"
                 android:singleLine="true"
                 android:text="content"
+                android:clickable="false"
                 android:textColor="#484949"
                 android:textSize="13sp"
                 font:font="@string/font_main" />
@@ -72,7 +77,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:padding="5dp"
-            android:background="@drawable/check"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_check"
             android:button="@null" />
     </LinearLayout>
 

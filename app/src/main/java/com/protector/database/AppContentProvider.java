@@ -5,6 +5,8 @@ import android.net.Uri;
 
 import com.protector.AppPreference;
 
+import java.util.ArrayList;
+
 public class AppContentProvider extends BaseContentProvider{
 	public static final String AUTHORITY = "com.protector.AppContentProvider";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
@@ -17,8 +19,10 @@ public class AppContentProvider extends BaseContentProvider{
     }
 
     @Override
-    String getSQLCreate() {
-        return AppTableAdapter.CREATE_TABLE;
+    ArrayList<String> getSQLCreate() {
+        ArrayList<String> list=new ArrayList<>();
+        list.add(AppTableAdapter.CREATE_TABLE);
+        return list;
     }
 
     @Override
