@@ -18,6 +18,10 @@
     <string name="hide_messages">HIDE MESSAGES</string>
     <string name="hide_messages_description">Select messages from your phone and hide them</string>
     <string name="hide_phone_numbers_description">Once you hide a phone number, all messages and call logs to or from this number will be hidden </string>
+    <string name="from">From :</string>
+    <string name="from_contact">Contact</string>
+    <string name="from_call_logs">Call Logs</string>
+    <string name="from_sms">SMS</string>
 
     <!-- MENU -->
     <string name="action_search">Search</string>

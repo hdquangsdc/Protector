@@ -60,6 +60,8 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
         tvRestore = (TextView) rootView.findViewById(R.id.tv_restore_all);
         mListView = (ListView) rootView.findViewById(R.id.list_video);
 
+        mListView.setAdapter(myAdapter);
+
         return rootView;
     }
 

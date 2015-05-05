@@ -20,69 +20,76 @@ import com.protector.objects.SmsCallLogItem;
 import java.util.ArrayList;
 
 public class SmsCallLogsLockFromFragment extends Fragment implements
-		OnClickListener {
-	Button mBtnHidePhoneNumbers, mBtnHideMessages;
+        OnClickListener {
+    Button mBtnHidePhoneNumbers, mBtnHideMessages;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(
-				R.layout.fragment_sms_lock_from_number, container, false);
-		mBtnHidePhoneNumbers = (Button) rootView
-				.findViewById(R.id.btn_hide_phone_numbers);
-		mBtnHideMessages = (Button) rootView
-				.findViewById(R.id.btn_hide_messages);
-		return rootView;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(
+                R.layout.fragment_sms_lock_from_number, container, false);
+        mBtnHidePhoneNumbers = (Button) rootView
+                .findViewById(R.id.btn_hide_phone_numbers);
+        mBtnHideMessages = (Button) rootView
+                .findViewById(R.id.btn_hide_messages);
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mBtnHideMessages.setOnClickListener(this);
-	}
+        rootView.findViewById(R.id.btn_from_contact).setOnClickListener(this);
+        rootView.findViewById(R.id.btn_from_call_logs).setOnClickListener(this);
+        rootView.findViewById(R.id.btn_from_sms_logs).setOnClickListener(this);
+        return rootView;
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_hide_phone_numbers:
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mBtnHideMessages.setOnClickListener(this);
 
-			break;
-		case R.id.btn_hide_messages:
-            SmsLockFragment fragment=new SmsLockFragment();
-            fragment.setOnPickListener(new IPick() {
-                @Override
-                public void onCancel() {
+    }
 
-                }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_hide_phone_numbers:
 
-                @Override
-                public void onPick(Object item) {
-                    getActivity().onBackPressed();
-                    ArrayList<SmsCallLogItem> array=(ArrayList<SmsCallLogItem>) item;
+                break;
+            case R.id.btn_hide_messages:
+                SmsLockFragment fragment = new SmsLockFragment();
+                fragment.setOnPickListener(new IPick() {
+                    @Override
+                    public void onCancel() {
 
+                    }
 
+                    @Override
+                    public void onPick(Object item) {
+                        getActivity().onBackPressed();
+                        ArrayList<SmsCallLogItem> array = (ArrayList<SmsCallLogItem>) item;
+                    }
+                });
+                addFragmentStack(fragment);
+                break;
+            case R.id.btn_from_contact:
+                addFragmentStack(new ContactListFragment());
+                break;
+            case R.id.btn_from_call_logs:
+                break;
+            case R.id.btn_from_sms_logs:
+                break;
+            default:
+                break;
+        }
 
-                }
-            });
-			addFragmentStack(fragment);
-			break;
-		default:
-			break;
-		}
+    }
 
-	}
-
-	public void addFragmentStack(Fragment fragment) {
-		FragmentManager fragmentManager = getActivity()
-				.getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
-	}
-
-
+    public void addFragmentStack(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity()
+                .getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
 
 }

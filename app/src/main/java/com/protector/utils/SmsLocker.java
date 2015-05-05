@@ -20,6 +20,8 @@ public class SmsLocker {
 	private ArrayList<SmsCallLogItem> myArraySMS;
 	private Cursor cursor = null;
 	public static final Uri SMS_INBOX_CONTENT_URI = Uri.parse("content://sms/");
+	private String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
+	private Uri callUri = Uri.parse("content://call_log/calls");
 	
 	public class TextSmsColumns {
 		public static final String ID = "_id";
@@ -380,4 +382,69 @@ public class SmsLocker {
 //		mContext.getContentResolver().delete(Uri.parse("content://sms"),
 //				"_id = ?", new String[] { id + "" });
 //	}
+
+
+	public boolean checkContact(String address) {
+		String[] addr = new String[2];
+		try {
+			addr = PhoneNumberUtils.getPhoneNumber(mContext, address);
+		} catch (Exception ex) {
+			addr[0] = address;
+			addr[1] = address;
+		}
+		boolean isReturn = false;
+		try {
+			cursor = mContext.getContentResolver().query(
+					SMS_INBOX_CONTENT_URI,
+					new String[] { TextSmsColumns.ID, TextSmsColumns.ADDRESS,
+							TextSmsColumns.DATE, TextSmsColumns.BODY,
+							TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
+							TextSmsColumns.PERSON, TextSmsColumns.STATUS,
+							TextSmsColumns.TYPE, TextSmsColumns.SUBJECT,
+							TextSmsColumns.READ },
+					TextSmsColumns.ADDRESS + " IN (?,?)",
+					new String[] { addr[0].toString(), addr[1].toString() },
+					TextSmsColumns.DATE + " DESC");
+			if (cursor.moveToFirst()) {
+				isReturn = true;
+			} else {
+				isReturn = getAllCallLogByAddress(address);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return isReturn;
+	}
+
+	public boolean getAllCallLogByAddress(String address) {
+		String[] addrs = new String[2];
+		try {
+			addrs = PhoneNumberUtils.getPhoneNumber(mContext, address);
+		} catch (Exception ex) {
+			addrs[0] = address;
+			addrs[1] = address;
+		}
+		Cursor curLog = null;
+		boolean isReturn = false;
+		try {
+			curLog = mContext.getContentResolver().query(callUri, null,
+					android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
+					new String[] { addrs[0].toString(), addrs[1].toString() },
+					strOrder);
+			if (curLog.moveToNext()) {
+				isReturn = true;
+			}
+		} catch (Exception ex) {
+
+		} finally {
+			if (curLog != null) {
+				curLog.close();
+			}
+		}
+		return isReturn;
+	}
 }
