@@ -194,38 +194,32 @@ public class AppTableAdapter extends BaseTableAdapter {
         return items;
     }
 
-    //    public boolean checkData(){
-//        String folder = Preferences.getInstance(mContext).getHideRootPath();
-//        String DB_PATH = folder + "/" + AppLockContentProviderDB.DATABASE_NAME;
-//        File f = new File(DB_PATH);
-//
-//        if (f.exists()
-//                || Environment.MEDIA_MOUNTED.equals(Environment
-//                .getExternalStorageState())) {
-//        } else {
-//            return false;
-//        }
-//        Cursor cursor = null;
-//        boolean isCheck = false;
-//        try {
-//            Uri contentUri = Uri.withAppendedPath(
-//                    AppLockContentProviderDB.CONTENT_URI, TABLE_NAME);
-//            cursor = mContext.getContentResolver().query(
-//                    contentUri,
-//                    new String[] { COL_PACKAGE },
-//                    COL_PASSWORD_ID + " = ?",
-//                    new String[] { PasswordTableAdapter.PASSWORD_CURRENT_ID
-//                            + "" }, COL_NAME);
-//            if (cursor != null && cursor.moveToNext()) {
-//                isCheck = true;
-//            }
-//        } catch (Exception e) {
-//        } finally {
-//            if (cursor != null)
-//                cursor.close();
-//        }
-//        return isCheck;
-//    }
+    public boolean checkData() {
+        if (!isDBFileExist()) {
+            return false;
+        }
+        Cursor cursor = null;
+        boolean isCheck = false;
+        try {
+            Uri contentUri = Uri.withAppendedPath(
+                    AppContentProvider.CONTENT_URI, TABLE_NAME);
+            cursor = mContext.getContentResolver().query(
+                    contentUri,
+                    new String[]{COL_PACKAGE},
+                    COL_PASSWORD_ID + " = ?",
+                    new String[]{PasswordTableAdapter.PASSWORD_CURRENT_ID
+                            + ""}, COL_NAME);
+            if (cursor != null && cursor.moveToNext()) {
+                isCheck = true;
+            }
+        } catch (Exception e) {
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return isCheck;
+    }
+
     public synchronized ArrayList<String> getAllPass() {
         ArrayList<String> items = new ArrayList<String>();
         String folder = AppPreference.getInstance(mContext).getHideRootPath();

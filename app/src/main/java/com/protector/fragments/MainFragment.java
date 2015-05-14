@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.protector.R;
 
 public class MainFragment extends Fragment implements OnClickListener {
-    View mViewPhoto, mViewVideo, mViewContact, mViewSMS, mViewApp;
+    View mViewPhoto, mViewVideo, mViewContact, mViewSMS, mViewApp, mViewBackup;
     IMainFunction mMainListener;
 
     @Override
@@ -26,12 +26,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         mViewVideo = rootView.findViewById(R.id.ll_video);
         mViewContact = rootView.findViewById(R.id.ll_contact);
         mViewSMS = rootView.findViewById(R.id.ll_message);
-        mViewApp=rootView.findViewById(R.id.ll_app);
+        mViewApp = rootView.findViewById(R.id.ll_app);
+        mViewBackup = rootView.findViewById(R.id.ll_backup);
         mViewPhoto.setOnClickListener(this);
         mViewVideo.setOnClickListener(this);
         mViewContact.setOnClickListener(this);
         mViewSMS.setOnClickListener(this);
         mViewApp.setOnClickListener(this);
+        mViewBackup.setOnClickListener(this);
         return rootView;
     }
 
@@ -53,6 +55,10 @@ public class MainFragment extends Fragment implements OnClickListener {
             case R.id.ll_app:
                 if (mMainListener != null)
                     mMainListener.onApp();
+                break;
+            case R.id.ll_backup:
+                if (mMainListener != null)
+                    mMainListener.onBackup();
                 break;
             default:
                 break;

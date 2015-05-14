@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@android:id/home"/>
-
+    <item
+        android:id="@+id/avatar"
+        android:actionViewClass="com.protector.views.SquareImageView"
+        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:title="@string/photos"
+        app:actionViewClass="com.protector.views.SquareImageView"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_search"
         android:actionViewClass="android.support.v7.widget.SearchView"
-        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:icon="@drawable/search_white"
+        android:orderInCategory="1"
+        android:title="@string/action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:title="@string/action_search" />
+        app:height="10dp"
+        app:showAsAction="ifRoom|collapseActionView"/>
     <item
         android:id="@+id/action_compose"
         android:icon="@drawable/compose_dark_grey_l"
-        android:title="@string/action_compose" />
+        android:orderInCategory="2"
+        android:title="@string/action_compose"
+        app:showAsAction="ifRoom"/>
 </menu>

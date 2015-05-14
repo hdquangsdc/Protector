@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+              xmlns:font="http://schemas.android.com/apk/res-auto"
+              xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp" >
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/ColorPrimaryPressed">
 
         <LinearLayout
             android:id="@+id/view_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/pressed_action"
+            android:background="@drawable/action_bar_pressed_action"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+            android:paddingRight="10dp">
 
             <ImageView
                 android:id="@+id/back"
@@ -25,70 +27,71 @@
                 android:contentDescription="@string/ic_back"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
-                android:src="@drawable/back" />
+                android:src="@drawable/back"/>
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_width="40dp"
+                android:layout_height="@dimen/action_bar_height"
                 android:contentDescription="@string/ic_back"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:src="@drawable/ic_image" />
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
+                android:src="@drawable/ic_image"/>
 
             <com.protector.views.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
                 android:text="@string/photos"
-                font:font="@string/font_main" />
+                font:font="@string/font_main"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:gravity="right" >
-
-            <com.protector.views.CustomFontTextView
-                android:id="@+id/tv_restore_all"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:background="@drawable/pressed_action"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="@string/done"
-                font:font="@string/font_main" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/darker_gray" />
+            android:gravity="right">
 
             <ImageView
-                android:id="@+id/imv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:background="@drawable/pressed_action"
-                android:contentDescription="@string/ic_back"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/add_contributor" />
+                android:id="@+id/tv_done"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/action_bar_height"
+                android:background="@drawable/action_bar_pressed_action"
+                android:contentDescription="@string/done"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:src="@drawable/ic_action_restore"/>
         </LinearLayout>
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/grid_image"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp" >
-    </GridView>
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/grid_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:horizontalSpacing="2dp"
+            android:numColumns="3"
+            android:verticalSpacing="2dp"/>
+
+        <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/ColorPrimary"
+            materialdesign:animate="false"
+            materialdesign:iconDrawable="@drawable/ic_action_new"/>
+    </RelativeLayout>
+
 
 </LinearLayout>

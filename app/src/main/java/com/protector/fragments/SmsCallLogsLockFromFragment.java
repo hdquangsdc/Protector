@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.protector.R;
 import com.protector.database.SmsCallLogTableAdapter;
+import com.protector.objects.GroupContactObject;
 import com.protector.objects.SmsCallLogItem;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class SmsCallLogsLockFromFragment extends Fragment implements
         OnClickListener {
     Button mBtnHidePhoneNumbers, mBtnHideMessages;
+    View mViewChoice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +34,7 @@ public class SmsCallLogsLockFromFragment extends Fragment implements
                 .findViewById(R.id.btn_hide_phone_numbers);
         mBtnHideMessages = (Button) rootView
                 .findViewById(R.id.btn_hide_messages);
+        mViewChoice = rootView.findViewById(R.id.hide_phone_number_from);
 
         rootView.findViewById(R.id.btn_from_contact).setOnClickListener(this);
         rootView.findViewById(R.id.btn_from_call_logs).setOnClickListener(this);
@@ -43,14 +46,19 @@ public class SmsCallLogsLockFromFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mBtnHideMessages.setOnClickListener(this);
-
+        mBtnHidePhoneNumbers.setOnClickListener(this);
+        mViewChoice.setVisibility(View.GONE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_hide_phone_numbers:
-
+                if (mViewChoice.getVisibility()==View.VISIBLE){
+                    mViewChoice.setVisibility(View.GONE);
+                } else {
+                    mViewChoice.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.btn_hide_messages:
                 SmsLockFragment fragment = new SmsLockFragment();
@@ -72,8 +80,10 @@ public class SmsCallLogsLockFromFragment extends Fragment implements
                 addFragmentStack(new ContactListFragment());
                 break;
             case R.id.btn_from_call_logs:
+                addFragmentStack(new CallLogListFragment());
                 break;
             case R.id.btn_from_sms_logs:
+                addFragmentStack(new SmsListFragment());
                 break;
             default:
                 break;

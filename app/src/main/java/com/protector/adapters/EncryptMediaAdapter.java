@@ -1,10 +1,12 @@
 package com.protector.adapters;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +73,8 @@ public class EncryptMediaAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@Override
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
 		if (convertView == null) {
@@ -101,10 +104,12 @@ public class EncryptMediaAdapter extends BaseAdapter {
 
 		MediaStorageItem item = getItem(position);
 		if (mSelectedList.contains(item)) {
+            holder.imvImage.setAlpha(0.5f);
 			holder.vBorder.setVisibility(View.VISIBLE);
 			holder.tvIndex.setVisibility(View.VISIBLE);
 			holder.tvIndex.setText("" + (mSelectedList.indexOf(item) + 1));
 		} else {
+            holder.imvImage.setAlpha(1f);
 			holder.vBorder.setVisibility(View.INVISIBLE);
 			holder.tvIndex.setVisibility(View.INVISIBLE);
 		}

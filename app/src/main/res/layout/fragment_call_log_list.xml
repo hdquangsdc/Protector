@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/ColorPrimaryPressed">
+
+        <LinearLayout
+            android:id="@+id/view_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/action_bar_pressed_action"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ic_back"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:src="@drawable/back" />
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="40dp"
+                android:layout_height="@dimen/action_bar_height"
+                android:contentDescription="@string/ic_back"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
+                android:src="@drawable/ic_conversation" />
+
+            <com.protector.views.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:text="@string/from_call_logs"
+                font:font="@string/font_main" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/tv_done"
+                android:layout_width="@dimen/action_bar_height"
+                android:layout_height="@dimen/action_bar_height"
+                android:background="@drawable/action_bar_pressed_action"
+                android:contentDescription="@string/done"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_action_bar_check"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edt_search"
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:drawableRight="@drawable/ic_find" />
+
+    <ListView
+        android:id="@+id/list_message"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"></ListView>
+
+</LinearLayout>

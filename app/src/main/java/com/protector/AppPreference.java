@@ -17,7 +17,10 @@ public class AppPreference {
 	private String KEY_PASSWORD = "password";
 	private String KEY_PACKAGE_NAME = "package_name";
 	private String KEY_LOCKED_TIMEOUT = "locked_time_out";
+	private String KEY_STORE = "store_key";
 	String key = "123456";
+
+	private String KEY_BACKUP = "backup_key";
 
 	private AppPreference(Context context) {
 		if (mSharedPreferences == null) {
@@ -120,5 +123,31 @@ public class AppPreference {
 
 	public void setPackagename(String packageName) {
 		mSharedPreferences.edit().putString(KEY_PACKAGE_NAME, packageName).commit();
+	}
+
+	public boolean isDriveRestore() {
+		return mSharedPreferences.getBoolean(KEY_STORE, false);
+	}
+
+	public void setDriveRestore(boolean store) {
+		mSharedPreferences.edit().putBoolean(KEY_STORE, store).commit();
+	}
+
+	public boolean isDropboxBackup() {
+		return mSharedPreferences.getBoolean(KEY_BACKUP, false);
+	}
+
+	public void setDropboxBackup(boolean store) {
+		mSharedPreferences.edit().putBoolean(KEY_BACKUP, store).commit();
+	}
+
+	private String KEY_DRIVE_BACKUP = "backup_google_drive_key";
+
+	public boolean getDriveBackup() {
+		return mSharedPreferences.getBoolean(KEY_DRIVE_BACKUP, false);
+	}
+
+	public void setDriveBackup(boolean store) {
+		mSharedPreferences.edit().putBoolean(KEY_DRIVE_BACKUP, store).commit();
 	}
 }

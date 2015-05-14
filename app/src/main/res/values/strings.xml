@@ -23,6 +23,31 @@
     <string name="from_call_logs">Call Logs</string>
     <string name="from_sms">SMS</string>
 
+
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+
+    <string name="new_private">New private</string>
+    <string name="already_contact">Already contact</string>
+    <string name="cancel">Cancel</string>
+    <string name="restoring_item">Restoring</string>
+    <string name="no_sdcard_available">No SD card available</string>
+    <string name="alert">Alert</string>
+    <string name="backup_dropbox">Backup Dropbox</string>
+    <string name="backup_drive">Backup Google Drive</string>
+
+    <string name="link_dropbox_cancel">Link dropbox cancel</string>
+
+    <string name="set_backup_password">Set backup password</string>
+    <string name="pass_backup_next_time">Set backup next time</string>
+    <string name="hint_input_backup_password">Input backup password</string>
+    <string name="hint_reinput_backup_password">Re-input backup password</string>
+
+    <!-- BUTTON -->
+    <string name="btn_ok">OK</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="btn_cancel">Cancel</string>
     <!-- MENU -->
     <string name="action_search">Search</string>
     <string name="action_compose">Compose</string>
@@ -36,10 +61,46 @@
     <string name="importing">Importing (%1$s) &#8230;</string>
     <string name="restoring">Restoring (%1$s) &#8230;</string>
     <string name="loading">Loading &#8230;</string>
+    <string name="transferring">Transferring &#8230;</string>
+    <string name="connecting">Connecting &#8230;</string>
+    <string name="restore_success">Restore successed</string>
+    <string name="copied">Copied</string>
+    <string name="finishing">Finishing &#8230;</string>
+    <string name="restoring_video">Restoring video &#8230;</string>
+    <string name="transfering_video">Transferring video &#8230;</string>
+    <string name="restoring_image">Restoring image &#8230;</string>
+    <string name="transfering_image">Transferring image &#8230;</string>
+    <string name="request_failed">Request failed. Please check your network connection</string>
+    <string name="error">Error</string>
+    <string name="internal_memory_full">Internal memory full</string>
+    <string name="backup_fail">Backup fail</string>
+    <string name="backup_success">Backup success</string>
+
+    <string name="dropbox_backing_up">Dropbox backing up</string>
+    <string name="drive_backing_up">Drive backing up</string>
+
+    <string name="incorrect_password">Incorrect password</string>
+
+    <string name="message">Message</string>
+    <string name="sms_log">Sms Logs</string>
     <!-- TOAST -->
     <string name="image_imported">Image(s) imported</string>
     <string name="video_imported">Video(s) imported</string>
     <string name="confirm_password_incorrect">Confirm password incorrect</string>
+    <string name="no_contact_selected">No contact selected</string>
+    <string name="no_item_selected">No item selected</string>
     <!-- FONTS -->
     <string name="font_main">roboto_regular.ttf</string>
+    <string name="font_light">roboto_light.ttf</string>
+
+    <!-- ARRAY -->
+    <string-array name="arr_backup">
+        <item>Dropbox</item>
+        <item>Google Drive</item>
+    </string-array>
+    <string-array name="arr_backup_icon">
+        <item>ic_dropbox</item>
+        <item>ic_google_drive</item>
+    </string-array>
+    <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
 </resources>

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,8 +26,9 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog myProgressDialog;
     private ArrayList<SmsCallLogItem> myArraySMS, myArraySMSPhone;
     private SmsAdapter myAdapter;
-    private TextView tvDone;
     private IPick listener;
+    ImageView mDone;
+    View mViewBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,14 +36,18 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_sms_lock, container,
                 false);
         mMessageList = (ListView) rootView.findViewById(R.id.list_message);
-        tvDone = (TextView) rootView.findViewById(R.id.tv_done);
+        mDone=(ImageView) rootView.findViewById(R.id.tv_done);
+        mDone.setVisibility(View.GONE);
+        mViewBack=rootView.findViewById(R.id.view_back);
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        tvDone.setOnClickListener(this);
+        mDone.setOnClickListener(this);
+        mViewBack.setOnClickListener(this);
+
         myProgressDialog = new ProgressDialog(getActivity());
         myProgressDialog.setMessage(getString(R.string.loading));
         myProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -67,6 +73,9 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
                     new SynAddSMS().execute(myAdapter.getArrayChecks());
                 }
                 break;
+            case R.id.view_back:
+                getActivity().onBackPressed();
+                break;
             default:
                 break;
         }
@@ -90,7 +99,16 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             myProgressDialog.dismiss();
-            myAdapter = new SmsAdapter(getActivity(), myArraySMS);
+            myAdapter = new SmsAdapter(getActivity(), myArraySMS, new SmsAdapter.OnTouchItemListerner() {
+                @Override
+                public void onTouch() {
+                    if (myAdapter.getArrayChecks().size()>0) {
+                        mDone.setVisibility(View.VISIBLE);
+                    } else{
+                        mDone.setVisibility(View.GONE);
+                    }
+                }
+            });
             mMessageList.setAdapter(myAdapter);
             // myEdtSearch.setHint(getString(R.string.txt_hint_search_message,
             // myArraySMSPhone.size()));

@@ -5,7 +5,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -21,9 +21,19 @@
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionMenuTextColor">@color/actionbar_text</item>
 
-
+        <item name="actionBarSize">@dimen/action_bar_height</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+        <item name="actionButtonStyle">@style/ActionButtonStyle</item>
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
 
     </style>
+
+    <style name="ActionButtonStyle" parent="@android:style/Widget.Holo.Light.ActionButton">
+        <item name="android:maxWidth">30dip</item>
+        <item name="android:maxHeight">30dip</item>
+    </style>
+
+
 
     <style name="CustomActionBarTheme"
         parent="@style/Theme.AppCompat">

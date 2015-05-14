@@ -79,6 +79,7 @@
                 android:textColor="@android:color/white" />
 
             <LinearLayout
+                android:id="@+id/hide_phone_number_from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -130,7 +131,7 @@
                         android:background="@drawable/flat_button_"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="@string/from_sms"
+                        android:text="SMS LOGS"
                         android:textStyle="bold" />
                 </LinearLayout>
 

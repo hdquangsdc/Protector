@@ -1,7 +1,6 @@
 package com.protector.fragments;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,16 +9,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.SnackBar;
 import com.protector.R;
 import com.protector.adapters.EncryptMediaAdapter;
@@ -36,12 +33,15 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
     EncryptMediaAdapter mAdapter;
     GridView mGridView;
     View mViewBack;
-    ImageView mViewAdd;
+    ButtonFloat mBtnAdd;
+    ImageView mRestore;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
     }
 
     ImageFragment mImageFragment;
-    TextView tvRestore;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,19 +58,10 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_image_lock,
                 container, false);
         mGridView = (GridView) rootView.findViewById(R.id.grid_image);
-        mViewBack = (View) rootView.findViewById(R.id.view_back);
-        mViewAdd = (ImageView) rootView.findViewById(R.id.imv_add);
-        tvRestore = (TextView) rootView.findViewById(R.id.tv_restore_all);
+        mViewBack = rootView.findViewById(R.id.view_back);
+        mBtnAdd = (ButtonFloat) rootView.findViewById(R.id.btn_add);
+        mRestore = (ImageView) rootView.findViewById(R.id.tv_done);
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        mGridView.setAdapter(mAdapter);
-        mViewBack.setOnClickListener(this);
-        mViewAdd.setOnClickListener(this);
-        tvRestore.setOnClickListener(this);
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -81,15 +72,12 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getActivity().onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        mGridView.setAdapter(mAdapter);
+        mViewBack.setOnClickListener(this);
+        mBtnAdd.setOnClickListener(this);
+        mRestore.setOnClickListener(this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -140,9 +128,6 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                 ex.printStackTrace();
             }
         }
-
-        ;
-
     }
 
     private ArrayList<MediaStorageItem> getEncryptedImages() {
@@ -156,6 +141,7 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                 getActivity().onBackPressed();
                 break;
             case R.id.imv_add:
+            case R.id.btn_add:
                 if (mImageFragment == null) {
                     mImageFragment = new ImageFragment();
                     mImageFragment.setOnChooseImageListener(new IChooseImage() {
@@ -173,8 +159,8 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                                     super.onPostExecute(result);
                                     new AsynReload().execute();
                                     new SnackBar(getActivity(),
-                                            "Do you want change color of this button to red?",
-                                            "yes", new OnClickListener() {
+                                            "Do you want remove all image?",
+                                            "Delete", new OnClickListener() {
 
                                         @Override
                                         public void onClick(View v) {
@@ -182,16 +168,14 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                                     }).show();
 
                                 }
-
-                                ;
                             }.execute();
-
                         }
                     });
                 }
                 addFragmentStack(mImageFragment);
                 break;
-            case R.id.tv_restore_all:
+            case R.id.tv_done:
+
                 new RestoreFile(getActivity(), PhotoTableAdapter.getInstance(
                         getActivity().getApplicationContext()).getAll(),
                         MediaItem.Type.IMAGE).execute();
@@ -206,7 +190,7 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                 .getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

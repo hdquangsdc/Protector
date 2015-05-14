@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
-        android:background="@color/border_blue"
+        android:background="@color/ColorPrimary"
         android:gravity="center_vertical"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"

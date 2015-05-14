@@ -1,85 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              xmlns:font="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="vertical">
 
     <com.protector.views.CustomFontTextView
         android:id="@+id/tv_date"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_30"
-        android:background="#c1c1c1"
+        android:layout_height="40dp"
+        android:background="#eeeeee"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="2014-4-12"
-        android:textColor="#484949"
+        android:textColor="#888888"
         android:textSize="14sp"
-        font:font="@string/font_main" />
+        font:font="@string/font_main"/>
 
     <LinearLayout
+        android:id="@+id/view_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:background="@drawable/choosen_background"
+        android:clickable="false"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imv_sms"
+            android:layout_width="40dp"
+            android:layout_height="40dp" android:src="@drawable/ic_sms_to" android:layout_marginRight="10dp"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="false"
-            android:orientation="vertical" >
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="false"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <com.protector.views.CustomFontTextView
                     android:id="@+id/tv_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:singleLine="true"
-                    android:text="From : Contact"
+                    android:text="Contact"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
-                    android:clickable="false"
-                    font:font="@string/font_main" />
+                    font:font="@string/font_main"/>
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <com.protector.views.CustomFontTextView
                     android:id="@+id/tv_hours"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="17:05"
                     android:clickable="false"
+                    android:text="17:05"
+                    android:background="#eeeeee"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
                     android:textColor="#484949"
                     android:textSize="13sp"
-                    font:font="@string/font_main" />
+                    android:layout_marginRight="10dp"
+                    font:font="@string/font_light"/>
+                <com.protector.views.CustomFontTextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:singleLine="true"
+                    android:text="content"
+                    android:textColor="#484949"
+                    android:textSize="13sp"
+                    font:font="@string/font_light"/>
             </LinearLayout>
 
-            <com.protector.views.CustomFontTextView
-                android:id="@+id/tv_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:text="content"
-                android:clickable="false"
-                android:textColor="#484949"
-                android:textSize="13sp"
-                font:font="@string/font_main" />
         </LinearLayout>
 
         <CheckBox
             android:id="@+id/cb_sms"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:padding="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="30dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/selector_check"
-            android:button="@null" />
+            android:clickable="false"
+            android:button="@null"
+            android:padding="5dp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -6,7 +6,13 @@
     <color name="actionbar_text">@android:color/white</color>
 
     <color name="ColorPrimary">#9b35bd</color>
+    <color name="ColorPrimaryPressed">#68287E</color>
+    <color name="ActionBarButtonPressed">#552166</color>
+
+
     <color name="light_purple">#f0d4fd</color>
     <color name="ColorPrimaryDark">#E64A19</color>
+
+    <color name="choosen_background">#DDDDDD</color>
 
 </resources>

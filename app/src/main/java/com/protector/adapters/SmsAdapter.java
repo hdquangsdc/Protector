@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.protector.R;
@@ -28,11 +30,13 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
     private OnClickListener myOnClickListener;
     private ArrayList<SmsCallLogItem> myArrayChecked;
     private Activity myActivity;
+    private OnTouchItemListerner mListener;
 
-    public SmsAdapter(Context context, ArrayList<SmsCallLogItem> arrayJobs) {
+    public SmsAdapter(Context context, ArrayList<SmsCallLogItem> arrayJobs, OnTouchItemListerner listener) {
         super(context, R.layout.item_sms, arrayJobs);
         myArrayChecked = new ArrayList<>();
         myActivity = (Activity) context;
+        mListener = listener;
     }
 
     @Override
@@ -42,6 +46,7 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.item_sms, null);
             holder = new ViewHolder();
+            holder.imvIcon = (ImageView) convertView.findViewById(R.id.imv_sms);
             holder.tvDate = (TextView) convertView.findViewById(R.id.tv_date);
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tvHours = (TextView) convertView.findViewById(R.id.tv_hours);
@@ -67,10 +72,14 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
             holder.tvDate.setText(getDate(sms.getTime()));
             holder.tvDate.setVisibility(View.VISIBLE);
         }
-        if (myArrayChecked.contains(position)) {
+        if (myArrayChecked.contains(sms)) {
             holder.cb.setChecked(true);
+            convertView.findViewById(R.id.view_sms).setSelected(true);
+//            convertView.setBackgroundColor(myActivity.getResources().getColor(R.color.choosen_background));
         } else {
             holder.cb.setChecked(false);
+            convertView.findViewById(R.id.view_sms).setSelected(false);
+//            convertView.setBackgroundColor(Color.WHITE);
         }
         final SpannableStringBuilder sb = new SpannableStringBuilder(
                 sms.getBodySms());
@@ -90,9 +99,11 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         holder.tvHours.setText(getHours(sms.getTime()));
         String strFromOrTo = "";
         if (sms.getType() == 1) {
-            strFromOrTo = "From:";
+//            strFromOrTo = "From:";
+            holder.imvIcon.setImageResource(R.drawable.ic_sms_from);
         } else if (sms.getType() == 2) {
-            strFromOrTo = "To:";
+//            strFromOrTo = "To:";
+            holder.imvIcon.setImageResource(R.drawable.ic_sms_to);
         }
         if (sms.getName() == null || sms.getName().length() == 0) {
             sms.setName(getContactName(myActivity, sms.getAddress()));
@@ -100,25 +111,12 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         } else {
             holder.tvName.setText(strFromOrTo + sms.getName());
         }
-//		holder.cb.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				if (myArrayChecked.contains(position)) {
-//					myArrayChecked.remove((Object) position);
-//					holder.cb.setChecked(false);
-//				} else {
-//					myArrayChecked.add(position);
-//					holder.cb.setChecked(true);
-//				}
-//				myActivity.resetButtonNext();
-//			}
-//		});
-        convertView.setOnClickListener(new View.OnClickListener() {
+
+        convertView.findViewById(R.id.view_sms).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                SmsCallLogItem item=getItem(position);
+                SmsCallLogItem item = getItem(position);
                 if (myArrayChecked.contains(item)) {
                     myArrayChecked.remove(item);
                     holder.cb.setChecked(false);
@@ -126,7 +124,10 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
                     myArrayChecked.add(item);
                     holder.cb.setChecked(true);
                 }
-//				myActivity.resetButtonNext();
+                if (mListener != null) {
+                    mListener.onTouch();
+                }
+                notifyDataSetChanged();
             }
         });
         return convertView;
@@ -136,7 +137,12 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         return myArrayChecked;
     }
 
+    public interface OnTouchItemListerner {
+        void onTouch();
+    }
+
     private static class ViewHolder {
+        ImageView imvIcon;
         TextView tvName;
         TextView tvDate;
         TextView tvHours;

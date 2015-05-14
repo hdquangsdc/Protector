@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +27,11 @@ import android.widget.Toast;
 import com.protector.R;
 import com.protector.adapters.ContactAdapter;
 import com.protector.adapters.SmsAdapter;
+import com.protector.database.PasswordTableAdapter;
 import com.protector.database.PrivateContactTableAdapter;
 import com.protector.database.SmsCallLogTableAdapter;
 import com.protector.objects.ContactItem;
+import com.protector.objects.GroupContactObject;
 import com.protector.objects.SmsCallLogItem;
 import com.protector.utils.SmsLocker;
 
@@ -41,7 +45,7 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
     ;
     private ContactAdapter myAdapter;
     private EditText myEdtSearch;
-    private TextView tvDone;
+    private ImageView tvDone;
     private IPick listener;
     private int myType;
 
@@ -53,7 +57,7 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
         View rootView = inflater.inflate(R.layout.fragment_contact_list, container,
                 false);
         myLv = (ListView) rootView.findViewById(R.id.list_message);
-        tvDone = (TextView) rootView.findViewById(R.id.tv_done);
+        tvDone = (ImageView) rootView.findViewById(R.id.tv_done);
 
 
         myEdtSearch = (EditText) rootView.findViewById(R.id.edt_search);
@@ -100,7 +104,6 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -128,6 +131,12 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
                 if (listener != null) {
 //                    listener.onPick(myAdapter.getArrayChecks());
 //                    new SynAddSMS().execute(myAdapter.getArrayChecks());
+                }
+                if (myAdapter.getArrayChecks().size() > 0) {
+                    new SynAddPrivateContact().execute();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.no_contact_selected),
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -438,7 +447,7 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-			/*
+            /*
 			 * myAdapter = new ContactAdapter(ListContactActivity.this,
 			 * myArrayContact); myLv.setAdapter(myAdapter);
 			 */
@@ -455,6 +464,50 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
                     .contains(myEdtSearch.getText().toString().toUpperCase())) {
                 myArrayContact.add(item);
             }
+        }
+    }
+
+    public class SynAddPrivateContact extends AsyncTask<Void, Void, Void> {
+        ArrayList<GroupContactObject> myArray;
+
+        public SynAddPrivateContact() {
+            myArray = new ArrayList<GroupContactObject>();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<Integer> arrayChecks = myAdapter.getArrayChecks();
+            PrivateContactTableAdapter contactTable = PrivateContactTableAdapter
+                    .getInstance(getActivity());
+            GroupContactObject group = null;
+            for (Integer position : arrayChecks) {
+                ContactItem object = myAdapter.getItem(position);
+                long groupId = contactTable.addContact(object, myType,
+                        PasswordTableAdapter.PASSWORD_CURRENT_ID);
+                String address = object.getAddress();
+                group = new GroupContactObject(address, groupId,
+                        object.getPhoneOther(), object.getName(),
+                        object.getId());
+                myArray.add(group);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // myProgressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // myProgressDialog.dismiss();
+//            Intent i = new Intent();
+//            i.putExtra("OBJECT", new ArrayGroupContactSerializable(myArray));
+//            i.putExtra("TYPE", 2);
+//            setResult(RESULT_OK, i);
+            getActivity().onBackPressed();
         }
     }
 }

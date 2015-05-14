@@ -3,7 +3,7 @@
 
     <stroke
         android:width="@dimen/border_size"
-        android:color="@color/border_blue" />
+        android:color="@color/ColorPrimary" />
 
     <padding
         android:bottom="2dp"

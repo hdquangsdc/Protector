@@ -1,6 +1,7 @@
 package com.protector.adapters;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.util.LruCache;
 import android.util.DisplayMetrics;
@@ -38,8 +40,9 @@ public class MediaAdapter extends BaseAdapter {
 	private LruCache<String, Bitmap> mMemoryCache;
 	private Executor mExcutor;
 	private int mMaxImageWidth;
+    private OnTouchItemListerner mListener;
 
-	public MediaAdapter(Activity activity, ArrayList<MediaItem> mMediaList) {
+	public MediaAdapter(Activity activity, ArrayList<MediaItem> mMediaList, OnTouchItemListerner listener) {
 		this.mActivity = activity;
 		this.mMediaList = mMediaList;
 		this.mSelectedList = new ArrayList<MediaItem>();
@@ -54,8 +57,9 @@ public class MediaAdapter extends BaseAdapter {
 			protected int sizeOf(String key, Bitmap bitmap) {
 				if (AndroidVersion.isHoneycombMr2OrHigher()) {
 					return bitmap.getByteCount();
-				} else
-					return (bitmap.getRowBytes() * bitmap.getHeight());
+				} else {
+                    return (bitmap.getRowBytes() * bitmap.getHeight());
+                }
 			}
 		};
 		mExcutor = new ScheduledThreadPoolExecutor(20);
@@ -64,6 +68,7 @@ public class MediaAdapter extends BaseAdapter {
 				.getMetrics(displaymetrics);
 		mMaxImageWidth = displaymetrics.widthPixels / 3;
 
+        mListener=listener;
 	}
 
 	@Override
@@ -81,6 +86,7 @@ public class MediaAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
@@ -93,7 +99,7 @@ public class MediaAdapter extends BaseAdapter {
 
 			holder.imvCheck = (ImageView) convertView
 					.findViewById(R.id.imgQueueMultiSelected);
-			holder.vBorder = (View) convertView.findViewById(R.id.view_boder);
+			holder.vBorder =  convertView.findViewById(R.id.view_boder);
 			holder.tvIndex = (TextView) convertView.findViewById(R.id.tv_index);
 
 			convertView.setTag(holder);
@@ -111,10 +117,12 @@ public class MediaAdapter extends BaseAdapter {
 
 		MediaItem item = getItem(position);
 		if (mSelectedList.contains(item)) {
+			holder.imvImage.setAlpha(0.5f);
 			holder.vBorder.setVisibility(View.VISIBLE);
 			holder.tvIndex.setVisibility(View.VISIBLE);
 			holder.tvIndex.setText("" + (mSelectedList.indexOf(item) + 1));
 		} else {
+			holder.imvImage.setAlpha(1f);
 			holder.vBorder.setVisibility(View.INVISIBLE);
 			holder.tvIndex.setVisibility(View.INVISIBLE);
 		}
@@ -142,7 +150,11 @@ public class MediaAdapter extends BaseAdapter {
 					holder.vBorder.setVisibility(View.VISIBLE);
 					holder.tvIndex.setVisibility(View.VISIBLE);
 				}
+                if (mListener!=null){
+                    mListener.onTouch();
+                }
 				notifyDataSetChanged();
+
 			}
 		});
 		int imageWidth = mMaxImageWidth;
@@ -163,6 +175,10 @@ public class MediaAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+    public interface OnTouchItemListerner{
+        void onTouch();
+    }
+
 	private static class ViewHolder {
 		ImageView imvImage;
 		ImageView imvCheck;
@@ -176,7 +192,7 @@ public class MediaAdapter extends BaseAdapter {
 		private int mSize;
 
 		public LoadImageRunable(ImageView imageView, MediaItem item, int size) {
-			refImageView = new WeakReference<ImageView>(imageView);
+			refImageView = new WeakReference<>(imageView);
 			mMediaItem = item;
 			mSize = size;
 		}

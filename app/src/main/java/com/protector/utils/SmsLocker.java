@@ -15,159 +15,159 @@ import java.util.HashMap;
 
 
 public class SmsLocker {
-	private Context mContext;
-	private static SmsLocker instance;
-	private ArrayList<SmsCallLogItem> myArraySMS;
-	private Cursor cursor = null;
-	public static final Uri SMS_INBOX_CONTENT_URI = Uri.parse("content://sms/");
-	private String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
-	private Uri callUri = Uri.parse("content://call_log/calls");
-	
-	public class TextSmsColumns {
-		public static final String ID = "_id";
-		public static final String ADDRESS = "address";
-		public static final String DATE = "date";
-		public static final String BODY = "body";
-		public static final String THREAD_ID = "thread_id";
-		public static final String PROTOCOL = "protocol";
-		public static final String PERSON = "person";
-		public static final String STATUS = "status";
-		public static final String TYPE = "type";
-		public static final String SUBJECT = "subject";
-		public static final String READ = "read";
-	}
+    private Context mContext;
+    private static SmsLocker instance;
+    private ArrayList<SmsCallLogItem> myArraySMS;
+    private Cursor cursor = null;
+    public static final Uri SMS_INBOX_CONTENT_URI = Uri.parse("content://sms/");
+    private String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
+    private Uri callUri = Uri.parse("content://call_log/calls");
 
-	private SmsLocker(Context context) {
-		mContext = context;
-	}
+    public class TextSmsColumns {
+        public static final String ID = "_id";
+        public static final String ADDRESS = "address";
+        public static final String DATE = "date";
+        public static final String BODY = "body";
+        public static final String THREAD_ID = "thread_id";
+        public static final String PROTOCOL = "protocol";
+        public static final String PERSON = "person";
+        public static final String STATUS = "status";
+        public static final String TYPE = "type";
+        public static final String SUBJECT = "subject";
+        public static final String READ = "read";
+    }
 
-	public static SmsLocker getInstance(Context context) {
-		if (instance == null) {
-			instance = new SmsLocker(context);
-		}
-		return instance;
-	}
+    private SmsLocker(Context context) {
+        mContext = context;
+    }
 
-	public ArrayList<SmsCallLogItem> getAllSMS() {
-		myArraySMS = new ArrayList<SmsCallLogItem>();
-		cursor = null;
-		try {
-			cursor = mContext.getContentResolver().query(
-					SMS_INBOX_CONTENT_URI,
-					new String[] { TextSmsColumns.ID, TextSmsColumns.ADDRESS,
-							TextSmsColumns.DATE, TextSmsColumns.BODY,
-							TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
-							TextSmsColumns.PERSON, TextSmsColumns.STATUS,
-							TextSmsColumns.TYPE, TextSmsColumns.SUBJECT,
-							TextSmsColumns.READ }, null, null,
-					TextSmsColumns.DATE + " DESC");
-			SmsCallLogItem object = null;
-			HashMap<String, byte[]> hmAvatar = new HashMap<String, byte[]>();
-			if (cursor.moveToFirst()) {
-				do {
-					if (cursor.getString(cursor
-							.getColumnIndex(TextSmsColumns.ADDRESS)) == null) {
-						continue;
-					}
-					try {
-						object = new SmsCallLogItem();
-						object.setTime(cursor.getLong(cursor
-								.getColumnIndex(TextSmsColumns.DATE)));
-						object.setBodySms(cursor.getString(cursor
-								.getColumnIndex(TextSmsColumns.BODY)));
-						object.setAddress(cursor.getString(cursor
-								.getColumnIndex(TextSmsColumns.ADDRESS)));
-						try {
-							if (object.getAddress().length() > 0) {
-								byte[] avatar = hmAvatar.get(object
-										.getAddress());
-								if (avatar != null) {
-									if (avatar.length == 0) {
-										object.setAvatarByte(null);
-									} else {
-										object.setAvatarByte(avatar);
-									}
-								} else {
-									byte[] avatarGet = getPhotoContact(
-											mContext, object.getAddress());
-									object.setAvatarByte(avatarGet);
-									if (avatarGet == null) {
-										hmAvatar.put(object.getAddress(),
-												new byte[0]);
-									} else {
-										hmAvatar.put(object.getAddress(),
-												avatarGet);
-									}
-								}
-							}
-						} catch (Exception e) {
-						}
-						object.setName("");
-						object.setState(cursor.getInt(cursor
-								.getColumnIndex(TextSmsColumns.STATUS)));
-						object.setGroupId(-1);
-						object.setType(cursor.getInt(cursor
-								.getColumnIndex(TextSmsColumns.TYPE)));
-						object.setNumberIndex(cursor.getInt(cursor
-								.getColumnIndex(TextSmsColumns.ID)));
-						int read = cursor.getInt(cursor
-								.getColumnIndex(TextSmsColumns.READ));
-						object.setRead(read);
-						myArraySMS.add(object);
-					} catch (Exception ex) {
+    public static SmsLocker getInstance(Context context) {
+        if (instance == null) {
+            instance = new SmsLocker(context);
+        }
+        return instance;
+    }
 
-					}
-				} while (cursor.moveToNext());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (cursor != null)
-				cursor.close();
-		}
-		return myArraySMS;
-	}
+    public ArrayList<SmsCallLogItem> getAllSMS() {
+        myArraySMS = new ArrayList<>();
+        cursor = null;
+        try {
+            cursor = mContext.getContentResolver().query(
+                    SMS_INBOX_CONTENT_URI,
+                    new String[]{TextSmsColumns.ID, TextSmsColumns.ADDRESS,
+                            TextSmsColumns.DATE, TextSmsColumns.BODY,
+                            TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
+                            TextSmsColumns.PERSON, TextSmsColumns.STATUS,
+                            TextSmsColumns.TYPE, TextSmsColumns.SUBJECT,
+                            TextSmsColumns.READ}, null, null,
+                    TextSmsColumns.DATE + " DESC");
+            HashMap<String, byte[]> hmAvatar = new HashMap<>();
+            if (cursor.moveToFirst()) {
+                do {
+                    if (cursor.getString(cursor
+                            .getColumnIndex(TextSmsColumns.ADDRESS)) == null) {
+                        continue;
+                    }
+                    try {
+                        SmsCallLogItem object = new SmsCallLogItem();
+                        object.setTime(cursor.getLong(cursor
+                                .getColumnIndex(TextSmsColumns.DATE)));
+                        object.setBodySms(cursor.getString(cursor
+                                .getColumnIndex(TextSmsColumns.BODY)));
+                        object.setAddress(cursor.getString(cursor
+                                .getColumnIndex(TextSmsColumns.ADDRESS)));
+                        try {
+                            if (object.getAddress().length() > 0) {
+                                byte[] avatar = hmAvatar.get(object
+                                        .getAddress());
+                                if (avatar != null) {
+                                    if (avatar.length == 0) {
+                                        object.setAvatarByte(null);
+                                    } else {
+                                        object.setAvatarByte(avatar);
+                                    }
+                                } else {
+                                    byte[] avatarGet = getPhotoContact(
+                                            object.getAddress());
+                                    object.setAvatarByte(avatarGet);
+                                    if (avatarGet == null) {
+                                        hmAvatar.put(object.getAddress(),
+                                                new byte[0]);
+                                    } else {
+                                        hmAvatar.put(object.getAddress(),
+                                                avatarGet);
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        object.setName("");
+                        object.setState(cursor.getInt(cursor
+                                .getColumnIndex(TextSmsColumns.STATUS)));
+                        object.setGroupId(-1);
+                        object.setType(cursor.getInt(cursor
+                                .getColumnIndex(TextSmsColumns.TYPE)));
+                        object.setNumberIndex(cursor.getInt(cursor
+                                .getColumnIndex(TextSmsColumns.ID)));
+                        int read = cursor.getInt(cursor
+                                .getColumnIndex(TextSmsColumns.READ));
+                        object.setRead(read);
+                        myArraySMS.add(object);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return myArraySMS;
+    }
 
-	public byte[] getPhotoContact(Context context, String phoneNumber) {
-		if (phoneNumber == null)
-			return null;
-		byte[] byteImg = null;
-		Cursor cursor = null;
-		Cursor c = null;
-		try {
-			ContentResolver cr = context.getContentResolver();
-			String[] projection = new String[] { PhoneLookup.PHOTO_ID };
-			Uri contactUri = Uri.withAppendedPath(
-					PhoneLookup.CONTENT_FILTER_URI,
-					Uri.encode(phoneNumber));
-			cursor = cr.query(contactUri, projection, null, null, null);
-			if (cursor != null && cursor.moveToFirst()) {
-				int photoId = cursor.getInt(cursor
-						.getColumnIndex(PhoneLookup.PHOTO_ID));
+    public byte[] getPhotoContact(String phoneNumber) {
+        if (phoneNumber == null)
+            return null;
+        byte[] byteImg = null;
+        Cursor cursor = null;
+        Cursor c = null;
+        try {
+            ContentResolver cr = mContext.getContentResolver();
+            String[] projection = new String[]{PhoneLookup.PHOTO_ID};
+            Uri contactUri = Uri.withAppendedPath(
+                    PhoneLookup.CONTENT_FILTER_URI,
+                    Uri.encode(phoneNumber));
+            cursor = cr.query(contactUri, projection, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int photoId = cursor.getInt(cursor
+                        .getColumnIndex(PhoneLookup.PHOTO_ID));
 
-				Uri photoUri = ContentUris.withAppendedId(
-						ContactsContract.Data.CONTENT_URI, photoId);
-				c = context
-						.getContentResolver()
-						.query(photoUri,
-								new String[] { ContactsContract.CommonDataKinds.Photo.PHOTO },
-								null, null, null);
-				if (c.moveToFirst()) {
-					byteImg = c.getBlob(0);
-				}
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			if (cursor != null && !cursor.isClosed()) {
-				cursor.close();
-			}
-			if (c != null && !c.isClosed()) {
-				c.close();
-			}
-		}
-		return byteImg;
-	}
+                Uri photoUri = ContentUris.withAppendedId(
+                        ContactsContract.Data.CONTENT_URI, photoId);
+                c = mContext
+                        .getContentResolver()
+                        .query(photoUri,
+                                new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO},
+                                null, null, null);
+                if (c.moveToFirst()) {
+                    byteImg = c.getBlob(0);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+        }
+        return byteImg;
+    }
 
 //	@SuppressWarnings("deprecation")
 //	public ArrayList<SmsCallLogItem> getAllSMSByAddress(String address) {
@@ -384,67 +384,67 @@ public class SmsLocker {
 //	}
 
 
-	public boolean checkContact(String address) {
-		String[] addr = new String[2];
-		try {
-			addr = PhoneNumberUtils.getPhoneNumber(mContext, address);
-		} catch (Exception ex) {
-			addr[0] = address;
-			addr[1] = address;
-		}
-		boolean isReturn = false;
-		try {
-			cursor = mContext.getContentResolver().query(
-					SMS_INBOX_CONTENT_URI,
-					new String[] { TextSmsColumns.ID, TextSmsColumns.ADDRESS,
-							TextSmsColumns.DATE, TextSmsColumns.BODY,
-							TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
-							TextSmsColumns.PERSON, TextSmsColumns.STATUS,
-							TextSmsColumns.TYPE, TextSmsColumns.SUBJECT,
-							TextSmsColumns.READ },
-					TextSmsColumns.ADDRESS + " IN (?,?)",
-					new String[] { addr[0].toString(), addr[1].toString() },
-					TextSmsColumns.DATE + " DESC");
-			if (cursor.moveToFirst()) {
-				isReturn = true;
-			} else {
-				isReturn = getAllCallLogByAddress(address);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
-		return isReturn;
-	}
+    public boolean checkContact(String address) {
+        String[] addr = new String[2];
+        try {
+            addr = PhoneNumberUtils.getPhoneNumber(mContext, address);
+        } catch (Exception ex) {
+            addr[0] = address;
+            addr[1] = address;
+        }
+        boolean isReturn = false;
+        try {
+            cursor = mContext.getContentResolver().query(
+                    SMS_INBOX_CONTENT_URI,
+                    new String[]{TextSmsColumns.ID, TextSmsColumns.ADDRESS,
+                            TextSmsColumns.DATE, TextSmsColumns.BODY,
+                            TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
+                            TextSmsColumns.PERSON, TextSmsColumns.STATUS,
+                            TextSmsColumns.TYPE, TextSmsColumns.SUBJECT,
+                            TextSmsColumns.READ},
+                    TextSmsColumns.ADDRESS + " IN (?,?)",
+                    new String[]{addr[0].toString(), addr[1].toString()},
+                    TextSmsColumns.DATE + " DESC");
+            if (cursor.moveToFirst()) {
+                isReturn = true;
+            } else {
+                isReturn = getAllCallLogByAddress(address);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return isReturn;
+    }
 
-	public boolean getAllCallLogByAddress(String address) {
-		String[] addrs = new String[2];
-		try {
-			addrs = PhoneNumberUtils.getPhoneNumber(mContext, address);
-		} catch (Exception ex) {
-			addrs[0] = address;
-			addrs[1] = address;
-		}
-		Cursor curLog = null;
-		boolean isReturn = false;
-		try {
-			curLog = mContext.getContentResolver().query(callUri, null,
-					android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
-					new String[] { addrs[0].toString(), addrs[1].toString() },
-					strOrder);
-			if (curLog.moveToNext()) {
-				isReturn = true;
-			}
-		} catch (Exception ex) {
-
-		} finally {
-			if (curLog != null) {
-				curLog.close();
-			}
-		}
-		return isReturn;
-	}
+    public boolean getAllCallLogByAddress(String address) {
+        String[] addrs = new String[2];
+        try {
+            addrs = PhoneNumberUtils.getPhoneNumber(mContext, address);
+        } catch (Exception ex) {
+            addrs[0] = address;
+            addrs[1] = address;
+        }
+        Cursor curLog = null;
+        boolean isReturn = false;
+        try {
+            curLog = mContext.getContentResolver().query(callUri, null,
+                    android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
+                    new String[]{addrs[0].toString(), addrs[1].toString()},
+                    strOrder);
+            if (curLog.moveToNext()) {
+                isReturn = true;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (curLog != null) {
+                curLog.close();
+            }
+        }
+        return isReturn;
+    }
 }

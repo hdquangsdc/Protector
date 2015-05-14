@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
@@ -23,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.protector.R;
+import com.protector.database.PasswordTableAdapter;
 import com.protector.database.PrivateContactTableAdapter;
 import com.protector.objects.ContactItem;
 import com.protector.utils.AndroidVersion;
@@ -37,7 +37,7 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
 	private Executor taskExecutor;
 	private LruCache<String, Bitmap> mMemoryCache;
     public ContactAdapter(Context context, ArrayList<ContactItem> arrayJobs, int type) {
-        super(context, R.layout.contact_item, arrayJobs);
+        super(context, R.layout.item_contact, arrayJobs);
         myArrayChecked = new ArrayList<Integer>();
         myActivity = context;
         myType = type;
@@ -76,7 +76,7 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.contact_item, null);
+                    R.layout.item_contact, null);
             holder = new ViewHolder();
             holder.tvName = (TextView) convertView
                     .findViewById(R.id.tv_name);
@@ -92,8 +92,10 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
         final ContactItem contact = getItem(position);
         if(myArrayChecked.contains(position)){
         	holder.cb.setChecked(true);
+            convertView.setSelected(true);
         }else{
         	holder.cb.setChecked(false);
+            convertView.setSelected(false);
         }
         holder.tvAddress.setText(contact.getAddress());
         if(contact.getName() != null && contact.getName().length() > 0){
@@ -112,55 +114,34 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
 				}
 			}
 		} else {
-			holder.imgAvatar.setImageResource(R.drawable.default_avatar);
+			holder.imgAvatar.setImageResource(R.drawable.icon_avatar);
 		}
-//        holder.cb.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				if(myArrayChecked.contains(position)){
-//					myArrayChecked.remove((Object)position);
-//					holder.cb.setChecked(false);
-//				}else{
-//					if(myType== PrivateContactTableAdapter.TYPE_PRIVATE && contact.getAddress() != null && contact.getAddress().length() > 0){
-//						if(!myContactTable.checkContactByAddress(contact.getAddress(), myType, PasswordTableAdapter.PASSWORD_CURRENT_ID)){
-//							myArrayChecked.add(position);
-//							holder.cb.setChecked(true);
-//						}else{
-//							myDialog.show();
-//						}
-//					}else{
-//						myArrayChecked.add(position);
-//						holder.cb.setChecked(true);
-//					}
-//				}
-//				myActivity.resetButtonNext();
-//			}
-//		});
-//        convertView.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				if(myArrayChecked.contains(position)){
-//					myArrayChecked.remove((Object)position);
-//					holder.cb.setChecked(false);
-//				}else{
-//					if(myType== PrivateContactTableAdapter.TYPE_PRIVATE  && contact.getAddress() != null && contact.getAddress().length() > 0){
-//						if(!myContactTable.checkContactByAddress(contact.getAddress(), myType, PasswordTableAdapter.PASSWORD_CURRENT_ID)){
-//							myArrayChecked.add(position);
-//							holder.cb.setChecked(true);
-//						}else{
-//							myDialog.show();
-//						}
-//					}else{
-//						myArrayChecked.add(position);
-//						holder.cb.setChecked(true);
-//					}
-//				}
-//				myActivity.resetButtonNext();
-//			}
-//		});
+
+		View.OnClickListener listener=new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(myArrayChecked.contains(position)){
+					myArrayChecked.remove((Object)position);
+					holder.cb.setChecked(false);
+				}else{
+					if(myType== PrivateContactTableAdapter.TYPE_PRIVATE && contact.getAddress() != null && contact.getAddress().length() > 0){
+						if(!myContactTable.checkContactByAddress(contact.getAddress(), myType, PasswordTableAdapter.PASSWORD_CURRENT_ID)){
+							myArrayChecked.add(position);
+							holder.cb.setChecked(true);
+						}else{
+							myDialog.show();
+						}
+					}else{
+						myArrayChecked.add(position);
+						holder.cb.setChecked(true);
+					}
+				}
+                notifyDataSetChanged();
+			}
+		};
+        holder.cb.setOnClickListener(listener);
+        convertView.setOnClickListener(listener);
         return convertView;
     }
 

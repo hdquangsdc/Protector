@@ -1,4 +1,7 @@
 package com.protector.utils;
+
+import android.os.Build;
+
 public class AndroidVersion {
     private static final int _ANDROID_SDK_VERSION;
     private static final int ANDROID_SDK_VERSION_PREVIEW = Integer.MAX_VALUE;
@@ -148,6 +151,11 @@ public class AndroidVersion {
 
     private AndroidVersion() {
             // Prevent users from instantiating this class.
+    }
+
+    /** Returns true if running on Android 1.5 or higher. */
+    public static boolean isJellyBeanMR2orHigher() {
+        return _ANDROID_SDK_VERSION >= Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
 }
 

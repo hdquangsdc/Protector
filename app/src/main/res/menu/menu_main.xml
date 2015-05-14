@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_compose"
         android:icon="@drawable/compose_dark_grey_l"
-        android:title="@string/action_compose" />
+        android:showAsAction="always"
+        android:title="@string/action_compose"/>
+
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="1"
+        android:title="@string/photos"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="1"
+        android:title="@string/videos"
+        app:showAsAction="ifRoom"/>
+
 </menu>

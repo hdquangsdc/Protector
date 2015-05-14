@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.protector.R;
 import com.protector.adapters.ContactLockedAdapter;
 import com.protector.adapters.EncryptMediaAdapter;
@@ -34,18 +35,18 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
     private ContactLockedAdapter myAdapter;
     private ProgressDialog myProgressDialog;
     View mViewBack;
-    ImageView mViewAdd;
+
     ImageFragment mImageFragment;
-    TextView tvRestore;
     ListView mListView;
     private ArrayList<Pair<ContactItem, SmsCallLogItem>> myArrayContact;
     private int myNumContact;
+    ButtonFloat mBtnAdd;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myArrayContact=new ArrayList<>();
-        myAdapter=new ContactLockedAdapter(getActivity(),
+        myArrayContact = new ArrayList<>();
+        myAdapter = new ContactLockedAdapter(getActivity(),
                 myArrayContact);
     }
 
@@ -56,9 +57,8 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
                 false);
 
         mViewBack = rootView.findViewById(R.id.view_back);
-        mViewAdd = (ImageView) rootView.findViewById(R.id.imv_add);
-        tvRestore = (TextView) rootView.findViewById(R.id.tv_restore_all);
         mListView = (ListView) rootView.findViewById(R.id.list_video);
+        mBtnAdd=(ButtonFloat) rootView.findViewById(R.id.btn_add);
 
         mListView.setAdapter(myAdapter);
 
@@ -68,8 +68,7 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         mViewBack.setOnClickListener(this);
-        mViewAdd.setOnClickListener(this);
-        tvRestore.setOnClickListener(this);
+        mBtnAdd.setOnClickListener(this);
 
         myProgressDialog = new ProgressDialog(getActivity());
         myProgressDialog.setMessage(getString(R.string.loading));
@@ -169,6 +168,7 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
                 getActivity().onBackPressed();
                 break;
             case R.id.imv_add:
+            case R.id.btn_add:
                 addFragmentStack(new SmsCallLogsLockFromFragment());
                 break;
             default:

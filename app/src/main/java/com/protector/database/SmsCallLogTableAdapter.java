@@ -72,7 +72,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     }
 
     public synchronized ContactItem getContactName(Context context,
-                                                     String phoneNumber) {
+                                                   String phoneNumber) {
         if (!isDBFileExist()) {
             return new ContactItem();
         }
@@ -566,43 +566,35 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
         return items;
     }
 
-    // public synchronized boolean checkData() {
-    // ArrayList<SmsCalLogObject> items = new ArrayList<SmsCalLogObject>();
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return false;
-    // }
-    // Cursor cursor = null;
-    // boolean isCheck = false;
-    // try {
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // cursor = mContext.getContentResolver()
-    // .query(contentUri,
-    // new String[] { COL_ID, COL_GROUP_ID, COL_TYPE,
-    // COL_NAME, COL_ADDRESS, COL_TIME, COL_BODY,
-    // COL_READ, COL_DATE, COL_STATE,
-    // COL_NUMBER_INDEX, COL_DURATION_CALL_LOG,
-    // COL_TYPE_COMPARE, COL_THREAD_ID_SMS },
-    // null, null, COL_TIME + " DESC");
-    // if (cursor != null && cursor.moveToNext()) {
-    // isCheck = true;
-    // }
-    // } catch (Exception ex) {
-    //
-    // } finally {
-    // if (cursor != null)
-    // cursor.close();
-    // }
-    // return isCheck;
-    // }
+    public synchronized boolean checkData() {
+        if (!isDBFileExist()) {
+            return false;
+        }
+        Cursor cursor = null;
+        boolean isCheck = false;
+        try {
+            Uri contentUri = Uri.withAppendedPath(
+                    SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+            cursor = mContext.getContentResolver()
+                    .query(contentUri,
+                            new String[]{COL_ID, COL_GROUP_ID, COL_TYPE,
+                                    COL_NAME, COL_ADDRESS, COL_TIME, COL_BODY,
+                                    COL_READ, COL_DATE, COL_STATE,
+                                    COL_NUMBER_INDEX, COL_DURATION_CALL_LOG,
+                                    COL_TYPE_COMPARE, COL_THREAD_ID_SMS},
+                            null, null, COL_TIME + " DESC");
+            if (cursor != null && cursor.moveToNext()) {
+                isCheck = true;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return isCheck;
+    }
+
     //
     // public synchronized ArrayList<SmsCalLogObject> getAllByGroupID(int
     // groupID) {

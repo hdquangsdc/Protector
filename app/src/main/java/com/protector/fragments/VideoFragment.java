@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class VideoFragment extends Fragment implements OnClickListener {
 	VideoPickerAdapter mAdapter;
 	ListView mListView;
 	View mViewBack;
-	TextView mDone;
+    ImageView mDone;
 	IChooseImage mChooseMediaListener;
 
 	@Override
@@ -34,14 +35,24 @@ public class VideoFragment extends Fragment implements OnClickListener {
 		View rootView = inflater.inflate(R.layout.fragment_video, container,
 				false);
 		mListView = (ListView) rootView.findViewById(R.id.list_video);
-		mViewBack = (View) rootView.findViewById(R.id.view_back);
-		mDone = (TextView) rootView.findViewById(R.id.tv_done);
+		mViewBack = rootView.findViewById(R.id.view_back);
+		mDone = (ImageView) rootView.findViewById(R.id.tv_done);
+        mDone.setVisibility(View.GONE);
 		return rootView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		mAdapter = new VideoPickerAdapter(getActivity(), getGalleryVideos());
+		mAdapter = new VideoPickerAdapter(getActivity(), getGalleryVideos(), new VideoPickerAdapter.OnTouchItemListerner() {
+            @Override
+            public void onTouch() {
+                if (mAdapter.getSelectedItem().size()>0){
+                    mDone.setVisibility(View.VISIBLE);
+                } else{
+                    mDone.setVisibility(View.GONE);
+                }
+            }
+        });
 		mListView.setAdapter(mAdapter);
 		mViewBack.setOnClickListener(this);
 		mDone.setOnClickListener(this);

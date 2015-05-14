@@ -9,7 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/ColorPrimaryPressed">
 
         <LinearLayout
             android:id="@+id/view_back"
@@ -17,12 +18,12 @@
             android:layout_height="match_parent"
             android:background="@drawable/pressed_action"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingRight="10dp">
 
             <ImageView
                 android:id="@+id/back"
                 android:layout_width="10dp"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/ic_back"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
@@ -30,11 +31,11 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_height="@dimen/action_bar_height"
                 android:contentDescription="@string/ic_back"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
                 android:src="@drawable/ic_image" />
 
             <com.protector.views.CustomFontTextView
@@ -42,7 +43,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:text="@string/sms_call_logs"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:text="@string/contacts"
                 font:font="@string/font_main" />
         </LinearLayout>
 
@@ -51,23 +54,15 @@
             android:layout_height="match_parent"
             android:gravity="end">
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/darker_gray" />
-
-            <com.protector.views.CustomFontTextView
+            <ImageView
                 android:id="@+id/tv_done"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@drawable/pressed_action"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="@string/done"
-                font:font="@string/font_main" />
+                android:layout_width="@dimen/action_bar_height"
+                android:layout_height="@dimen/action_bar_height"
+                android:background="@drawable/action_bar_pressed_action"
+                android:contentDescription="@string/done"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_action_bar_check"/>
         </LinearLayout>
     </LinearLayout>
 

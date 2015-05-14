@@ -26,7 +26,7 @@ public class VideoContentProvider extends BaseContentProvider {
 
 	@Override
 	String getRootFolderPath(Context context) {
-		return AppPreference.getInstance(context).getHideImageRootPath();
+		return AppPreference.getInstance(context).getHideVideoRootPath();
 	}
 
 	@Override
