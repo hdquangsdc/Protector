@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="5dp" >
+              xmlns:font="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/choosen_background"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:id="@+id/background"
+              android:padding="5dp">
 
     <ImageView
         android:id="@+id/img_avatar"
         android:layout_width="60dp"
+        android:clickable="false"
         android:layout_height="60dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/icon_avatar" />
+        android:src="@drawable/icon_avatar"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:clickable="false"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:clickable="false"
+            android:orientation="horizontal">
 
             <com.protector.views.CustomFontTextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:text="Nhung"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                font:font="@string/font_main" />
+                font:font="@string/font_main"/>
 
             <com.protector.views.CustomFontTextView
                 android:id="@+id/tv_date"
@@ -42,22 +48,25 @@
                 android:layout_height="wrap_content"
                 android:text="Yeterday"
                 android:textColor="#484949"
+                android:clickable="false"
                 android:textSize="13sp"
-                font:font="@string/font_main" />
+                font:font="@string/font_main"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:clickable="false"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_icon"
                 android:layout_width="wrap_content"
+                android:clickable="false"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_call_miss_item" />
+                android:src="@drawable/ic_call_miss_item"/>
 
             <com.protector.views.CustomFontTextView
                 android:id="@+id/tv_address"
@@ -67,19 +76,21 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:singleLine="true"
+                android:clickable="false"
                 android:text="content"
                 android:textColor="#484949"
                 android:textSize="13sp"
-                font:font="@string/font_main" />
+                font:font="@string/font_main"/>
 
             <com.protector.views.CustomFontTextView
                 android:id="@+id/tv_hours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15:00"
+                android:clickable="false"
                 android:textColor="#484949"
                 android:textSize="13sp"
-                font:font="@string/font_main" />
+                font:font="@string/font_main"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -87,8 +98,9 @@
         android:id="@+id/cb_select"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:clickable="false"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/check"
-        android:button="@null" />
+        android:background="@drawable/selector_check"
+        android:button="@null"/>
 
 </LinearLayout>

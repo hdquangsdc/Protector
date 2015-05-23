@@ -11,15 +11,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/ColorPrimaryPressed">
 
         <LinearLayout
             android:id="@+id/view_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/pressed_action"
+            android:background="@drawable/action_bar_pressed_action"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingRight="10dp">
 
             <ImageView
                 android:id="@+id/back"
@@ -32,11 +33,11 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_width="40dp"
+                android:layout_height="@dimen/action_bar_height"
                 android:contentDescription="@string/ic_back"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
                 android:src="@drawable/ic_app" />
 
             <com.protector.views.CustomFontTextView
@@ -44,6 +45,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
                 android:text="@string/apps"
                 font:font="@string/font_main" />
         </LinearLayout>

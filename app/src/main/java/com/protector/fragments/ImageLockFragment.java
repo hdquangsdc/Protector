@@ -20,6 +20,7 @@ import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.SnackBar;
 import com.protector.R;
 import com.protector.adapters.EncryptMediaAdapter;
+import com.protector.asynctasks.DeleteMediaAsyncTask;
 import com.protector.asynctasks.HideFile;
 import com.protector.asynctasks.RestoreFile;
 import com.protector.database.PhotoTableAdapter;
@@ -51,7 +52,6 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
 
     ImageFragment mImageFragment;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
         mViewBack.setOnClickListener(this);
         mBtnAdd.setOnClickListener(this);
         mRestore.setOnClickListener(this);
+        checkButtonRestore();
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -105,28 +106,27 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
             try {
                 if (isSdCard && result != null) {
                     mGridView.setVisibility(View.VISIBLE);
-                    // mTvMessage.setVisibility(View.GONE);
                     mAdapter = new EncryptMediaAdapter(getActivity());
                     mAdapter.addAll(result);
+                    mAdapter.setOnTouchListener(new EncryptMediaAdapter.OnTouchListener() {
+                        @Override
+                        public void onTouch() {
+                           checkButtonRestore();
+                        }
+                    });
                     mGridView.setAdapter(mAdapter);
-                    // if (mAdapter.getCount() > 0) {
-                    // mImagesGrid.setVisibility(View.VISIBLE);
-                    // mTvMessage.setVisibility(View.GONE);
-                    // } else {
-                    // mImagesGrid.setVisibility(View.GONE);
-                    // mTvMessage.setVisibility(View.VISIBLE);
-                    // }
-                    // if (mIsShowDeleteImported) {
-                    // mIsShowDeleteImported = false;
-                    // showDiaLogDeleteItemsImported();
-                    // }
-                } else {
-                    // mTvMessage.setVisibility(View.VISIBLE);
-                    // mImagesGrid.setVisibility(View.GONE);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public void checkButtonRestore(){
+        if (mAdapter!=null&&mAdapter.getmSelectedList().size()>0){
+            mRestore.setVisibility(View.VISIBLE);
+        }else {
+            mRestore.setVisibility(View.GONE);
         }
     }
 
@@ -140,7 +140,6 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
             case R.id.view_back:
                 getActivity().onBackPressed();
                 break;
-            case R.id.imv_add:
             case R.id.btn_add:
                 if (mImageFragment == null) {
                     mImageFragment = new ImageFragment();
@@ -152,21 +151,23 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                         }
 
                         @Override
-                        public void onDone(ArrayList<MediaItem> list) {
+                        public void onDone(final ArrayList<MediaItem> list) {
                             getActivity().onBackPressed();
                             new HideFile(getActivity(), list, MediaItem.Type.IMAGE) {
                                 protected void onPostExecute(Void result) {
                                     super.onPostExecute(result);
                                     new AsynReload().execute();
-                                    new SnackBar(getActivity(),
-                                            "Do you want remove all image?",
-                                            "Delete", new OnClickListener() {
+                                    SnackBar snackBar = new SnackBar(getActivity(),
+                                            getString(R.string.comfirm_delete_photo),
+                                            getString(R.string.btn_delete), new OnClickListener() {
 
                                         @Override
                                         public void onClick(View v) {
+                                            new DeleteMediaAsyncTask(list, getActivity()).execute();
                                         }
-                                    }).show();
-
+                                    });
+                                    snackBar.setDismissTimer(10000);
+                                    snackBar.show();
                                 }
                             }.execute();
                         }
@@ -175,10 +176,14 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
                 addFragmentStack(mImageFragment);
                 break;
             case R.id.tv_done:
-
-                new RestoreFile(getActivity(), PhotoTableAdapter.getInstance(
-                        getActivity().getApplicationContext()).getAll(),
-                        MediaItem.Type.IMAGE).execute();
+                new RestoreFile(getActivity(), mAdapter.getmSelectedList(),
+                        MediaItem.Type.IMAGE) {
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        super.onPostExecute(result);
+                        new AsynReload().execute();
+                    }
+                }.execute();
                 break;
             default:
                 break;
@@ -194,5 +199,53 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+//    public class AsynDeleteData extends AsyncTask<Void, Void, Void> {
+//        private ProgressDialog mDialog;
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            for (MediaStorageItem image : mAdapter.getmSelectedList()) {
+//                PhotoTableAdapter.getInstance(getActivity()).remove(
+//                        image.getId());
+//                try {
+//                    new File(image.getNewPath()).delete();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//            mAdapter.removeSelectedItem();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            mDialog = new ProgressDialog(getActivity());
+//            mDialog.setCancelable(false);
+//            mDialog.setMessage(getActivity()
+//                    .getString(R.string.deleting));
+//            mDialog.show();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            Toast.makeText(getActivity(),
+//                    getString(R.string.deleted_success), Toast.LENGTH_SHORT)
+//                    .show();
+//            try {
+//                if ((this.mDialog != null) && this.mDialog.isShowing()) {
+//                    this.mDialog.dismiss();
+//                }
+//            } catch (final IllegalArgumentException e) {
+//            } catch (final Exception e) {
+//            } finally {
+//            }
+//        }
+//
+//    }
+
 
 }

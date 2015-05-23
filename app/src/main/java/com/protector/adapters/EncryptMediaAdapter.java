@@ -30,7 +30,10 @@ public class EncryptMediaAdapter extends BaseAdapter {
 	private Activity mActivity;
 	private LayoutInflater mInflater;
 	private ArrayList<MediaStorageItem> mMediaList;
-	private ArrayList<MediaStorageItem> mSelectedList;
+    private OnTouchListener mListener;
+
+
+    private ArrayList<MediaStorageItem> mSelectedList;
 	private LruCache<String, Bitmap> mMemoryCache;
 	private PhotoTableAdapter mDBAdapter;
 	private Executor mExcutor;
@@ -39,8 +42,8 @@ public class EncryptMediaAdapter extends BaseAdapter {
 		this.mActivity = activity;
 		this.mInflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.mMediaList=new ArrayList<MediaStorageItem>();
-		this.mSelectedList = new ArrayList<MediaStorageItem>();
+		this.mMediaList=new ArrayList<>();
+		this.mSelectedList = new ArrayList<>();
 		mDBAdapter = PhotoTableAdapter.getInstance(mActivity);
 		mExcutor = new ScheduledThreadPoolExecutor(3);
 		final int memClass = ((ActivityManager) mActivity
@@ -86,7 +89,7 @@ public class EncryptMediaAdapter extends BaseAdapter {
 
 			holder.imvCheck = (ImageView) convertView
 					.findViewById(R.id.imgQueueMultiSelected);
-			holder.vBorder = (View) convertView.findViewById(R.id.view_boder);
+			holder.vBorder =  convertView.findViewById(R.id.view_boder);
 			holder.tvIndex = (TextView) convertView.findViewById(R.id.tv_index);
 
 			convertView.setTag(holder);
@@ -137,6 +140,9 @@ public class EncryptMediaAdapter extends BaseAdapter {
 					holder.vBorder.setVisibility(View.VISIBLE);
 					holder.tvIndex.setVisibility(View.VISIBLE);
 				}
+                if (mListener!=null){
+                    mListener.onTouch();
+                }
 				notifyDataSetChanged();
 			}
 		});
@@ -194,7 +200,7 @@ public class EncryptMediaAdapter extends BaseAdapter {
 		private Bitmap mLoadedBitmap, myBitmap;
 
 		public LoadImageRunable(ImageView imageView, long id) {
-			imageViewReference = new WeakReference<ImageView>(imageView);
+			imageViewReference = new WeakReference<>(imageView);
 			mID = id;
 		}
 
@@ -225,7 +231,7 @@ public class EncryptMediaAdapter extends BaseAdapter {
 					@Override
 					public void run() {
 						if (imageViewReference != null && myBitmap != null) {
-							final ImageView imageView = (ImageView) imageViewReference
+							final ImageView imageView =  imageViewReference
 									.get();
 							if (imageView != null) {
 								imageView.setImageBitmap(myBitmap);
@@ -240,4 +246,20 @@ public class EncryptMediaAdapter extends BaseAdapter {
 			}
 		}
 	}
+
+    public ArrayList<MediaStorageItem> getmSelectedList() {
+        return mSelectedList;
+    }
+
+    public void removeSelectedItem(){
+        mMediaList.removeAll(mSelectedList);
+    }
+
+    public void setOnTouchListener(OnTouchListener listener){
+        this.mListener=listener;
+    }
+
+    public interface OnTouchListener{
+        void onTouch();
+    }
 }

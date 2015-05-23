@@ -1,8 +1,9 @@
 package com.protector.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ContactItem {
+public class ContactItem implements Serializable {
 	private int id;
 	private String avatar;
 	private String name;

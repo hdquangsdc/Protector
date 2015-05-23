@@ -48,6 +48,7 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
     private ImageView tvDone;
     private IPick listener;
     private int myType;
+    private View mViewBack;
 
     ListView myLv;
 
@@ -58,6 +59,7 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
                 false);
         myLv = (ListView) rootView.findViewById(R.id.list_message);
         tvDone = (ImageView) rootView.findViewById(R.id.tv_done);
+        mViewBack = rootView.findViewById(R.id.view_back);
 
 
         myEdtSearch = (EditText) rootView.findViewById(R.id.edt_search);
@@ -108,6 +110,7 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         tvDone.setOnClickListener(this);
+        mViewBack.setOnClickListener(this);
         myProgressDialog = new ProgressDialog(getActivity());
         myProgressDialog.setMessage(getString(R.string.loading));
         myProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -121,8 +124,8 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
     }
+
 
     @Override
     public void onClick(View v) {
@@ -138,6 +141,9 @@ public class ContactListFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity(), getString(R.string.no_contact_selected),
                             Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.view_back:
+                getActivity().onBackPressed();
                 break;
             default:
                 break;

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Pair;
 
 import com.google.i18n.phonenumbers.NumberParseException;
+import com.protector.AppPreference;
 import com.protector.objects.ContactItem;
 import com.protector.objects.SmsCallLogItem;
 import com.protector.utils.EncryptUtils;
@@ -1005,81 +1006,73 @@ public class PrivateContactTableAdapter extends BaseTableAdapter {
     // return isCheck;
     // }
     //
-    // public synchronized long checkContactByAddresss(String address, int type,
-    // int passID) {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return -1;
-    // }
-    // String[] addr = new String[2];
-    // try {
-    // addr = Utilities.getPhoneNumber(mContext, address);
-    // } catch (Exception ex) {
-    // addr[0] = address;
-    // addr[1] = address;
-    // }
-    // Cursor cursor = null;
-    // int count = -1;
-    // Cursor cursorBlack = null;
-    // try {
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // cursor = mContext.getContentResolver().query(
-    // contentUri,
-    // null,
-    // COL_ADDRESS + " IN (?,?) AND " + COL_TYPE + " = ? AND "
-    // + COL_PASSWORD_ID + " =?",
-    // new String[] { EncryptUtils.encryptV1(addr[0].toString()),
-    // EncryptUtils.encryptV1(addr[1].toString()),
-    // type + "", passID + "" }, null);
-    // if (cursor != null && cursor.moveToNext()) {
-    // count = cursor.getInt(cursor.getColumnIndex(COL_ID));
-    // } else {
-    // if (type == TYPE_PRIVATE) {
-    // if (StoreCatchContact.getInstance(mContext).getStore() == 0) {
-    // Uri contentUriBlack = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI,
-    // TABLE_NAME);
-    // cursorBlack = mContext.getContentResolver()
-    // .query(contentUriBlack,
-    // null,
-    // COL_ADDRESS + " IN (?,?) AND "
-    // + COL_TYPE + " = ? AND "
-    // + COL_PASSWORD_ID + " =?",
-    // new String[] {
-    // EncryptUtils.encryptV1(addr[0]
-    // .toString()),
-    // EncryptUtils.encryptV1(addr[1]
-    // .toString()),
-    // TYPE_BLACK + "", passID + "" },
-    // null);
-    // if (cursorBlack != null && cursorBlack.moveToNext()) {
-    // count = cursorBlack.getInt(cursor
-    // .getColumnIndex(COL_ID));
-    // }
-    // }
-    // }
-    // }
-    // } catch (Exception ex) {
-    //
-    // } finally {
-    // if (cursor != null) {
-    // cursor.close();
-    // }
-    // if (cursorBlack != null) {
-    // cursorBlack.close();
-    // }
-    // }
-    // return count;
-    // }
-    //
+    public synchronized long checkContactByAddresss(String address, int type,
+                                                    int passID) {
+        if (!isDBFileExist()) {
+            return -1;
+        }
+        String[] addr = new String[2];
+        try {
+            addr = PhoneNumberUtils.getPhoneNumber(mContext, address);
+        } catch (Exception ex) {
+            addr[0] = address;
+            addr[1] = address;
+        }
+        Cursor cursor = null;
+        int count = -1;
+        Cursor cursorBlack = null;
+        try {
+            Uri contentUri = Uri.withAppendedPath(
+                    SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+            cursor = mContext.getContentResolver().query(
+                    contentUri,
+                    null,
+                    COL_ADDRESS + " IN (?,?) AND " + COL_TYPE + " = ? AND "
+                            + COL_PASSWORD_ID + " =?",
+                    new String[]{EncryptUtils.encryptV1(addr[0].toString()),
+                            EncryptUtils.encryptV1(addr[1].toString()),
+                            type + "", passID + ""}, null);
+            if (cursor != null && cursor.moveToNext()) {
+                count = cursor.getInt(cursor.getColumnIndex(COL_ID));
+            } else {
+                if (type == TYPE_PRIVATE) {
+                    if (AppPreference.getInstance(mContext).getCatchContact() == 0) {
+                        Uri contentUriBlack = Uri.withAppendedPath(
+                                SmsCallLogContentProvider.CONTENT_URI,
+                                TABLE_NAME);
+                        cursorBlack = mContext.getContentResolver()
+                                .query(contentUriBlack,
+                                        null,
+                                        COL_ADDRESS + " IN (?,?) AND "
+                                                + COL_TYPE + " = ? AND "
+                                                + COL_PASSWORD_ID + " =?",
+                                        new String[]{
+                                                EncryptUtils.encryptV1(addr[0]
+                                                        .toString()),
+                                                EncryptUtils.encryptV1(addr[1]
+                                                        .toString()),
+                                                TYPE_BLACK + "", passID + ""},
+                                        null);
+                        if (cursorBlack != null && cursorBlack.moveToNext()) {
+                            count = cursorBlack.getInt(cursor
+                                    .getColumnIndex(COL_ID));
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (cursorBlack != null) {
+                cursorBlack.close();
+            }
+        }
+        return count;
+    }
+
     public synchronized ContactItem getContactByAddress(String address,
                                                         int passID) {
         if (!isDBFileExist()) {

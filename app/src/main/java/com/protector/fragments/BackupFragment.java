@@ -85,6 +85,7 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
     private DbxAccountManager mDbxAcctMgr;
 
     private DecimalFormat fileSizeFormater = new DecimalFormat("##0.##");
+    private View mViewBack;
 //    private DbxAccountManager mDbxAcctMgr;
 
 
@@ -106,7 +107,8 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
         myCbVideo = (CheckBox) rootView.findViewById(R.id.cb_video);
         myCbImage = (CheckBox) rootView.findViewById(R.id.cb_image);
 
-        myBtnBackup.setOnClickListener(this);
+
+        mViewBack = rootView.findViewById(R.id.view_back);
         return rootView;
     }
 
@@ -116,12 +118,52 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
         initDialog();
         initDialogPW();
         new asynCheckData().execute();
+        mViewBack.setOnClickListener(this);
+
+        myBtnBackup.setOnClickListener(this);
+        myCbAll.setOnClickListener(this);
+        myCbSms.setOnClickListener(this);
+        myCbApp.setOnClickListener(this);
+        myCbVideo.setOnClickListener(this);
+        myCbImage.setOnClickListener(this);
+
+        myCbAll.setOncheckListener(new CheckBox.OnCheckListener() {
+            @Override
+            public void onCheck(boolean b) {
+                if (b) {
+                    myCbApp.setChecked(true);
+                    myCbImage.setChecked(true);
+                    myCbVideo.setChecked(true);
+                    myCbSms.setChecked(true);
+                }
+            }
+        });
+
+        CheckBox.OnCheckListener onCheckListener=new CheckBox.OnCheckListener() {
+            @Override
+            public void onCheck(boolean b) {
+                if (!b){
+                    myCbAll.setChecked(false);
+                }
+            }
+        };
+        myCbVideo.setOncheckListener(onCheckListener);
+        myCbApp.setOncheckListener(onCheckListener);
+        myCbSms.setOncheckListener(onCheckListener);
+        myCbImage.setOncheckListener(onCheckListener);
+
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.view_back:
+                getActivity().onBackPressed();
+                break;
+            case R.id.cb_all:
+
+                break;
             case R.id.btn_backup:
                 doBackUp();
             case R.id.btn_ok:
@@ -270,6 +312,8 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
             e.printStackTrace();
         }
     }
+
+
 
     public class asynCheckData extends AsyncTask<Void, Void, Void> {
         boolean isApp, isSms, isVideo, isPhoto;

@@ -158,7 +158,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     }
 
     // public synchronized void addArraySmsWithSingleAddress(
-    // ArrayList<SmsCalLogObject> arrSms) {
+    // ArrayList<SmsCallLogItem> arrSms) {
     // String folder = Preferences.getInstance(mContext).getHideRootPath();
     // String DB_PATH = folder + "/"
     // + SmsCallLogContentProviderDB.DATABASE_NAME;
@@ -171,7 +171,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // return;
     // }
     // if (arrSms.size() > 0) {
-    // ArrayList<SmsCalLogObject> myArr = arrSms;
+    // ArrayList<SmsCallLogItem> myArr = arrSms;
     // PrivateContactTableAdapter contactAdapter = PrivateContactTableAdapter
     // .getInstance(mContext);
     // ContactObject contact = contactAdapter.getContactByAddress(myArr
@@ -189,7 +189,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // contactObject.getId(), -1, -1, "", -1, "",
     // PasswordTableAdapter.PASSWORD_CURRENT_ID);
     // }
-    // for (SmsCalLogObject sms : myArr) {
+    // for (SmsCallLogItem sms : myArr) {
     // try {
     // ContentValues values = new ContentValues();
     // values.put(COL_GROUP_ID, idContact);
@@ -220,53 +220,46 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // }
     // }
     //
-    // public synchronized void addArraySms(ArrayList<SmsCalLogObject> arrSms,
-    // long groupID) {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return;
-    // }
-    // if (arrSms.size() > 0) {
-    // ArrayList<SmsCalLogObject> myArr = arrSms;
-    // for (SmsCalLogObject sms : myArr) {
-    // try {
-    // ContentValues values = new ContentValues();
-    // values.put(COL_GROUP_ID, groupID);
-    // values.put(COL_NAME, EncryptUtils.encryptV1(sms.getName()));
-    // values.put(COL_ADDRESS,
-    // EncryptUtils.encryptV1(sms.getAddress()));
-    // values.put(COL_TIME, sms.getTime());
-    // values.put(COL_BODY,
-    // EncryptUtils.encryptV1(sms.getBodySms()));
-    // values.put(COL_TYPE, sms.getType());
-    // values.put(COL_READ, sms.getRead());
-    // values.put(COL_DATE, new Date().getTime());
-    // values.put(COL_STATE, sms.getState());
-    // values.put(COL_NUMBER_INDEX, sms.getNumberIndex());
-    // values.put(COL_TYPE_COMPARE, 1);
-    // values.put(COL_DURATION_CALL_LOG,
-    // EncryptUtils.encryptV1("1"));
-    // values.put(COL_THREAD_ID_SMS, 0);
-    // Uri contentUri = Uri
-    // .withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI,
-    // TABLE_NAME);
-    // Uri result = mContext.getContentResolver().insert(
-    // contentUri, values);
-    // } catch (Exception ex) {
-    // }
-    // }
-    // }
-    // }
-    //
-    // public synchronized void addArraySms(SmsCalLogObject sms, long groupID) {
+    public synchronized void addArraySms(ArrayList<SmsCallLogItem> arrSms,
+                                         long groupID) {
+        if (!isDBFileExist()) {
+            return;
+        }
+        if (arrSms.size() > 0) {
+            ArrayList<SmsCallLogItem> myArr = arrSms;
+            for (SmsCallLogItem sms : myArr) {
+                try {
+                    ContentValues values = new ContentValues();
+                    values.put(COL_GROUP_ID, groupID);
+                    values.put(COL_NAME, EncryptUtils.encryptV1(sms.getName()));
+                    values.put(COL_ADDRESS,
+                            EncryptUtils.encryptV1(sms.getAddress()));
+                    values.put(COL_TIME, sms.getTime());
+                    values.put(COL_BODY,
+                            EncryptUtils.encryptV1(sms.getBodySms()));
+                    values.put(COL_TYPE, sms.getType());
+                    values.put(COL_READ, sms.getRead());
+                    values.put(COL_DATE, new Date().getTime());
+                    values.put(COL_STATE, sms.getState());
+                    values.put(COL_NUMBER_INDEX, sms.getNumberIndex());
+                    values.put(COL_TYPE_COMPARE, 1);
+                    values.put(COL_DURATION_CALL_LOG,
+                            EncryptUtils.encryptV1("1"));
+                    values.put(COL_THREAD_ID_SMS, 0);
+                    Uri contentUri = Uri
+                            .withAppendedPath(
+                                    SmsCallLogContentProvider.CONTENT_URI,
+                                    TABLE_NAME);
+                    Uri result = mContext.getContentResolver().insert(
+                            contentUri, values);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    // public synchronized void addArraySms(SmsCallLogItem sms, long groupID) {
     // String folder = Preferences.getInstance(mContext).getHideRootPath();
     // String DB_PATH = folder + "/"
     // + SmsCallLogContentProviderDB.DATABASE_NAME;
@@ -302,7 +295,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // }
     //
     // public synchronized void addArrayCallLogWithSingleAddress(
-    // ArrayList<SmsCalLogObject> arrCallLog) {
+    // ArrayList<SmsCallLogItem> arrCallLog) {
     // String folder = Preferences.getInstance(mContext).getHideRootPath();
     // String DB_PATH = folder + "/"
     // + SmsCallLogContentProviderDB.DATABASE_NAME;
@@ -315,7 +308,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // return;
     // }
     // if (arrCallLog.size() > 0) {
-    // ArrayList<SmsCalLogObject> myArr = arrCallLog;
+    // ArrayList<SmsCallLogItem> myArr = arrCallLog;
     // PrivateContactTableAdapter contactAdapter = PrivateContactTableAdapter
     // .getInstance(mContext);
     // ContactObject contact = contactAdapter.getContactByAddress(myArr
@@ -333,7 +326,7 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // contactObject.getId(), -1, -1, "", -1, "",
     // PasswordTableAdapter.PASSWORD_CURRENT_ID);
     // }
-    // for (SmsCalLogObject callLog : myArr) {
+    // for (SmsCallLogItem callLog : myArr) {
     // try {
     // ContentValues values = new ContentValues();
     // values.put(COL_GROUP_ID, idContact);
@@ -365,48 +358,41 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // }
     // }
     //
-    // public synchronized void addArrayCallLog(
-    // ArrayList<SmsCalLogObject> arrCallLog, long groupID) {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return;
-    // }
-    // ArrayList<SmsCalLogObject> myArr = arrCallLog;
-    // for (SmsCalLogObject callLog : myArr) {
-    // try {
-    // ContentValues values = new ContentValues();
-    // values.put(COL_GROUP_ID, groupID);
-    // values.put(COL_NAME, EncryptUtils.encryptV1(callLog.getName()));
-    // values.put(COL_ADDRESS,
-    // EncryptUtils.encryptV1(callLog.getAddress()));
-    // values.put(COL_TIME, callLog.getTime());
-    // values.put(
-    // COL_DURATION_CALL_LOG,
-    // EncryptUtils.encryptV1(callLog.getDurationCallLog()
-    // + ""));
-    // values.put(COL_TYPE, callLog.getType());
-    // values.put(COL_READ, callLog.getRead());
-    // values.put(COL_DATE, new Date().getTime());
-    // values.put(COL_STATE, callLog.getState());
-    // values.put(COL_NUMBER_INDEX, callLog.getNumberIndex());
-    // values.put(COL_TYPE_COMPARE, 2);
-    // values.put(COL_BODY, EncryptUtils.encryptV1(""));
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // Uri result = mContext.getContentResolver().insert(contentUri,
-    // values);
-    // } catch (Exception ex) {
-    // }
-    // }
-    // }
-    //
+    public synchronized void addArrayCallLog(
+            ArrayList<SmsCallLogItem> arrCallLog, long groupID) {
+        if (!isDBFileExist()) {
+            return;
+        }
+        ArrayList<SmsCallLogItem> myArr = arrCallLog;
+        for (SmsCallLogItem callLog : myArr) {
+            try {
+                ContentValues values = new ContentValues();
+                values.put(COL_GROUP_ID, groupID);
+                values.put(COL_NAME, EncryptUtils.encryptV1(callLog.getName()));
+                values.put(COL_ADDRESS,
+                        EncryptUtils.encryptV1(callLog.getAddress()));
+                values.put(COL_TIME, callLog.getTime());
+                values.put(
+                        COL_DURATION_CALL_LOG,
+                        EncryptUtils.encryptV1(callLog.getDurationCallLog()
+                                + ""));
+                values.put(COL_TYPE, callLog.getType());
+                values.put(COL_READ, callLog.getRead());
+                values.put(COL_DATE, new Date().getTime());
+                values.put(COL_STATE, callLog.getState());
+                values.put(COL_NUMBER_INDEX, callLog.getNumberIndex());
+                values.put(COL_TYPE_COMPARE, 2);
+                values.put(COL_BODY, EncryptUtils.encryptV1(""));
+                Uri contentUri = Uri.withAppendedPath(
+                        SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+                Uri result = mContext.getContentResolver().insert(contentUri,
+                        values);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     // public synchronized long addCallog(int groupId, int type, String name,
     // String address, long time, long duration, int read, int state,
     // int numberIndex) {
@@ -465,59 +451,43 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
     // }
     // }
     //
-    // public synchronized int removeID(long id) {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return -1;
-    // }
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // return mContext.getContentResolver().delete(contentUri,
-    // COL_ID + "=" + id, null);
-    // }
-    //
-    // public synchronized int removeByGroupID(long groupID) {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return -1;
-    // }
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // return mContext.getContentResolver().delete(contentUri,
-    // COL_GROUP_ID + "=" + groupID, null);
-    // }
-    //
-    // public synchronized int clear() {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return -1;
-    // }
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // return mContext.getContentResolver().delete(contentUri, null, null);
-    // }
-    //
+    public synchronized int removeID(long id) {
+        if (!isDBFileExist()) {
+            return -1;
+        }
+        Uri contentUri = Uri.withAppendedPath(
+                SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+        return mContext.getContentResolver().delete(contentUri,
+                COL_ID + "=" + id, null);
+    }
+
+    public synchronized int removeByGroupID(long groupID) {
+        if (!isDBFileExist()) {
+            return -1;
+        }
+        Uri contentUri = Uri.withAppendedPath(
+                SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+        return mContext.getContentResolver().delete(contentUri,
+                COL_GROUP_ID + "=" + groupID, null);
+    }
+
+    //    public synchronized int clear() {
+//        String folder = Preferences.getInstance(mContext).getHideRootPath();
+//        String DB_PATH = folder + "/"
+//                + SmsCallLogContentProviderDB.DATABASE_NAME;
+//        File f = new File(DB_PATH);
+//
+//        if (f.exists()
+//                || Environment.MEDIA_MOUNTED.equals(Environment
+//                .getExternalStorageState())) {
+//        } else {
+//            return -1;
+//        }
+//        Uri contentUri = Uri.withAppendedPath(
+//                SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
+//        return mContext.getContentResolver().delete(contentUri, null, null);
+//    }
+//
     public synchronized ArrayList<SmsCallLogItem> getAll() {
         ArrayList<SmsCallLogItem> items = new ArrayList<SmsCallLogItem>();
         if (!isDBFileExist()) {
@@ -595,64 +565,55 @@ public class SmsCallLogTableAdapter extends BaseTableAdapter {
         return isCheck;
     }
 
-    //
-    // public synchronized ArrayList<SmsCalLogObject> getAllByGroupID(int
-    // groupID) {
-    // ArrayList<SmsCalLogObject> items = new ArrayList<SmsCalLogObject>();
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return items;
-    // }
-    // Cursor cursor = null;
-    // try {
-    // Uri contentUri = Uri.withAppendedPath(
-    // SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-    // cursor = mContext.getContentResolver().query(
-    // contentUri,
-    // new String[] { COL_ID, COL_GROUP_ID, COL_TYPE, COL_NAME,
-    // COL_ADDRESS, COL_TIME, COL_BODY, COL_READ,
-    // COL_DATE, COL_STATE, COL_NUMBER_INDEX,
-    // COL_DURATION_CALL_LOG, COL_TYPE_COMPARE,
-    // COL_THREAD_ID_SMS }, COL_GROUP_ID + " = ? ",
-    // new String[] { groupID + "" }, COL_TIME + " DESC");// ASC
-    // while (cursor != null && cursor.moveToNext()) {
-    // SmsCalLogObject item = new SmsCalLogObject();
-    // item.setId(cursor.getInt(0));
-    // item.setGroupId(cursor.getInt(1));
-    // item.setType(cursor.getInt(2));
-    // item.setName(EncryptUtils.decryptV1(cursor.getString(3)));
-    // item.setAddress(EncryptUtils.decryptV1(cursor.getString(4)));
-    // item.setTime(Long.parseLong(cursor.getString(5)));
-    // item.setBodySms(EncryptUtils.decryptV1(cursor.getString(6)));
-    // item.setRead(cursor.getInt(7));
-    // if (item.getRead() == 0) {
-    // updateType(item.getId());
-    // }
-    // item.setDate(cursor.getLong(8));
-    // item.setState(cursor.getInt(9));
-    // item.setNumberIndex(cursor.getInt(10));
-    // item.setDurationCallLog(Long.parseLong(EncryptUtils
-    // .decryptV1(cursor.getString(11))));
-    // item.setTypeCompare(cursor.getInt(12));
-    // item.setThreadIdSms(cursor.getInt(13));
-    // items.add(item);
-    // }
-    // } catch (Exception ex) {
-    //
-    // } finally {
-    // if (cursor != null)
-    // cursor.close();
-    // }
-    // return items;
-    // }
-    //
+
+    public synchronized ArrayList<SmsCallLogItem> getAllByGroupID(int groupID) {
+        ArrayList<SmsCallLogItem> items = new ArrayList<>();
+        if (!isDBFileExist()) {
+            return items;
+        }
+        Cursor cursor = null;
+        try {
+            Uri contentUri = Uri.withAppendedPath(
+                    SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+            cursor = mContext.getContentResolver().query(
+                    contentUri,
+                    new String[]{COL_ID, COL_GROUP_ID, COL_TYPE, COL_NAME,
+                            COL_ADDRESS, COL_TIME, COL_BODY, COL_READ,
+                            COL_DATE, COL_STATE, COL_NUMBER_INDEX,
+                            COL_DURATION_CALL_LOG, COL_TYPE_COMPARE,
+                            COL_THREAD_ID_SMS}, COL_GROUP_ID + " = ? ",
+                    new String[]{groupID + ""}, COL_TIME + " DESC");// ASC
+            while (cursor != null && cursor.moveToNext()) {
+                SmsCallLogItem item = new SmsCallLogItem();
+                item.setId(cursor.getInt(0));
+                item.setGroupId(cursor.getInt(1));
+                item.setType(cursor.getInt(2));
+                item.setName(EncryptUtils.decryptV1(cursor.getString(3)));
+                item.setAddress(EncryptUtils.decryptV1(cursor.getString(4)));
+                item.setTime(Long.parseLong(cursor.getString(5)));
+                item.setBodySms(EncryptUtils.decryptV1(cursor.getString(6)));
+                item.setRead(cursor.getInt(7));
+                if (item.getRead() == 0) {
+                    updateType(item.getId());
+                }
+                item.setDate(cursor.getLong(8));
+                item.setState(cursor.getInt(9));
+                item.setNumberIndex(cursor.getInt(10));
+                item.setDurationCallLog(Long.parseLong(EncryptUtils
+                        .decryptV1(cursor.getString(11))));
+                item.setTypeCompare(cursor.getInt(12));
+                item.setThreadIdSms(cursor.getInt(13));
+                items.add(item);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return items;
+    }
+
     public synchronized SmsCallLogItem getSMSCallLogLast(int groupID) {
         if (!isDBFileExist()) {
             return null;

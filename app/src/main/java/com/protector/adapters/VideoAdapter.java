@@ -177,21 +177,17 @@ public class VideoAdapter extends ArrayAdapter<MediaStorageItem> {
 			@Override
 			public void onClick(View v) {
 				mSelectedVideo.add(getItem(position));
+                if (mListener!=null){
+                    mListener.onTouch();
+                }
 				notifyDataSetChanged();
 			}
 		});
 		return convertView;
 	}
 
-	public void setSelectable(boolean isSelectable) {
-		mSelectedVideo.clear();
-		this.isSelectable = isSelectable;
-		notifyDataSetChanged();
-	}
 
-	public boolean isSelectable() {
-		return isSelectable;
-	}
+
 
 	public ArrayList<MediaStorageItem> getSelectedItem() {
 		return mSelectedVideo;
@@ -294,4 +290,12 @@ public class VideoAdapter extends ArrayAdapter<MediaStorageItem> {
 	public Bitmap getBitmapFromMemCache(String key) {
 		return mMemoryCache.get(key);
 	}
+    private OnTouchListener mListener;
+    public void setOnTouchListener(OnTouchListener listener){
+        this.mListener=listener;
+    }
+
+    public interface OnTouchListener{
+        void onTouch();
+    }
 }

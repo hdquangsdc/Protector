@@ -75,11 +75,9 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         if (myArrayChecked.contains(sms)) {
             holder.cb.setChecked(true);
             convertView.findViewById(R.id.view_sms).setSelected(true);
-//            convertView.setBackgroundColor(myActivity.getResources().getColor(R.color.choosen_background));
         } else {
             holder.cb.setChecked(false);
             convertView.findViewById(R.id.view_sms).setSelected(false);
-//            convertView.setBackgroundColor(Color.WHITE);
         }
         final SpannableStringBuilder sb = new SpannableStringBuilder(
                 sms.getBodySms());

@@ -8,6 +8,8 @@
     <color name="ColorPrimary">#9b35bd</color>
     <color name="ColorPrimaryPressed">#68287E</color>
     <color name="ActionBarButtonPressed">#552166</color>
+    <color name="cl_gray_background">#f1f1f6</color>
+    <color name="cl_light_gray">#E8E8E8</color>
 
 
     <color name="light_purple">#f0d4fd</color>

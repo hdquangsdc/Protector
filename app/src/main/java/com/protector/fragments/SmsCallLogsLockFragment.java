@@ -2,6 +2,7 @@ package com.protector.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.protector.R;
+import com.protector.activities.DetailContactLockedActivity;
 import com.protector.adapters.ContactLockedAdapter;
 import com.protector.adapters.EncryptMediaAdapter;
 import com.protector.database.PasswordTableAdapter;
@@ -31,10 +33,13 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class SmsCallLogsLockFragment extends Fragment implements OnClickListener {
-    EncryptMediaAdapter mAdapter;
+
+    public static int RQ_DETAIL = 212;
+
     private ContactLockedAdapter myAdapter;
     private ProgressDialog myProgressDialog;
     View mViewBack;
+    private ContactItem myContact;
 
     ImageFragment mImageFragment;
     ListView mListView;
@@ -58,7 +63,7 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
 
         mViewBack = rootView.findViewById(R.id.view_back);
         mListView = (ListView) rootView.findViewById(R.id.list_video);
-        mBtnAdd=(ButtonFloat) rootView.findViewById(R.id.btn_add);
+        mBtnAdd = (ButtonFloat) rootView.findViewById(R.id.btn_add);
 
         mListView.setAdapter(myAdapter);
 
@@ -116,6 +121,19 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
             }
             myAdapter.notifyDataSetChanged();
 
+            myAdapter
+                    .setOnItemClickListener(new ContactLockedAdapter.OnClickItemListener() {
+
+                        @Override
+                        public void onClick(int position) {
+                            myContact = myAdapter.getItem(position).first;
+                            Intent i = new Intent(getActivity(),
+                                    DetailContactLockedActivity.class);
+                            i.putExtra("CONTACT", myContact);
+                            startActivityForResult(i, RQ_DETAIL);
+                        }
+                    });
+
             // myTvSBar.setText(getString(R.string.txt_seekbar, myNumContact +
             // "%"));
             // mySBar.setProgress(myNumContact);
@@ -167,7 +185,6 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
             case R.id.view_back:
                 getActivity().onBackPressed();
                 break;
-            case R.id.imv_add:
             case R.id.btn_add:
                 addFragmentStack(new SmsCallLogsLockFromFragment());
                 break;

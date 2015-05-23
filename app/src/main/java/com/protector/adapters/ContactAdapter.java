@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,10 +93,10 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
         final ContactItem contact = getItem(position);
         if(myArrayChecked.contains(position)){
         	holder.cb.setChecked(true);
-            convertView.setSelected(true);
+            convertView.setBackgroundColor(Color.parseColor("#eeeeee"));
         }else{
         	holder.cb.setChecked(false);
-            convertView.setSelected(false);
+            convertView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
         holder.tvAddress.setText(contact.getAddress());
         if(contact.getName() != null && contact.getName().length() > 0){

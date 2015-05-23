@@ -86,6 +86,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.DetailContactLockedActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+
 
         <service
             android:name="com.dropbox.sync.android.DbxSyncService"

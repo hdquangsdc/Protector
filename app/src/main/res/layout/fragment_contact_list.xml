@@ -16,7 +16,7 @@
             android:id="@+id/view_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/pressed_action"
+            android:background="@drawable/action_bar_pressed_action"
             android:paddingLeft="5dp"
             android:paddingRight="10dp">
 

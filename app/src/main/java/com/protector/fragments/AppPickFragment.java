@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
     AppAdapter mAdapter;
     ListView mListView;
     View mViewBack;
-    TextView mDone;
+    ImageView mDone;
     IChooseImage mChooseMediaListener;
 
     @Override
@@ -35,7 +36,7 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
         mListView = (ListView) rootView.findViewById(R.id.my_recycler_view);
 
         mViewBack = (View) rootView.findViewById(R.id.view_back);
-        mDone = (TextView) rootView.findViewById(R.id.tv_done);
+        mDone = (ImageView) rootView.findViewById(R.id.tv_done);
         return rootView;
     }
 

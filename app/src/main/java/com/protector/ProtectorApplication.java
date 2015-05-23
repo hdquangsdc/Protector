@@ -9,7 +9,7 @@ import com.protector.utils.PhoneNumberUtils;
 public class ProtectorApplication extends Application {
 	@Override
 	public void onCreate() {		
-//		startService(new Intent(this, ProtectorService.class));
+		startService(new Intent(this, ProtectorService.class));
 		super.onCreate();
 	}
 }
