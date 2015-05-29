@@ -29,7 +29,7 @@ public class MonitorThread extends Thread {
 	public void run() {
 		while (!this.isInterrupted()) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(300);
 				ActivityManager am = (ActivityManager) mService
 						.getBaseContext().getSystemService(
 								Context.ACTIVITY_SERVICE);

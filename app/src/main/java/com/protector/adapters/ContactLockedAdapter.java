@@ -88,7 +88,7 @@ public class ContactLockedAdapter extends ArrayAdapter<Pair<ContactItem, SmsCall
 	        
 	        if(smsOrCall.getTypeCompare() == SmsCallLogTableAdapter.TYPE_SMS){
 	        	holder.tvContent.setText(smsOrCall.getBodySms());
-	        	holder.imgType.setBackgroundResource(R.drawable.ic_sms_item);
+	        	holder.imgType.setBackgroundResource(R.drawable.ic_conversation);
 	        }else{
 	        	switch (smsOrCall.getType()) {
 				case SmsCallLogTableAdapter.TYPE_CALL_INCOMING:
@@ -119,7 +119,9 @@ public class ContactLockedAdapter extends ArrayAdapter<Pair<ContactItem, SmsCall
 			
 			@Override
 			public boolean onLongClick(View v) {
-				myOnLongClickListener.onLongClick(position);
+                if(myOnLongClickListener !=null) {
+                    myOnLongClickListener.onLongClick(position);
+                }
 				return false;
 			}
 		});

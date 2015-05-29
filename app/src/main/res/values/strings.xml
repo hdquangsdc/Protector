@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PasswordScreen</string>
+    <string name="app_name">Protector</string>
     <string name="password_correct">Password correct</string>
 
     <string name="photos">Photos</string>
@@ -56,6 +56,10 @@
     <string name="restore_sms_ms">Do you want to restore all messages from this contact to the phone?</string>
     <string name="not_message">There are no messages</string>
     <string name="comfirm_delete_photo">Are you sure you want to delete the photo from your library?</string>
+    <string name="comfirm_delete_video">Are you sure you want to delete the video from your library?</string>
+
+    <string name="enter_backup_pass">Enter Back up Password</string>
+    <string name="backup_password">Back up password</string>
 
     <!-- BUTTON -->
     <string name="btn_ok">OK</string>
@@ -63,6 +67,7 @@
     <string name="btn_no">No</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_delete">Delete</string>
+    <string name="btn_call">Call</string>
     <!-- MENU -->
     <string name="action_search">Search</string>
     <string name="action_compose">Compose</string>
@@ -70,6 +75,9 @@
     <!-- SETTING -->
     <string name="change_password">Change passcode</string>
     <string name="notification">Notification</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="language">Language</string>
 
     <!-- DESCRIPTION -->
     <string name="keypad_number">Keypad number</string>
@@ -77,6 +85,11 @@
     <string name="ic_back">Back</string>
     <string name="des_icon">Icon</string>
     <!-- MESSAGE -->
+    <string name="synchronizing_data">Synchronizing data &#8230;</string>
+    <string name="cleaning_data">Cleaning data &#8230;</string>
+    <string name="getting_data">Getting data &#8230;</string>
+    <string name="copying_data">Copying data &#8230;</string>
+    <string name="saving">Saving &#8230;</string>
     <string name="deleting">Deleting &#8230;</string>
     <string name="importing">Importing (%1$s) &#8230;</string>
     <string name="restoring">Restoring (%1$s) &#8230;</string>
@@ -95,6 +108,8 @@
     <string name="internal_memory_full">Internal memory full</string>
     <string name="backup_fail">Backup fail</string>
     <string name="backup_success">Backup success</string>
+    <string name="contact_imported_successfully">Contacts imported</string>
+    <string name="there_contact_call_log">There is no contact which has SMS &amp; Call Log data in your device!</string>
 
     <string name="dropbox_backing_up">Dropbox backing up</string>
     <string name="drive_backing_up">Drive backing up</string>
@@ -113,6 +128,12 @@
     <string name="confirm_password_incorrect">Confirm password incorrect</string>
     <string name="no_contact_selected">No contact selected</string>
     <string name="no_item_selected">No item selected</string>
+
+    <string name="invalid_password_length">Password must have 4 numbers</string>
+    <string name="invalid_new_password_length">New password must have 4 numbers</string>
+    <string name="invalid_confirm_password_length">Confirm password must have 4 numbers</string>
+    <string name="confirm_password_must_be_same">Confirm password must be the same as new password</string>
+    <string name="change_password_successfully">Change password successfully</string>
     <!-- FONTS -->
     <string name="font_main">roboto_regular.ttf</string>
     <string name="font_light">roboto_light.ttf</string>

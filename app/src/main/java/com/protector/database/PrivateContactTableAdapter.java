@@ -1,9 +1,11 @@
 package com.protector.database;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.util.Pair;
 
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -114,64 +116,57 @@ public class PrivateContactTableAdapter extends BaseTableAdapter {
     }
 
 
-    //    public synchronized long addContact(SmsCalLogObject smsCallLog, int type,
-//                                        int passID) {
-//        String folder = Preferences.getInstance(mContext).getHideRootPath();
-//        String DB_PATH = folder + "/"
-//                + SmsCallLogContentProvider.DATABASE_NAME;
-//        File f = new File(DB_PATH);
-//
-//        if (f.exists()
-//                || Environment.MEDIA_MOUNTED.equals(Environment
-//                .getExternalStorageState())) {
-//        } else {
-//            return 0;
-//        }
-//        try {
-//            ContactItem ContactItem = getContactByAddress(
-//                    smsCallLog.getAddress(), passID);
-//            long idContact = -1;
-//            if (ContactItem != null) {
-//                idContact = ContactItem.getId();
-//                if (type == PrivateContactTableAdapter.TYPE_PRIVATE) {
-//                    updateTypeContact(idContact, type);
-//                }
-//            } else {
-//                ContactItem ContactItemAdd = getContactName(mContext,
-//                        smsCallLog.getAddress());
-//                ContentValues values = new ContentValues();
-//                values.put(COL_GROUP_ID, -1);
-//                values.put(COL_NAME,
-//                        EncryptUtils.encryptV1(ContactItemAdd.getName()));
-//                values.put(COL_ADDRESS,
-//                        EncryptUtils.encryptV1(smsCallLog.getAddress()));
-//                values.put(COL_TIME, "");
-//                values.put(COL_PASSWORD_ID, passID);
-//                values.put(COL_TYPE, type);
-//                values.put(COL_CONTACT_INDEX, ContactItemAdd.getId());
-//                values.put(COL_PHONE_ID, 0);
-//                values.put(COL_PHONE_TYPE, 0);
-//                values.put(COL_PHONE_LABEL, "");
-//                values.put(COL_NUMBER_INDEX, 0);
-//                values.put(COL_AVATAR, "");
-//                values.put(COL_AVATAR_BYTE, smsCallLog.getAvatarByte());
-//                Uri contentUri = Uri.withAppendedPath(
-//                        SmsCallLogContentProviderDB.CONTENT_URI, TABLE_NAME);
-//                Uri result = mContext.getContentResolver().insert(contentUri,
-//                        values);
-//                if (result == null) {
-//                    return 0;
-//                }
-//                idContact = Long.parseLong(result.getLastPathSegment());
-//                // Update groupID
-//                updateGroupIDContact(idContact);
-//            }
-//            return idContact;
-//        } catch (Exception ex) {
-//            return 0;
-//        }
-//
-//    }
+    public synchronized long addContact(SmsCallLogItem smsCallLog, int type,
+                                        int passID) {
+        if (!isDBFileExist()) {
+            return 0;
+        }
+        try {
+            ContactItem ContactItem = getContactByAddress(
+                    smsCallLog.getAddress(), passID);
+            long idContact = -1;
+            if (ContactItem != null) {
+                idContact = ContactItem.getId();
+                if (type == PrivateContactTableAdapter.TYPE_PRIVATE) {
+                    updateTypeContact(idContact, type);
+                }
+            } else {
+                ContactItem ContactItemAdd = getContactName(mContext,
+                        smsCallLog.getAddress());
+                ContentValues values = new ContentValues();
+                values.put(COL_GROUP_ID, -1);
+                values.put(COL_NAME,
+                        EncryptUtils.encryptV1(ContactItemAdd.getName()));
+                values.put(COL_ADDRESS,
+                        EncryptUtils.encryptV1(smsCallLog.getAddress()));
+                values.put(COL_TIME, "");
+                values.put(COL_PASSWORD_ID, passID);
+                values.put(COL_TYPE, type);
+                values.put(COL_CONTACT_INDEX, ContactItemAdd.getId());
+                values.put(COL_PHONE_ID, 0);
+                values.put(COL_PHONE_TYPE, 0);
+                values.put(COL_PHONE_LABEL, "");
+                values.put(COL_NUMBER_INDEX, 0);
+                values.put(COL_AVATAR, "");
+                values.put(COL_AVATAR_BYTE, smsCallLog.getAvatarByte());
+                Uri contentUri = Uri.withAppendedPath(
+                        SmsCallLogContentProvider.CONTENT_URI, TABLE_NAME);
+                Uri result = mContext.getContentResolver().insert(contentUri,
+                        values);
+                if (result == null) {
+                    return 0;
+                }
+                idContact = Long.parseLong(result.getLastPathSegment());
+                // Update groupID
+                updateGroupIDContact(idContact);
+            }
+            return idContact;
+        } catch (Exception ex) {
+            return 0;
+        }
+
+    }
+
     //
     // public synchronized long addContact(String addr, int type, int passID) {
     // String folder = Preferences.getInstance(mContext).getHideRootPath();
@@ -390,51 +385,43 @@ public class PrivateContactTableAdapter extends BaseTableAdapter {
 
     }
 
-    //
-    // public synchronized ContactItem getContactName(Context context,
-    // String phoneNumber) {
-    // String folder = Preferences.getInstance(mContext).getHideRootPath();
-    // String DB_PATH = folder + "/"
-    // + SmsCallLogContentProviderDB.DATABASE_NAME;
-    // File f = new File(DB_PATH);
-    //
-    // if (f.exists()
-    // || Environment.MEDIA_MOUNTED.equals(Environment
-    // .getExternalStorageState())) {
-    // } else {
-    // return new ContactItem();
-    // }
-    // ContactItem contact = new ContactItem();
-    // Cursor cursor = null;
-    // if (phoneNumber == null
-    // || (phoneNumber != null && phoneNumber.length() == 0)) {
-    // return contact;
-    // }
-    // try {
-    // ContentResolver cr = context.getContentResolver();
-    // Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI,
-    // Uri.encode(phoneNumber));
-    // cursor = cr.query(uri, new String[] { PhoneLookup._ID,
-    // PhoneLookup.DISPLAY_NAME }, null, null, null);
-    // if (cursor != null && cursor.moveToFirst()) {
-    // contact.setName(cursor.getString(cursor
-    // .getColumnIndex(PhoneLookup.DISPLAY_NAME)));
-    // contact.setId(cursor.getInt(cursor
-    // .getColumnIndex(PhoneLookup._ID)));
-    // } else {
-    // contact.setName(phoneNumber);
-    // contact.setId(-1);
-    // }
-    // } catch (Exception ex) {
-    //
-    // } finally {
-    // if (cursor != null) {
-    // cursor.close();
-    // }
-    // }
-    // return contact;
-    // }
-    //
+
+    public synchronized ContactItem getContactName(Context context,
+                                                   String phoneNumber) {
+        if (!isDBFileExist()) {
+            return new ContactItem();
+        }
+        ContactItem contact = new ContactItem();
+        Cursor cursor = null;
+        if (phoneNumber == null
+                || (phoneNumber != null && phoneNumber.length() == 0)) {
+            return contact;
+        }
+        try {
+            ContentResolver cr = context.getContentResolver();
+            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                    Uri.encode(phoneNumber));
+            cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup._ID,
+                    ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                contact.setName(cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME)));
+                contact.setId(cursor.getInt(cursor
+                        .getColumnIndex(ContactsContract.PhoneLookup._ID)));
+            } else {
+                contact.setName(phoneNumber);
+                contact.setId(-1);
+            }
+        } catch (Exception ex) {
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return contact;
+    }
+
     public synchronized int updateGroupIDContact(long id) {
         if (!isDBFileExist()) {
             return -1;

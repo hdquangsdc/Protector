@@ -67,6 +67,7 @@ public class ProtectorService extends Service {
     public void onDestroy() {
         Log.d(LOG_TAG, "The AIDLMessageService was destroyed.");
         super.onDestroy();
+        startService(new Intent(this, ProtectorService.class));
     }
 
     @Override
@@ -218,4 +219,6 @@ public class ProtectorService extends Service {
             }
         }
     }
+
+
 }

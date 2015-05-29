@@ -2,6 +2,7 @@ package com.protector.utils;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.text.DecimalFormat;
 
 public class FileUtils {
 	private static final int NUM_BYTE = 128;
@@ -37,5 +38,10 @@ public class FileUtils {
 		}
 		return false;
 	}
+
+    private static DecimalFormat fileSizeFormater = new DecimalFormat("##0.##");
+    public static String getFileSizeInMegabyte(long fileSizeInByte){
+        return fileSizeFormater.format(fileSizeInByte * 1.0 / (1024 * 1024));
+    }
 
 }

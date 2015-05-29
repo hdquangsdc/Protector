@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.protector.R;
 import com.protector.objects.MediaItem;
 import com.protector.utils.AndroidVersion;
+import com.protector.utils.FileUtils;
 import com.protector.utils.ImageUtils;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
     private boolean isSelectable;
     private ArrayList<MediaItem> mSelectedVideo;
     private DecimalFormat timeFormater = new DecimalFormat("00");
-    private DecimalFormat fileSizeFormater = new DecimalFormat("##0.##");
+
     private Executor taskExecutor;
     private HashMap<String, Bitmap> bitmapCache;
     // private Activity myContext;
@@ -122,16 +123,14 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
         }
         holder.tvDuration.setText(formatTime(duration));
 
-        // if (file.exists()) {
-        // String size = formatSize(file.length());
-        // if (StoreLanguage.getInstance(myContext).getStore() == 0) {
-        // } else {
-        // size = size.replace(".", ",");
-        // }
-        // holder.tvSize.setText(size);
-        // } else {
-        // holder.tvSize.setText("");
-        // }
+        if (file.exists()) {
+            String size = formatSize(file.length());
+
+
+            holder.tvSize.setText(size);
+        } else {
+            holder.tvSize.setText("");
+        }
         // if (!isSelectable) {
         // holder.imgSelected.setVisibility(View.GONE);
         // } else {
@@ -320,6 +319,11 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
             }
 
         }
+    }
+
+    private String formatSize(long fileSizeInByte) {
+        return FileUtils.getFileSizeInMegabyte(fileSizeInByte)
+                + " " + myActivty.getString(R.string.megabyte);
     }
 
 }

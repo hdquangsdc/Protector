@@ -133,7 +133,6 @@ public class DetailContactLockedAdapter extends ArrayAdapter<SmsCallLogItem> {
 
 			@Override
 			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
 				if (myOnLongClickListener != null) {
 					myOnLongClickListener.onLongClick(position);
 				}

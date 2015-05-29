@@ -30,7 +30,7 @@ public class PasswordActivity extends FragmentActivity {
 	private ImageView dot1, dot2, dot3, dot4;
 
 	public enum Mode {
-		SET, CONFIRM, PASS
+		SET, CONFIRM, PASS, CHANGE, CONFIRM_CHANGE
 	}
 
 	View.OnClickListener mKeyPadListener = new View.OnClickListener() {
@@ -84,16 +84,18 @@ public class PasswordActivity extends FragmentActivity {
 			showDot(mPassword);
 			if (mPassword.length() == 4) {
 				if (mode == Mode.PASS) {
-					toast(mPassword);
+//					toast(mPassword);
 					int passID = table.checkPassword(mPassword.toString());
 					if (passID != -1) {
 						PasswordTableAdapter.PASSWORD_CURRENT_ID = passID;
 						Intent i = new Intent(PasswordActivity.this,
 								MainActivity.class);
 						startActivityForResult(i, 1234);
-					}
+					} else {
+                        toast(R.string.incorrect_password);
+                    }
 				} else if (mode == Mode.SET) {
-					toast(mPassword);
+//					toast(mPassword);
 					mSetPassword = mPassword;
 					mode = Mode.CONFIRM;
 				} else if (mode == Mode.CONFIRM) {
@@ -113,6 +115,7 @@ public class PasswordActivity extends FragmentActivity {
 					}
 				}
 				mPassword = "";
+                showDot(mPassword);
 			}
 		}
 	};
@@ -125,6 +128,9 @@ public class PasswordActivity extends FragmentActivity {
 //				myIsMainActivity = false;
 				finish();
 			}
+            else {
+                finish();
+            }
 		}
 	}
 
@@ -204,7 +210,11 @@ public class PasswordActivity extends FragmentActivity {
 			// }
 			mode = Mode.SET;
 		} else {
-			mode = Mode.PASS;
+            if (getIntent().getIntExtra("type",0)==2){
+                mode = Mode.CHANGE;
+            } else {
+                mode = Mode.PASS;
+            }
 		}
 
 		super.onCreate(arg0);

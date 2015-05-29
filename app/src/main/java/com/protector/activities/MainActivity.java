@@ -27,6 +27,8 @@ import com.protector.fragments.BackupFragment;
 import com.protector.fragments.IMainFunction;
 import com.protector.fragments.ImageLockFragment;
 import com.protector.fragments.MainFragment;
+import com.protector.fragments.RestoreFragment;
+import com.protector.fragments.SettingsFragment;
 import com.protector.fragments.SmsCallLogsLockFragment;
 import com.protector.fragments.VideoLockFragment;
 
@@ -159,6 +161,28 @@ public class MainActivity extends AppCompatActivity implements IMainFunction {
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 
+    }
+
+    @Override
+    public void onRestore() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        RestoreFragment fragment=new RestoreFragment();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSetting() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        SettingsFragment fragment=new SettingsFragment();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.protector.R;
 import com.protector.adapters.AppAdapter;
+import com.protector.adapters.OnClickItemListener;
 import com.protector.database.AppTableAdapter;
 import com.protector.utils.AppUtils;
 
@@ -37,6 +38,7 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
 
         mViewBack = (View) rootView.findViewById(R.id.view_back);
         mDone = (ImageView) rootView.findViewById(R.id.tv_done);
+        mDone.setVisibility(View.GONE);
         return rootView;
     }
 
@@ -44,6 +46,16 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAdapter = new AppAdapter(getActivity(), AppUtils.getApp(getActivity()), true);
+        mAdapter.setOnItemTouchListener(new OnClickItemListener() {
+            @Override
+            public void onTouch() {
+                if (mAdapter.getSelectedItems().size()>0){
+                    mDone.setVisibility(View.VISIBLE);
+                } else{
+                    mDone.setVisibility(View.GONE);
+                }
+            }
+        });
         mListView.setAdapter(mAdapter);
         mViewBack.setOnClickListener(this);
         mDone.setOnClickListener(this);

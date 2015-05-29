@@ -84,34 +84,20 @@ public class UnlockAppActivity extends FragmentActivity {
 			showDot(mPassword);
 			if (mPassword.length() == 4) {
 				if (mode == Mode.PASS) {
-					toast(mPassword);
+//					toast(mPassword);
 					int passID = table.checkPassword(mPassword.toString());
 					if (passID != -1) {
 						PasswordTableAdapter.PASSWORD_CURRENT_ID = passID;
-						Intent i = new Intent(UnlockAppActivity.this,
-								MainActivity.class);
-						startActivity(i);
+//						Intent i = new Intent(UnlockAppActivity.this,
+//								MainActivity.class);
+//						startActivity(i);
 						finish();
-					}
-				} else if (mode == Mode.SET) {
-					toast(mPassword);
-					mSetPassword = mPassword;
-					mode = Mode.CONFIRM;
-				} else if (mode == Mode.CONFIRM) {
-					mConfirmPassword = mPassword;
-					if (mSetPassword.equals(mConfirmPassword)) {
-						long id = table.addPassword(1, mSetPassword);
-						if (id >= 0) {
-							PasswordTableAdapter.PASSWORD_CURRENT_ID = 1;
-							PasswordTableAdapter.PASSWORD_CURRENT_TEXT = mSetPassword;
-							finish();
-						}
-
 					} else {
-						toast(R.string.confirm_password_incorrect);
-					}
+                        toast(R.string.incorrect_password);
+                    }
 				}
 				mPassword = "";
+                showDot(mPassword);
 			}
 		}
 	};
@@ -160,7 +146,7 @@ public class UnlockAppActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.keypad);
+		setContentView(R.layout.unlock_keypad );
 
 		findViewById(R.id.imv_number_1).setOnClickListener(mKeyPadListener);
 		findViewById(R.id.imv_number_2).setOnClickListener(mKeyPadListener);

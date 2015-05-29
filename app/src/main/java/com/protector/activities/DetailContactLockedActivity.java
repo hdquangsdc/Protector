@@ -65,7 +65,7 @@ public class DetailContactLockedActivity extends AppCompatActivity implements
     private MenuItem myMenuViewSMS;
     private AlertDialog.Builder myDialog;
     private TextView myTvTitle;
-    public static String ACTION_SMS_CALL_LOG = "com.technatives.hurtlocker.action_sms_call_log";
+    public static String ACTION_SMS_CALL_LOG = "com.protector.action_sms_call_log";
     private BroadcastReceiver receiver;
     private int myPositionChange;
     private AlertDialog.Builder myDialogAction, myDialogDelete;
@@ -124,8 +124,8 @@ public class DetailContactLockedActivity extends AppCompatActivity implements
         myProgressDialog.setCancelable(false);
         myProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         myContact = (ContactItem) getIntent().getSerializableExtra("CONTACT");
-        myArray = new ArrayList<SmsCallLogItem>();
-        myArrayTmp = new ArrayList<SmsCallLogItem>();
+        myArray = new ArrayList<>();
+        myArrayTmp = new ArrayList<>();
         myAdapter = new DetailContactLockedAdapter(this, myArray);
         myLv.setAdapter(myAdapter);
 
@@ -133,13 +133,11 @@ public class DetailContactLockedActivity extends AppCompatActivity implements
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         new ASynContactLocked().execute();
         super.onResume();
     }
 
     public void addListeners() {
-        // TODO Auto-generated method stub
         findViewById(R.id.btn_message).setOnClickListener(this);
         findViewById(R.id.btn_call).setOnClickListener(this);
         myAdapter
@@ -147,7 +145,6 @@ public class DetailContactLockedActivity extends AppCompatActivity implements
 
                     @Override
                     public void onLongClick(int position) {
-                        // TODO Auto-generated method stub
                         if (myAdapter.getItem(position).getTypeCompare() == SmsCallLogTableAdapter.TYPE_SMS) {
                             myPositionChange = position;
                             myDialogAction.show();
@@ -480,20 +477,17 @@ public class DetailContactLockedActivity extends AppCompatActivity implements
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO Auto-generated method stub
             return deleteAll();
         }
 
         @Override
         protected void onPreExecute() {
-            // TODO Auto-generated method stub
             super.onPreExecute();
             myProgressDialog.show();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
-            // TODO Auto-generated method stub
             super.onPostExecute(result);
             if (result) {
                 Toast.makeText(DetailContactLockedActivity.this,

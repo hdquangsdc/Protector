@@ -75,7 +75,7 @@
 
 
         <LinearLayout
-            android:id="@+id/view_change_email"
+            android:id="@+id/view_change_passcode"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/pressed_action"
@@ -135,10 +135,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/sms_log"
+                android:text="@string/language"
                 android:textColor="#3e3e3e"
                 android:textSize="18sp"
-                font:font="@string/font_light"/>
+                font:font="@string/font_light"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -194,7 +195,7 @@
             android:background="@color/cl_gray_background"/>
 
         <LinearLayout
-            android:id="@+id/view_language"
+            android:id="@+id/view_about"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/pressed_action"
@@ -208,14 +209,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:contentDescription="@string/des_icon"
-                android:src="@drawable/ic_image"/>
+                android:src="@drawable/ic_about"/>
 
             <com.protector.views.CustomFontTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/photos"
+                android:text="@string/about"
                 android:textColor="#3e3e3e"
                 android:textSize="18sp"
                 font:font="@string/font_light"/>
@@ -225,6 +226,48 @@
                 android:layout_height="12dp"
                 android:contentDescription="@string/des_icon"
                 android:src="@drawable/ic_arrow_left"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/cl_light_gray"/>
+
+        <LinearLayout
+            android:id="@+id/view_help"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/pressed_action"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/des_icon"
+                android:src="@drawable/ic_megaphone"/>
+
+            <com.protector.views.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/help"
+                android:textColor="#3e3e3e"
+                android:textSize="18sp"
+                font:font="@string/font_light"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="12dp"
+                android:contentDescription="@string/des_icon"
+                android:src="@drawable/ic_arrow_left"/>
+
         </LinearLayout>
 
         <View

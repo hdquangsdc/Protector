@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
@@ -35,7 +36,7 @@ public class VideoAdapter extends ArrayAdapter<MediaStorageItem> {
 	private boolean isSelectable;
 	private ArrayList<MediaStorageItem> mSelectedVideo;
 	private DecimalFormat timeFormater = new DecimalFormat("00");
-	private DecimalFormat fileSizeFormater = new DecimalFormat("##0.##");
+	private DecimalFormat fileSizeFormater = new DecimalFormat("##.##");
 	private Executor taskExecutor;
 	private HashMap<Long, Bitmap> bitmapCache;
 	private VideoTableAdapter mDBAdapter;
@@ -108,20 +109,18 @@ public class VideoAdapter extends ArrayAdapter<MediaStorageItem> {
 
 		if (mSelectedVideo.contains(item)) {
 			holder.imgSelected.setVisibility(View.VISIBLE);
+            convertView.setSelected(true);
 		} else {
 			holder.imgSelected.setVisibility(View.INVISIBLE);
-		}
-		// if (file.exists()) {
-		// String size = formatSize(file.length());
-		// if (StoreLanguage.getInstance(myContext).getStore() == 0) {
-		// } else {
-		// size = size.replace(".", ",");
-		// }
-		// holder.tvSize.setText(size);
-		// } else {
-		// holder.tvSize.setText("");
-		// }
-		// if (!isSelectable) {
+            convertView.setSelected(false);
+        }
+        if (file.exists()) {
+            String size = formatSize(file.length());
+            holder.tvSize.setText(size);
+        } else {
+            holder.tvSize.setText("");
+        }
+        // if (!isSelectable) {
 		// holder.imgSelected.setVisibility(View.GONE);
 		// } else {
 		// if (selectedItem.contains(item)) {
@@ -297,5 +296,10 @@ public class VideoAdapter extends ArrayAdapter<MediaStorageItem> {
 
     public interface OnTouchListener{
         void onTouch();
+    }
+
+    private String formatSize(long fileSizeInByte) {
+        return fileSizeFormater.format(fileSizeInByte * 1.0 / (1024 * 1024))
+                + " " + mActivity.getString(R.string.megabyte);
     }
 }

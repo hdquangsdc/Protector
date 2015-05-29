@@ -86,7 +86,6 @@ public class ActivityStartingHandler implements IActivityStarting {
                         isClear = true;
                         mLockedAppList.add(packageName);
                         blockActivity(packageName, activityName);
-                        return;
                     }
                 }
             } catch (Exception e) {

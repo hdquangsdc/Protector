@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:font="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@android:color/white"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:padding="10dp">
+
+    <com.protector.views.CustomFontTextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/hint_input_backup_password"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        font:font="@string/font_main"/>
+
+    <EditText
+        android:id="@+id/edt_password"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+
+        android:hint="Your password"
+        android:inputType="numberPassword"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textSize="14sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button_purple"
+            android:gravity="center"
+            android:text="@string/btn_ok"
+            android:textColor="#313131"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

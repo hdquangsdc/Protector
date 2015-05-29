@@ -94,7 +94,10 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
         super.onCreate(savedInstanceState);
 //        mDbxAcctMgr = DbxAccountManager.getInstance(getActivity().getApplicationContext(),
 //                appKey, appSecret);
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -151,6 +154,8 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
         myCbApp.setOncheckListener(onCheckListener);
         myCbSms.setOncheckListener(onCheckListener);
         myCbImage.setOncheckListener(onCheckListener);
+
+
 
 
     }
@@ -242,11 +247,6 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
                         case 1:
                             if (AppPreference.getInstance(getActivity())
                                     .getDriveBackup()) {
-						/*
-						 * Toast.makeText(BackupActivty.this,
-						 * "Backing up by GoogleDrive",
-						 * Toast.LENGTH_SHORT).show();
-						 */
                                 showDialogMessage(getString(R.string.drive_backing_up));
                             } else {
                                 if (mGoogleApiClient == null) {
@@ -268,6 +268,9 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
                             }
                             break;
                         default:
+                            Toast.makeText(getActivity(),
+                                    "Backup start now",
+                                    Toast.LENGTH_SHORT).show();
                             break;
                     }
                 } else {
@@ -628,5 +631,14 @@ public class BackupFragment extends Fragment implements View.OnClickListener, Go
                 // TODO Auto-generated method stub
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient = null;
+        }
     }
 }

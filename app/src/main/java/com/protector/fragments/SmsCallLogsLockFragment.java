@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,10 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
     private ArrayList<Pair<ContactItem, SmsCallLogItem>> myArrayContact;
     private int myNumContact;
     ButtonFloat mBtnAdd;
+    private AlertDialog.Builder myDialogContact, myDialogPrivateContact;
+    private TextView myTvTitleContact, myTvTitlePrivateContact, myTvSBar;
+    private Pair<ContactItem, SmsCallLogItem> myContactChange;
+    private int myPositionChange, myTypeChange;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,29 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
         myArrayContact = new ArrayList<>();
         myAdapter = new ContactLockedAdapter(getActivity(),
                 myArrayContact);
+        myAdapter
+                .setOnLongClickListener(new ContactLockedAdapter.OnLongClickListener() {
+
+                    @Override
+                    public void onLongClick(int position) {
+                        myContactChange = myAdapter.getItem(position);
+                        myPositionChange = position;
+                        ContactItem contact = myContactChange.first;
+                        if (contact.getType() == PrivateContactTableAdapter.TYPE_PUBLIC
+                                || contact.getType() == PrivateContactTableAdapter.TYPE_BLACK) {
+                            if (myDialogContact != null) {
+                                myDialogContact.setTitle(contact.getName());
+                                myDialogContact.show();
+                            }
+                        } else {
+                            if (myTvTitlePrivateContact != null) {
+                                myDialogPrivateContact.setTitle(contact
+                                        .getName());
+                                myDialogPrivateContact.show();
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -69,6 +97,85 @@ public class SmsCallLogsLockFragment extends Fragment implements OnClickListener
 
         return rootView;
     }
+
+//    public void initDialogContact() {
+//        String[] title = getResources()
+//                .getStringArray(R.array.arr_item_contact);
+//        String[] icon = getResources().getStringArray(
+//                R.array.arr_item_contact_icon);
+//        final Item[] items = new Item[title.length];
+//        for (int i = 0; i < title.length; i++) {
+//            items[i] = new Item(title[i], icon[i]);
+//        }
+//        ListAdapter adapter = new ArrayAdapter<Item>(this,
+//                android.R.layout.select_dialog_item, android.R.id.text1, items) {
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                View v = super.getView(position, convertView, parent);
+//                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+//                int resId = ContactLockedActivity.this.getResources()
+//                        .getIdentifier(items[position].icon, "drawable",
+//                                ContactLockedActivity.this.getPackageName());
+//                tv.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+//                Typeface t = Typeface.createFromAsset(getAssets(),
+//                        "fonts/MuseoSans_500.otf");
+//                tv.setTypeface(t);
+//                tv.setTextSize((float) 20);
+//                int dp5 = (int) (8 * getResources().getDisplayMetrics().density + 0.5f);
+//                tv.setCompoundDrawablePadding(dp5);
+//
+//                return v;
+//            }
+//        };
+//
+//        myDialogContact = new AlertDialog.Builder(this).setAdapter(adapter,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        ContactObject object = myAdapter
+//                                .getItem(myPositionChange).first;
+//                        switch (which) {
+//                            case 0:
+//                                if (object.getAddress() != null
+//                                        && object.getAddress().length() > 0) {
+//                                    Intent callIntent = new Intent(
+//                                            Intent.ACTION_CALL);
+//                                    callIntent.setData(Uri.parse("tel:"
+//                                            + object.getAddress()));
+//                                    startActivity(callIntent);
+//                                }
+//                                break;
+//                            case 1:
+//                                Uri smsUri = Uri.parse("sms:" + object.getAddress());
+//                                Intent intent = new Intent(Intent.ACTION_VIEW,
+//                                        smsUri);
+//                                intent.putExtra("sms_body", "");
+//                                startActivity(intent);
+//                                break;
+//                            case 2:
+//                                new ASynChangeTypeContact().execute();
+//                                break;
+//                            case 3:
+//                                showDiaLogDeleteItems();
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+//        myTvTitleContact = new TextView(this);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                (int) LayoutParams.WRAP_CONTENT,
+//                (int) LayoutParams.WRAP_CONTENT);
+//        params.leftMargin = 50;
+//        myTvTitleContact.setTextSize((float) 22);
+//        myTvTitleContact.setPadding(20, 20, 20, 20);
+//        myTvTitleContact.setLayoutParams(params);
+//        Typeface t = Typeface.createFromAsset(getAssets(),
+//                "fonts/MuseoSans_700.otf");
+//        myTvTitleContact.setTypeface(t);
+//        myTvTitleContact.setText("Actions");
+//
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

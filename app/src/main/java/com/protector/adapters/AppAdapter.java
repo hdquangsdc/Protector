@@ -3,12 +3,12 @@ package com.protector.adapters;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +26,7 @@ public class AppAdapter extends ArrayAdapter<String> {
     List<String> data;
     private LayoutInflater mInflater;
     Context mContext;
+    OnClickItemListener listener;
 
 
     public AppAdapter(Context context, List<String> objects,
@@ -78,8 +79,10 @@ public class AppAdapter extends ArrayAdapter<String> {
             holder.mCheck.setVisibility(View.GONE);
             if (mSelectedItems.contains(app)) {
                 holder.mLock.setVisibility(View.VISIBLE);
+                holder.parent.setBackgroundColor(Color.parseColor("#eeeeee"));
             } else {
                 holder.mLock.setVisibility(View.INVISIBLE);
+                holder.parent.setBackgroundColor(Color.parseColor("#ffffff"));
             }
         }
 
@@ -93,9 +96,15 @@ public class AppAdapter extends ArrayAdapter<String> {
                 } else {
                     mSelectedItems.add(item);
                 }
+
+                if (listener!=null){
+                    listener.onTouch();
+                }
                 notifyDataSetChanged();
             }
         });
+
+
         return convertView;
     }
 
@@ -127,6 +136,9 @@ public class AppAdapter extends ArrayAdapter<String> {
         }
     }
 
+    public void setOnItemTouchListener(OnClickItemListener listener){
+        this.listener=listener;
+    }
 
 }
 

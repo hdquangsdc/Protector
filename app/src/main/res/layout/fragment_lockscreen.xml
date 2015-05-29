@@ -146,6 +146,7 @@
             android:contentDescription="@string/keypad_number"
             android:orientation="horizontal"
             android:paddingRight="5dp"
+            android:visibility="invisible"
             android:src="@drawable/keypad_number_1" >
         </ImageView>
 
@@ -168,6 +169,7 @@
             android:contentDescription="@string/keypad_number"
             android:orientation="horizontal"
             android:paddingRight="5dp"
+            android:visibility="invisible"
             android:src="@drawable/keypad_number_1" >
         </ImageView>
     </LinearLayout>

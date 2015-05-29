@@ -1,3 +1,4 @@
+
 package com.protector.adapters;
 
 import android.annotation.SuppressLint;
