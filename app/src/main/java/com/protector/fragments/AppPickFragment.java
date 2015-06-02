@@ -4,18 +4,14 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.protector.R;
 import com.protector.adapters.AppAdapter;
-import com.protector.adapters.OnClickItemListener;
 import com.protector.database.AppTableAdapter;
 import com.protector.utils.AppUtils;
 
@@ -46,16 +42,18 @@ public class AppPickFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAdapter = new AppAdapter(getActivity(), AppUtils.getApp(getActivity()), true);
-        mAdapter.setOnItemTouchListener(new OnClickItemListener() {
+        mAdapter.setOnItemClickListener(new AppAdapter.OnClickItemListener() {
             @Override
-            public void onTouch() {
-                if (mAdapter.getSelectedItems().size()>0){
+            public void onClick(String item) {
+                if (mAdapter.getSelectedItems().size() > 0) {
                     mDone.setVisibility(View.VISIBLE);
-                } else{
+                } else {
                     mDone.setVisibility(View.GONE);
                 }
             }
         });
+
+
         mListView.setAdapter(mAdapter);
         mViewBack.setOnClickListener(this);
         mDone.setOnClickListener(this);

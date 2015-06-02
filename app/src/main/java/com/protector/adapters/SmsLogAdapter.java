@@ -1,13 +1,5 @@
 package com.protector.adapters;
 
-import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -35,6 +27,15 @@ import com.protector.database.PrivateContactTableAdapter;
 import com.protector.objects.SmsCallLogItem;
 import com.protector.utils.AndroidVersion;
 
+import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
     private OnClickListener myOnClickListener;
     private ArrayList<Integer> myArrayChecked;
@@ -48,7 +49,7 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
     public SmsLogAdapter(Context context, ArrayList<SmsCallLogItem> arraySms,
                          int type) {
         super(context, R.layout.item_sms_log, arraySms);
-        myArrayChecked = new ArrayList<Integer>();
+        myArrayChecked = new ArrayList<>();
         myActivity = (Activity) context;
         myType = type;
         myContactTable = PrivateContactTableAdapter.getInstance(myActivity);
@@ -89,7 +90,7 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.item_sms_log, null);
+                    R.layout.item_sms_log, parent, false);
             holder = new ViewHolder();
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tvContent = (TextView) convertView
@@ -112,7 +113,6 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
         holder.tvDate.setText(getDate(sms.getTime()));
         if (sms.getName() == null || sms.getName().length() == 0) {
             sms.setName(getContactName(myActivity, sms.getAddress()));
-        } else {
         }
         if (sms.getAddress().equals(sms.getName())) {
             holder.tvName.setText(sms.getName());
@@ -137,7 +137,7 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
             @Override
             public void onClick(View v) {
                 if (myArrayChecked.contains(position)) {
-                    myArrayChecked.remove((Object) position);
+                    myArrayChecked.remove(position);
                     holder.cb.setChecked(false);
                 } else {
                     if (myType == PrivateContactTableAdapter.TYPE_PRIVATE) {
@@ -167,9 +167,8 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if (myArrayChecked.contains(position)) {
-                    myArrayChecked.remove((Object) position);
+                    myArrayChecked.remove(position);
                     holder.cb.setChecked(false);
                 } else {
                     if (myType == PrivateContactTableAdapter.TYPE_PRIVATE) {
@@ -214,8 +213,8 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
         myOnClickListener = onClickListener;
     }
 
-    public static interface OnClickListener {
-        public void onClick(int position);
+    public interface OnClickListener {
+        void onClick(int position);
     }
 
     public int getCountChecked() {
@@ -240,7 +239,7 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
             contactName = cursor.getString(cursor
                     .getColumnIndex(PhoneLookup.DISPLAY_NAME));
         }
-        if (cursor != null && !cursor.isClosed()) {
+        if (!cursor.isClosed()) {
             cursor.close();
         }
         return contactName;
@@ -251,7 +250,7 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
         Calendar calNow = Calendar.getInstance();
         Calendar calYesterday = Calendar.getInstance();
         calYesterday.add(Calendar.DATE, -1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
 
         String dateNow = dateFormat.format(calNow.getTime());
         String dateYesterday = dateFormat.format(calYesterday.getTime());
@@ -262,13 +261,13 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
         else if (dateLog.compareTo(dateYesterday) == 0)
             return myActivity.getString(R.string.yesterday);
         Date date = new Date(milliseconds);
-        SimpleDateFormat f = new SimpleDateFormat("MM-dd");
+        SimpleDateFormat f = new SimpleDateFormat("MM-dd", Locale.getDefault());
         return f.format(date);
     }
 
     public String getHours(long milliseconds) {
         Date date = new Date(milliseconds);
-        SimpleDateFormat f = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat f = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return f.format(date);
     }
 
@@ -277,7 +276,7 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
         private SmsCallLogItem myObject;
 
         public LoadImageRunable(ImageView imageView, SmsCallLogItem object) {
-            imageViewReference = new WeakReference<ImageView>(imageView);
+            imageViewReference = new WeakReference<>(imageView);
             myObject = object;
         }
 
@@ -291,8 +290,8 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
                 myActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (imageViewReference != null && mLoadedBitmap != null) {
-                            final ImageView imageView = (ImageView) imageViewReference
+                        if (mLoadedBitmap != null) {
+                            final ImageView imageView = imageViewReference
                                     .get();
                             if (imageView != null) {
                                 imageView.setImageBitmap(mLoadedBitmap);
@@ -301,16 +300,14 @@ public class SmsLogAdapter extends ArrayAdapter<SmsCallLogItem> {
                     }
                 });
             } catch (OutOfMemoryError e) {
-
+                e.printStackTrace();
             }
         }
     }
 
     public Bitmap getBitmap(byte[] data) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length,
-                opts);
-        return bitmap;
+        return BitmapFactory.decodeByteArray(data, 0, data.length, opts);
 
     }
 

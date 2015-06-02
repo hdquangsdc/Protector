@@ -1,18 +1,5 @@
 package com.protector.backup;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -29,9 +16,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi.DriveContentsResult;
 import com.google.android.gms.drive.DriveApi.MetadataBufferResult;
@@ -53,10 +40,22 @@ import com.protector.R;
 import com.protector.fragments.BackupFragment;
 import com.protector.utils.NotificationIdManager;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 	public static final int BUFFER_SIZE = 2048;
 	public static final String MIMEFLDR = "application/vnd.google-apps.folder";
-	// Context mContext;
 	private NotificationManager mNotifyManager;
 	private NotificationCompat.Builder mBuilder;
 	private int mNotificationId;
@@ -265,14 +264,9 @@ public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 			try {
 				outputStream.write(String.valueOf(password).getBytes());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			com.google.android.gms.common.api.Status status = drFile
-//					.commitAndCloseContents(mGoogleApiClient,
-//							contentsResult.getDriveContents()).await();
 			PendingResult<com.google.android.gms.common.api.Status> status = contentsResult.getDriveContents().commit(mGoogleApiClient, null);
-//			status.getStatus().isSuccess();
 		} else {
 			contentsResult = Drive.DriveApi.newDriveContents(mGoogleApiClient)
 					.await();
@@ -281,7 +275,6 @@ public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 			try {
 				outputStream.write(String.valueOf(password).getBytes());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
@@ -411,11 +404,10 @@ public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 					e.printStackTrace();
 				}
 			}
-			BufferedInputStream origin = null;
 			FileInputStream fi = new FileInputStream(folder);
-			origin = new BufferedInputStream(fi, BUFFER_SIZE);
-			try {
-				ZipEntry entry = new ZipEntry(path + "/" + folder.getName());
+            BufferedInputStream origin = new BufferedInputStream(fi, BUFFER_SIZE);
+            try {
+                ZipEntry entry = new ZipEntry(path + "/" + folder.getName());
 				out.putNextEntry(entry);
 				int count;
 				while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
@@ -433,14 +425,11 @@ public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 				try {
 					origin.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
 		}
 		return -1;
 	}
@@ -485,9 +474,9 @@ public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 	public DriveId getDriveId(GoogleApiClient client, String title,
 			String mime, DriveFolder fldr) {
 		DriveId dId = null;
-		ArrayList<Filter> fltrs = new ArrayList<Filter>();
-		fltrs.add(Filters.eq(SearchableField.TRASHED, false));
-		if (title != null)
+        ArrayList<Filter> fltrs = new ArrayList<>();
+        fltrs.add(Filters.eq(SearchableField.TRASHED, false));
+        if (title != null)
 			fltrs.add(Filters.eq(SearchableField.TITLE, title));
 		if (mime != null)
 			fltrs.add(Filters.eq(SearchableField.MIME_TYPE, mime));
@@ -615,11 +604,10 @@ public class GoogleDriveBackupTask extends AsyncTask<Void, Integer, String> {
 					if (!data.isTrashed() && !data.isFolder()) {
 						String name = data.getTitle();
 						if (name.equals(title)) {
-							DriveFile file = Drive.DriveApi.getFile(
-									mGoogleApiClient, data.getDriveId());
-							return file;
-						}
-					}
+                            return Drive.DriveApi.getFile(
+                                    mGoogleApiClient, data.getDriveId());
+                        }
+                    }
 
 				}
 			}

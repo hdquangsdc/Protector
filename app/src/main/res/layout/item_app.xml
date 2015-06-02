@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:font="http://schemas.android.com/apk/res-auto"
-              xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/choosen_background"
@@ -26,26 +25,10 @@
         android:layout_weight="1"
         android:clickable="false"
         android:contentDescription="@string/des_icon"
-        android:textColor="#000"
+        android:textColor="@color/item_text_main_color"
+        android:text="App"
         android:textSize="18sp"
         font:font="@string/font_main"/>
-
-    <!--<com.gc.materialdesign.views.CheckBox-->
-    <!--android:id="@+id/checkbox"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="#1E88E5"-->
-    <!--materialdesign:check="false" />-->
-
-    <ImageView
-        android:id="@+id/checkbox"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:layout_marginRight="10dp"
-        android:contentDescription="@string/app_name"
-        android:padding="5dp"
-        android:src="@drawable/check"/>
 
     <ImageView
         android:id="@+id/img_lock"

@@ -8,7 +8,7 @@ import android.os.StatFs;
 import java.io.File;
 
 /**
- * Created by Ho on 4/21/2015.
+ * @author Ho Duy Quang
  */
 public class PhoneMemoryUtils {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)

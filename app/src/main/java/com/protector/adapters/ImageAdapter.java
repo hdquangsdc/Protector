@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-public class EncryptMediaAdapter extends BaseAdapter {
-	private Activity mActivity;
-	private LayoutInflater mInflater;
+public class ImageAdapter extends BaseAdapter {
+    private Activity mActivity;
+    private LayoutInflater mInflater;
 	private ArrayList<MediaStorageItem> mMediaList;
     private OnTouchListener mListener;
 
@@ -39,9 +39,9 @@ public class EncryptMediaAdapter extends BaseAdapter {
 	private PhotoTableAdapter mDBAdapter;
 	private Executor mExcutor;
 
-	public EncryptMediaAdapter(Activity activity) {
-		this.mActivity = activity;
-		this.mInflater = (LayoutInflater) mActivity
+    public ImageAdapter(Activity activity) {
+        this.mActivity = activity;
+        this.mInflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mMediaList=new ArrayList<>();
 		this.mSelectedList = new ArrayList<>();
@@ -250,10 +250,6 @@ public class EncryptMediaAdapter extends BaseAdapter {
 
     public ArrayList<MediaStorageItem> getmSelectedList() {
         return mSelectedList;
-    }
-
-    public void removeSelectedItem(){
-        mMediaList.removeAll(mSelectedList);
     }
 
     public void setOnTouchListener(OnTouchListener listener){

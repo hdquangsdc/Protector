@@ -39,7 +39,7 @@
                 android:layout_marginTop="5dp"
                 android:singleLine="true"
                 android:text="@string/photos"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -71,7 +71,7 @@
                 android:singleLine="true"
                 android:text="@string/videos"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -113,7 +113,7 @@
                 android:singleLine="true"
                 android:text="@string/contacts"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -145,7 +145,7 @@
                 android:singleLine="true"
                 android:text="@string/sms_call_logs"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -186,7 +186,7 @@
                 android:singleLine="true"
                 android:text="@string/apps"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -218,7 +218,7 @@
                 android:singleLine="true"
                 android:text="@string/backup"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -260,7 +260,7 @@
                 android:singleLine="true"
                 android:text="@string/restore"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>
@@ -292,7 +292,7 @@
                 android:singleLine="true"
                 android:text="@string/settings"
                 android:gravity="center"
-                android:textColor="#333333"
+                android:textColor="@color/item_text_main_color"
                 android:textSize="@dimen/txt_size_item_main"
                 font:font="@string/font_main" />
         </LinearLayout>

@@ -19,7 +19,7 @@ import android.widget.ListView;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.SnackBar;
 import com.protector.R;
-import com.protector.adapters.EncryptMediaAdapter;
+import com.protector.adapters.ImageAdapter;
 import com.protector.asynctasks.DeleteMediaAsyncTask;
 import com.protector.asynctasks.HideFile;
 import com.protector.asynctasks.RestoreFile;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class ImageLockFragment extends Fragment implements OnClickListener {
     ListView mImageList;
-    EncryptMediaAdapter mAdapter;
+    ImageAdapter mAdapter;
     GridView mGridView;
     View mViewBack;
     ButtonFloat mBtnAdd;
@@ -106,9 +106,9 @@ public class ImageLockFragment extends Fragment implements OnClickListener {
             try {
                 if (isSdCard && result != null) {
                     mGridView.setVisibility(View.VISIBLE);
-                    mAdapter = new EncryptMediaAdapter(getActivity());
+                    mAdapter = new ImageAdapter(getActivity());
                     mAdapter.addAll(result);
-                    mAdapter.setOnTouchListener(new EncryptMediaAdapter.OnTouchListener() {
+                    mAdapter.setOnTouchListener(new ImageAdapter.OnTouchListener() {
                         @Override
                         public void onTouch() {
                            checkButtonRestore();

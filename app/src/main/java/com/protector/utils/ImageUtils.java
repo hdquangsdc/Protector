@@ -7,6 +7,10 @@ import android.graphics.BitmapFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+/**
+ * @author Ho Duy Quang
+ */
+
 public class ImageUtils {
 	public static Bitmap decodeSampledBitmapFromResource(Resources res,
 			int resId, int reqWidth, int reqHeight) {
@@ -59,7 +63,6 @@ public class ImageUtils {
 			stream.close();
 			stream = null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return byteArray;

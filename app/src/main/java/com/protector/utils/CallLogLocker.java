@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Ho on 5/6/2015.
+ * @author Ho Duy Quang
  */
 public class CallLogLocker {
     private Context mContext;
@@ -35,15 +35,14 @@ public class CallLogLocker {
     }
 
     public ArrayList<SmsCallLogItem> getAllCallLog() {
-        SmsCallLogItem object = null;
-        myArrayObject = new ArrayList<SmsCallLogItem>();
+        myArrayObject = new ArrayList<>();
         Cursor curLog = null;
         try {
             curLog = mContext.getContentResolver().query(callUri, null, null,
                     null, strOrder);
-            HashMap<String, byte[]> hmAvatar = new HashMap<String, byte[]>();
+            HashMap<String, byte[]> hmAvatar = new HashMap<>();
             while (curLog.moveToNext()) {
-                object = new SmsCallLogItem();
+                SmsCallLogItem object = new SmsCallLogItem();
                 String callNumber = curLog.getString(curLog
                         .getColumnIndex(android.provider.CallLog.Calls.NUMBER));
                 object.setAddress(callNumber);
@@ -111,15 +110,14 @@ public class CallLogLocker {
             addrs[1] = address;
         }
         Cursor curLog = null;
-        SmsCallLogItem object = null;
-        myArrayObject = new ArrayList<SmsCallLogItem>();
+        myArrayObject = new ArrayList<>();
         try {
             curLog = mContext.getContentResolver().query(callUri, null,
                     android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
-                    new String[]{addrs[0].toString(), addrs[1].toString()},
+                    new String[]{addrs[0], addrs[1]},
                     strOrder);
             while (curLog.moveToNext()) {
-                object = new SmsCallLogItem();
+                SmsCallLogItem object = new SmsCallLogItem();
                 String callNumber = curLog.getString(curLog
                         .getColumnIndex(android.provider.CallLog.Calls.NUMBER));
                 object.setAddress(callNumber);
@@ -149,7 +147,7 @@ public class CallLogLocker {
                 myArrayObject.add(object);
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         } finally {
             if (curLog != null) {
                 curLog.close();
@@ -173,15 +171,14 @@ public class CallLogLocker {
             }
         }
         Cursor curLog = null;
-        SmsCallLogItem object = null;
-        myArrayObject = new ArrayList<SmsCallLogItem>();
+        myArrayObject = new ArrayList<>();
         try {
             curLog = mContext.getContentResolver().query(callUri, null,
                     android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
-                    new String[]{addrs[0].toString(), addrs[1].toString()},
+                    new String[]{addrs[0], addrs[1]},
                     strOrder);
             while (curLog.moveToNext()) {
-                object = new SmsCallLogItem();
+                SmsCallLogItem object = new SmsCallLogItem();
                 String callNumber = curLog.getString(curLog
                         .getColumnIndex(android.provider.CallLog.Calls.NUMBER));
                 object.setAddress(callNumber);
@@ -211,7 +208,7 @@ public class CallLogLocker {
                 myArrayObject.add(object);
             }
         } catch (Exception x) {
-
+            x.printStackTrace();
         } finally {
             if (curLog != null) {
                 curLog.close();
@@ -232,7 +229,7 @@ public class CallLogLocker {
         mContext.getContentResolver().delete(
                 android.provider.CallLog.Calls.CONTENT_URI,
                 android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
-                new String[]{addrs[0].toString(), addrs[1].toString()});
+                new String[]{addrs[0], addrs[1]});
     }
 
     public void deleteCallLogContain0(String address) {
@@ -251,7 +248,7 @@ public class CallLogLocker {
         mContext.getContentResolver().delete(
                 android.provider.CallLog.Calls.CONTENT_URI,
                 android.provider.CallLog.Calls.NUMBER + " IN (?,?)",
-                new String[]{addrs[0].toString(), addrs[1].toString()});
+                new String[]{addrs[0], addrs[1]});
     }
 
     public byte[] getPhotoContact(Context context, String phoneNumber) {
@@ -283,16 +280,13 @@ public class CallLogLocker {
                     }
 
                 } catch (Exception e) {
-                    // TODO: handle exception
                     e.printStackTrace();
-
                 } finally {
-
                     c.close();
                 }
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();

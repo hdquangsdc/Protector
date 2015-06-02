@@ -21,7 +21,10 @@ public class SmsLocker {
     private static SmsLocker instance;
     private ArrayList<SmsCallLogItem> myArraySMS;
     private Cursor cursor = null;
-    public static final Uri SMS_INBOX_CONTENT_URI = Uri.parse("content://sms/");
+
+    public static final String SMS_CONTENT = "content://sms/";
+
+    public static final Uri SMS_CONTENT_URI = Uri.parse(SMS_CONTENT);
     private String strOrder = android.provider.CallLog.Calls.DATE + " DESC";
     private Uri callUri = Uri.parse("content://call_log/calls");
 
@@ -55,7 +58,7 @@ public class SmsLocker {
         cursor = null;
         try {
             cursor = mContext.getContentResolver().query(
-                    SMS_INBOX_CONTENT_URI,
+                    SMS_CONTENT_URI,
                     new String[]{TextSmsColumns.ID, TextSmsColumns.ADDRESS,
                             TextSmsColumns.DATE, TextSmsColumns.BODY,
                             TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
@@ -185,10 +188,10 @@ public class SmsLocker {
             addr[1] = address;
         }
         cursor = null;
-        myArraySMS = new ArrayList<SmsCallLogItem>();
+        myArraySMS = new ArrayList<>();
         try {
             cursor = mContext.getContentResolver().query(
-                    SMS_INBOX_CONTENT_URI,
+                    SMS_CONTENT_URI,
                     new String[]{TextSmsColumns.ID, TextSmsColumns.ADDRESS,
                             TextSmsColumns.DATE, TextSmsColumns.BODY,
                             TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,
@@ -242,7 +245,7 @@ public class SmsLocker {
         try {
             cursor = mContext
                     .getContentResolver()
-                    .query(SMS_INBOX_CONTENT_URI,
+                    .query(SMS_CONTENT_URI,
                             new String[]{TextSmsColumns.ID,
                                     TextSmsColumns.ADDRESS,
                                     TextSmsColumns.DATE, TextSmsColumns.BODY,
@@ -320,7 +323,7 @@ public class SmsLocker {
         try {
             ContentValues values = new ContentValues();
             /*
-			 * if(object.getNumberIndex() != -1){ values.put("_id",
+             * if(object.getNumberIndex() != -1){ values.put("_id",
 			 * object.getNumberIndex()); }
 			 */
             values.put("address", object.getAddress());
@@ -396,7 +399,7 @@ public class SmsLocker {
         boolean isReturn = false;
         try {
             cursor = mContext.getContentResolver().query(
-                    SMS_INBOX_CONTENT_URI,
+                    SMS_CONTENT_URI,
                     new String[]{TextSmsColumns.ID, TextSmsColumns.ADDRESS,
                             TextSmsColumns.DATE, TextSmsColumns.BODY,
                             TextSmsColumns.THREAD_ID, TextSmsColumns.PROTOCOL,

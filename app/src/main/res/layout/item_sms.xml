@@ -54,7 +54,7 @@
                     android:clickable="false"
                     android:singleLine="true"
                     android:text="Contact"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/item_text_main_color"
                     android:textSize="16dp"
                     font:font="@string/font_main"/>
 

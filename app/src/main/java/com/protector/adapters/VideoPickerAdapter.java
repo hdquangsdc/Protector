@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.util.LruCache;
@@ -22,27 +21,22 @@ import android.widget.TextView;
 import com.protector.R;
 import com.protector.objects.MediaItem;
 import com.protector.utils.AndroidVersion;
+import com.protector.utils.DateTimeUtils;
 import com.protector.utils.FileUtils;
 import com.protector.utils.ImageUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
-    private boolean isSelectable;
     private ArrayList<MediaItem> mSelectedVideo;
-    private DecimalFormat timeFormater = new DecimalFormat("00");
+
 
     private Executor taskExecutor;
-    private HashMap<String, Bitmap> bitmapCache;
-    // private Activity myContext;
     private Activity myActivty;
     private LruCache<String, Bitmap> mMemoryCache;
     private OnTouchItemListerner mListener;
@@ -50,10 +44,8 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
     public VideoPickerAdapter(Activity context, List<MediaItem> items, OnTouchItemListerner listener) {
         super(context, R.layout.item_video, items);
         mSelectedVideo = new ArrayList<>();
-        isSelectable = true;
         taskExecutor = new ScheduledThreadPoolExecutor(3);
-        bitmapCache = new LinkedHashMap<>();
-        myActivty = (Activity) context;
+        myActivty = context;
         final int memClass = ((ActivityManager) myActivty
                 .getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
         final int cacheSize = 1024 * 1024 * memClass / 8;
@@ -121,7 +113,7 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
                 cursor.close();
             }
         }
-        holder.tvDuration.setText(formatTime(duration));
+        holder.tvDuration.setText(DateTimeUtils.formatTime(duration));
 
         if (file.exists()) {
             String size = formatSize(file.length());
@@ -170,9 +162,6 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
         // }
         // });
 
-        if (mSelectedVideo.contains(item)) {
-        } else {
-        }
         convertView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -201,73 +190,16 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
         void onTouch();
     }
 
-    public void setSelectable(boolean isSelectable) {
-        mSelectedVideo.clear();
-        this.isSelectable = isSelectable;
-        notifyDataSetChanged();
-    }
-
-    public boolean isSelectable() {
-        return isSelectable;
-    }
-
     public ArrayList<MediaItem> getSelectedItem() {
         return mSelectedVideo;
     }
 
-    private String formatTime(long timeInMilisecond) {
-        long hour = timeInMilisecond / (60 * 60 * 1000);
-        long minute = (timeInMilisecond / (60 * 1000)) % 60;
-        long second = (timeInMilisecond / 1000) % 60;
-        return timeFormater.format(hour) + ":" + timeFormater.format(minute)
-                + ":" + timeFormater.format(second);
-    }
+
 
     private class ViewHolder {
         ImageView imgThumbnail, imgSelected;
         TextView tvTitle, tvDuration, tvSize;
 
-    }
-
-    class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-        private MediaItem myMediaItem;
-
-        public BitmapWorkerTask(ImageView imageView, MediaItem item) {
-            imageViewReference = new WeakReference<ImageView>(imageView);
-            myMediaItem = item;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            // int id = Integer.parseInt(params[0]);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = ImageUtils.calculateInSampleSize(options,
-                    100, 100);
-            Bitmap mLoadedBitmap = null;
-            options.inJustDecodeBounds = false;
-            try {
-                mLoadedBitmap = MediaStore.Video.Thumbnails.getThumbnail(
-                        myActivty.getContentResolver(),
-                        myMediaItem != null ? myMediaItem.getId() : -1,
-                        MediaStore.Video.Thumbnails.MINI_KIND, options);
-            } catch (OutOfMemoryError e) {
-
-            }
-            addBitmapToMemoryCache(myMediaItem.getPath(), mLoadedBitmap);
-            return mLoadedBitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageViewReference != null && bitmap != null) {
-                final ImageView imageView = (ImageView) imageViewReference
-                        .get();
-                if (imageView != null) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-        }
     }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
@@ -285,7 +217,7 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
         private MediaItem myMediaItem;
 
         public LoadImageRunable(ImageView imageView, MediaItem item) {
-            imageViewReference = new WeakReference<ImageView>(imageView);
+            imageViewReference = new WeakReference<>(imageView);
             myMediaItem = item;
         }
 
@@ -305,7 +237,7 @@ public class VideoPickerAdapter extends ArrayAdapter<MediaItem> {
                 myActivty.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (imageViewReference != null && mLoadedBitmap != null) {
+                        if (mLoadedBitmap != null) {
                             final ImageView imageView = imageViewReference
                                     .get();
                             if (imageView != null) {

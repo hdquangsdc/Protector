@@ -1,17 +1,5 @@
 package com.protector.backup;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -34,6 +22,18 @@ import com.protector.AppPreference;
 import com.protector.R;
 import com.protector.fragments.BackupFragment;
 import com.protector.utils.NotificationIdManager;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 public class DropboxBackupTask extends AsyncTask<Void, Integer, String> {
@@ -165,15 +165,13 @@ public class DropboxBackupTask extends AsyncTask<Void, Integer, String> {
 					addFolderToZip(path, file, out);
 					return -1;
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			BufferedInputStream origin = null;
 			FileInputStream fi = new FileInputStream(file);
-			origin = new BufferedInputStream(fi, BUFFER_SIZE);
-			try {
-				ZipEntry entry = new ZipEntry(path + "/" + folder.getName());
+            BufferedInputStream origin = new BufferedInputStream(fi, BUFFER_SIZE);
+            try {
+                ZipEntry entry = new ZipEntry(path + "/" + folder.getName());
 				out.putNextEntry(entry);
 				int count;
 				while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
@@ -186,20 +184,16 @@ public class DropboxBackupTask extends AsyncTask<Void, Integer, String> {
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				try {
 					origin.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
 		}
 		return -1;
 	}
@@ -286,7 +280,7 @@ public class DropboxBackupTask extends AsyncTask<Void, Integer, String> {
 		mNotifyManager.notify(mNotificationId, mBuilder.build());
 		AppPreference.getInstance(mContext).setDropboxBackup(true);
 		super.onPreExecute();
-	};
+    }
 
 	public void sendTest(String filename, long size) {
 		try {

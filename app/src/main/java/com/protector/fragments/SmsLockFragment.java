@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.protector.R;
 import com.protector.adapters.SmsAdapter;
@@ -36,9 +35,9 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_sms_lock, container,
                 false);
         mMessageList = (ListView) rootView.findViewById(R.id.list_message);
-        mDone=(ImageView) rootView.findViewById(R.id.tv_done);
+        mDone = (ImageView) rootView.findViewById(R.id.tv_done);
         mDone.setVisibility(View.GONE);
-        mViewBack=rootView.findViewById(R.id.view_back);
+        mViewBack = rootView.findViewById(R.id.view_back);
         return rootView;
     }
 
@@ -68,7 +67,7 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_done:
-                if (listener!=null) {
+                if (listener != null) {
 //                    listener.onPick(myAdapter.getArrayChecks());
                     new SynAddSMS().execute(myAdapter.getArrayChecks());
                 }
@@ -102,9 +101,9 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
             myAdapter = new SmsAdapter(getActivity(), myArraySMS, new SmsAdapter.OnTouchItemListerner() {
                 @Override
                 public void onTouch() {
-                    if (myAdapter.getArrayChecks().size()>0) {
+                    if (myAdapter.getArrayChecks().size() > 0) {
                         mDone.setVisibility(View.VISIBLE);
-                    } else{
+                    } else {
                         mDone.setVisibility(View.GONE);
                     }
                 }
@@ -123,7 +122,7 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setOnPickListener(IPick listener) {
-        this.listener=listener;
+        this.listener = listener;
     }
 
     public class SynAddSMS extends AsyncTask<ArrayList<SmsCallLogItem>, Void, Void> {
@@ -142,7 +141,7 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
                         object.getNumberIndex());
 
                 // Delete SMS from Phone
-//                deleteSms(object.getNumberIndex());
+                deleteSms(object.getNumberIndex());
             }
             // remove from adapter
 //			for (int i = arrayChecks.size() - 1; i >= 0; i--) {
@@ -172,15 +171,12 @@ public class SmsLockFragment extends Fragment implements View.OnClickListener {
     }
 
     public boolean deleteSms(int smsId) {
-        boolean isSmsDeleted = false;
         try {
             getActivity().getContentResolver().delete(
-                    Uri.parse("content://sms/" + smsId), null, null);
-            isSmsDeleted = true;
-
+                    Uri.parse(SmsLocker.SMS_CONTENT + smsId), null, null);
+            return true;
         } catch (Exception ex) {
-            isSmsDeleted = false;
+            return false;
         }
-        return isSmsDeleted;
     }
 }

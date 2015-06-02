@@ -1,13 +1,13 @@
 package com.protector.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,26 +19,17 @@ import com.protector.R;
 import com.protector.adapters.AppAdapter;
 import com.protector.database.AppTableAdapter;
 import com.protector.database.PasswordTableAdapter;
+import com.protector.handlers.ActivityStartingHandler;
 
 import java.util.ArrayList;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
-public class AppLockFragment extends Fragment implements View.OnClickListener{
 
-    // TODO: Rename parameter arguments, choose names that match
+public class AppLockFragment extends Fragment implements View.OnClickListener {
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -85,15 +76,15 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        mListApp = new AppAdapter(getActivity(), new ArrayList<String>(),false);
+        mListApp = new AppAdapter(getActivity(), new ArrayList<String>(), false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appitem, container, false);
-        mImvAdd=(ImageView)view.findViewById(R.id.first_add);
-        mBtnAdd=(Button) view.findViewById(R.id.btn_add);
+        mImvAdd = (ImageView) view.findViewById(R.id.first_add);
+        mBtnAdd = (Button) view.findViewById(R.id.btn_add);
 
         // Set the adapter
         mListView = (ListView) view.findViewById(R.id.my_recycler_view);
@@ -101,7 +92,7 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
 
         mListView.setAdapter(mListApp);
         mViewBack = view.findViewById(R.id.view_back);
-        mViewAdd=view.findViewById(R.id.view_add);
+        mViewAdd = view.findViewById(R.id.view_add);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mImvAdd.setOnClickListener(this);
@@ -141,10 +132,9 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
 //            ((TextView) emptyView).setText(emptyText);
 //        }
 //    }
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.view_back:
                 getActivity().onBackPressed();
                 break;
@@ -163,7 +153,6 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
     private void restore() {
         new AsynRemove().execute();
     }
-
 
 
     /**
@@ -192,7 +181,19 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(ArrayList<String> result) {
             super.onPostExecute(result);
-            mListApp = new AppAdapter(getActivity(), result,false);
+            mListApp = new AppAdapter(getActivity(), result, false);
+            mListApp.setOnItemClickListener(new AppAdapter.OnClickItemListener() {
+                @Override
+                public void onClick(String item) {
+                    PackageManager pmi = getActivity().getPackageManager();
+                    Intent intent = pmi.getLaunchIntentForPackage(item);
+                    if (intent != null) {
+                        ActivityStartingHandler.AllowApp = item;
+                        startActivity(intent);
+                    }
+                }
+            });
+
             mListView.setAdapter(mListApp);
             refreshView();
         }
@@ -223,12 +224,12 @@ public class AppLockFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void refreshView(){
+    public void refreshView() {
         if (mListApp.getCount() == 0) {
             mListView.setVisibility(View.GONE);
             mViewAdd.setVisibility(View.VISIBLE);
             mBtnAdd.setVisibility(View.GONE);
-        } else{
+        } else {
             mListView.setVisibility(View.VISIBLE);
             mViewAdd.setVisibility(View.GONE);
             mBtnAdd.setVisibility(View.VISIBLE);

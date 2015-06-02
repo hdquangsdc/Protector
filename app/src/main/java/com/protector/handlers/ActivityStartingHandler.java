@@ -25,7 +25,7 @@ public class ActivityStartingHandler implements IActivityStarting {
     private ActivityManager mAm;
     private ArrayList<String> mLockedAppList;
     private boolean isClear;
-    String mLockedApp;
+    public static String AllowApp;
     private Hashtable<String, Runnable> tempAllowedPackages = new Hashtable<String, Runnable>();
 
     public ActivityStartingHandler(Context context) {
@@ -78,9 +78,9 @@ public class ActivityStartingHandler implements IActivityStarting {
                     ArrayList<String> arr = LockedAppList.getInstance()
                             .getLockedApps();
                     if (!arr.contains(packageName)) {
-                        if (mLockedApp != null
-                                && mLockedApp.equals(packageName)) {
-                            mLockedApp = null;
+                        if (AllowApp != null
+                                && AllowApp.equals(packageName)) {
+                            AllowApp = null;
                             return;
                         }
                         isClear = true;

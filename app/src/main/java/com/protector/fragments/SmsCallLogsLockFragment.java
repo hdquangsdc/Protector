@@ -1,6 +1,5 @@
 package com.protector.fragments;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +20,6 @@ import com.gc.materialdesign.views.ButtonFloat;
 import com.protector.R;
 import com.protector.activities.DetailContactLockedActivity;
 import com.protector.adapters.ContactLockedAdapter;
-import com.protector.adapters.EncryptMediaAdapter;
 import com.protector.database.PasswordTableAdapter;
 import com.protector.database.PrivateContactTableAdapter;
 import com.protector.database.SmsCallLogTableAdapter;

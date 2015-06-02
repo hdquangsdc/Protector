@@ -16,15 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.protector.R;
 import com.protector.objects.SmsCallLogItem;
+import com.protector.utils.DateTimeUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
     private OnClickListener myOnClickListener;
@@ -59,17 +57,17 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         }
         SmsCallLogItem sms = getItem(position);
         if (position != 0) {
-            String d_s = getDate(sms.getTime());
-            String d_f = getDate(getItem(position - 1).getTime());
+            String d_s = DateTimeUtils.getDateString(myActivity, sms.getTime());
+            String d_f = DateTimeUtils.getDateString(myActivity, getItem(position - 1).getTime());
             if (!(d_f.equals(d_s))) {
-                holder.tvDate.setText(getDate(sms.getTime()));
+                holder.tvDate.setText(DateTimeUtils.getDateString(myActivity, sms.getTime()));
                 holder.tvDate.setVisibility(View.VISIBLE);
             } else {
-                holder.tvDate.setText(getDate(sms.getTime()));
+                holder.tvDate.setText(DateTimeUtils.getDateString(myActivity, sms.getTime()));
                 holder.tvDate.setVisibility(View.GONE);
             }
         } else {
-            holder.tvDate.setText(getDate(sms.getTime()));
+            holder.tvDate.setText(DateTimeUtils.getDateString(myActivity, sms.getTime()));
             holder.tvDate.setVisibility(View.VISIBLE);
         }
         if (myArrayChecked.contains(sms)) {
@@ -94,7 +92,7 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
 //					Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 //		}
         holder.tvContent.setText(sb);
-        holder.tvHours.setText(getHours(sms.getTime()));
+        holder.tvHours.setText(DateTimeUtils.getHoursString(sms.getTime()));
         String strFromOrTo = "";
         if (sms.getType() == 1) {
 //            strFromOrTo = "From:";
@@ -156,17 +154,6 @@ public class SmsAdapter extends ArrayAdapter<SmsCallLogItem> {
         public void onClick(int position);
     }
 
-    public String getDate(long milliseconds) {
-        Date date = new Date(milliseconds);
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-        return f.format(date);
-    }
-
-    public String getHours(long milliseconds) {
-        Date date = new Date(milliseconds);
-        SimpleDateFormat f = new SimpleDateFormat("HH:mm");
-        return f.format(date);
-    }
 
     public int getCountChecked() {
         return myArrayChecked.size();

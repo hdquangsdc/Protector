@@ -1,9 +1,10 @@
 package com.protector.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.protector.R;
 import com.protector.database.PasswordTableAdapter;
+import com.protector.utils.SmsWriteOpUtil;
 
 public class PasswordActivity extends FragmentActivity {
 
@@ -120,6 +122,22 @@ public class PasswordActivity extends FragmentActivity {
 		}
 	};
 
+    public void enableWriteSms() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (!SmsWriteOpUtil.isWriteEnabled(getApplicationContext())) {
+                        SmsWriteOpUtil.setWriteEnabled(getApplicationContext(),
+                                true);
+                    }
+                    return null;
+                }
+
+            }.execute();
+        }
+    }
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -216,6 +234,7 @@ public class PasswordActivity extends FragmentActivity {
                 mode = Mode.PASS;
             }
 		}
+        enableWriteSms();
 
 		super.onCreate(arg0);
 	}

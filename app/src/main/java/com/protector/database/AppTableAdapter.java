@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by Ho on 4/20/2015.
+ * @author Ho Duy Quang
  */
 public class AppTableAdapter extends BaseTableAdapter {
 
@@ -87,7 +87,7 @@ public class AppTableAdapter extends BaseTableAdapter {
     }
 
     public synchronized ArrayList<Integer> getPasswordApp(String pakageName) {
-        ArrayList<Integer> passIDs = new ArrayList<Integer>();
+        ArrayList<Integer> passIDs = new ArrayList<>();
         if (!isDBFileExist()) {
             return passIDs;
         }
@@ -213,6 +213,7 @@ public class AppTableAdapter extends BaseTableAdapter {
                 isCheck = true;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -221,7 +222,7 @@ public class AppTableAdapter extends BaseTableAdapter {
     }
 
     public synchronized ArrayList<String> getAllPass() {
-        ArrayList<String> items = new ArrayList<String>();
+        ArrayList<String> items = new ArrayList<>();
         String folder = AppPreference.getInstance(mContext).getHideRootPath();
         String DB_PATH = folder + "/" + AppContentProvider.DATABASE_NAME;
         File f = new File(DB_PATH);

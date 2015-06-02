@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ho on 4/20/2015.
+ * @author Ho Duy Quang
  */
 public class AppAdapter extends ArrayAdapter<String> {
     private boolean isSelectable;
@@ -26,8 +26,6 @@ public class AppAdapter extends ArrayAdapter<String> {
     List<String> data;
     private LayoutInflater mInflater;
     Context mContext;
-    OnClickItemListener listener;
-
 
     public AppAdapter(Context context, List<String> objects,
                       boolean isSelectable) {
@@ -71,12 +69,12 @@ public class AppAdapter extends ArrayAdapter<String> {
         if (isSelectable) {
             holder.mLock.setVisibility(View.GONE);
             if (mSelectedItems.contains(app)) {
-                holder.mCheck.setVisibility(View.VISIBLE);
+
             } else {
-                holder.mCheck.setVisibility(View.INVISIBLE);
+
             }
         } else {
-            holder.mCheck.setVisibility(View.GONE);
+
             if (mSelectedItems.contains(app)) {
                 holder.mLock.setVisibility(View.VISIBLE);
                 holder.parent.setBackgroundColor(Color.parseColor("#eeeeee"));
@@ -97,9 +95,10 @@ public class AppAdapter extends ArrayAdapter<String> {
                     mSelectedItems.add(item);
                 }
 
-                if (listener!=null){
-                    listener.onTouch();
+                if (mClickListener != null) {
+                    mClickListener.onClick(getItem(position));
                 }
+
                 notifyDataSetChanged();
             }
         });
@@ -121,7 +120,6 @@ public class AppAdapter extends ArrayAdapter<String> {
         ImageView mIcon;
         ImageView mLock;
         TextView mAppTitle;
-        ImageView mCheck;
 
 
         public ViewHolder(View rootView) {
@@ -131,14 +129,21 @@ public class AppAdapter extends ArrayAdapter<String> {
                     .findViewById(R.id.app_icon);
             mAppTitle = (TextView) rootView
                     .findViewById(R.id.app_title);
-            mCheck = (ImageView) rootView.findViewById(R.id.checkbox);
+
             mLock = (ImageView) rootView.findViewById(R.id.img_lock);
         }
     }
 
-    public void setOnItemTouchListener(OnClickItemListener listener){
-        this.listener=listener;
+    OnClickItemListener mClickListener;
+
+    public void setOnItemClickListener(OnClickItemListener listener) {
+        this.mClickListener = listener;
     }
+
+    public interface OnClickItemListener {
+        void onClick(String item);
+    }
+
 
 }
 

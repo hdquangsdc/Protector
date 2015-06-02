@@ -8,15 +8,11 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.protector.R;
 import com.protector.adapters.MediaAdapter;
@@ -27,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ImageFragment extends Fragment implements OnClickListener {
-	ListView mImageList;
 	MediaAdapter mAdapter;
 	GridView mGridView;
 	View mViewBack;
@@ -79,9 +74,9 @@ public class ImageFragment extends Fragment implements OnClickListener {
 	}
 
 	private ArrayList<MediaItem> getGalleryPhotos() {
-		ArrayList<MediaItem> list = new ArrayList<MediaItem>();
-		final String[] columns = { MediaColumns.DATA, BaseColumns._ID,
-				MediaColumns.DATE_MODIFIED };
+        ArrayList<MediaItem> list = new ArrayList<>();
+        final String[] columns = {MediaColumns.DATA, BaseColumns._ID,
+                MediaColumns.DATE_MODIFIED };
 		final String orderBy = BaseColumns._ID;
 
 		ContentResolver cr = getActivity().getContentResolver();
@@ -103,7 +98,8 @@ public class ImageFragment extends Fragment implements OnClickListener {
 				 */
 				list.add(item);
 			}
-		}
+            cursor.close();
+        }
 
 		// show newest photo at beginning of the list
 		Collections.reverse(list);

@@ -1,11 +1,5 @@
 package com.protector.adapters;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -21,6 +15,11 @@ import android.widget.TextView;
 import com.protector.R;
 import com.protector.database.SmsCallLogTableAdapter;
 import com.protector.objects.SmsCallLogItem;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DetailContactLockedAdapter extends ArrayAdapter<SmsCallLogItem> {
 	private OnLongClickListener myOnLongClickListener;
@@ -140,13 +139,13 @@ public class DetailContactLockedAdapter extends ArrayAdapter<SmsCallLogItem> {
 			}
 		});
 		/*
-		 * if (position != 0) { String d_s = getDate(sms.getTime()); String d_f
-		 * = getDate(getItem(position - 1).getTime()); if (!(d_f.equals(d_s))) {
-		 * holder.tvDate.setText(getDate(sms.getTime()));
+         * if (position != 0) { String d_s = getDateString(sms.getTime()); String d_f
+		 * = getDateString(getItem(position - 1).getTime()); if (!(d_f.equals(d_s))) {
+		 * holder.tvDate.setText(getDateString(sms.getTime()));
 		 * holder.tvDate.setVisibility(View.VISIBLE); } else {
-		 * holder.tvDate.setText(getDate(sms.getTime()));
+		 * holder.tvDate.setText(getDateString(sms.getTime()));
 		 * holder.tvDate.setVisibility(View.GONE); } } else {
-		 * holder.tvDate.setText(getDate(sms.getTime()));
+		 * holder.tvDate.setText(getDateString(sms.getTime()));
 		 * holder.tvDate.setVisibility(View.VISIBLE); } final
 		 * SpannableStringBuilder sb = new SpannableStringBuilder(
 		 * sms.getBodySms()); final ForegroundColorSpan fcs = new
@@ -159,7 +158,7 @@ public class DetailContactLockedAdapter extends ArrayAdapter<SmsCallLogItem> {
 		 * Spannable.SPAN_INCLUSIVE_INCLUSIVE); sb.setSpan(bss, countChar,
 		 * countChar + strTextSearch.length(),
 		 * Spannable.SPAN_INCLUSIVE_INCLUSIVE); } holder.tvContent.setText(sb);
-		 * holder.tvHours.setText(getHours(sms.getTime())); String strFromOrTo =
+		 * holder.tvHours.setText(getHoursString(sms.getTime())); String strFromOrTo =
 		 * ""; if (sms.getType() == 1) { strFromOrTo = "From:"; } else if
 		 * (sms.getType() == 2) { strFromOrTo = "To:"; } if (sms.getName() ==
 		 * null || sms.getName().length() == 0) {

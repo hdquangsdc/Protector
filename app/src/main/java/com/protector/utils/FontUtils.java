@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by vgershman on 04.02.14.
+ * @author Ho Duy Quang
  */
 public class FontUtils {
 
-	private static Map<String, Typeface> ourCache = new HashMap<String, Typeface>();
-	private static AssetManager ourAssetManager;
+    private static Map<String, Typeface> ourCache = new HashMap<>();
+    private static AssetManager ourAssetManager;
 
 	public static Typeface getTypeface(Context context, String fontName) {
 		if (!ourCache.containsKey(fontName)) {

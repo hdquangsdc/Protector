@@ -1,25 +1,11 @@
 package com.protector.activities;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.protector.R;
 import com.protector.fragments.AppLockFragment;
@@ -108,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements IMainFunction {
 		ImageLockFragment fragment = new ImageLockFragment();
 		fragmentTransaction.setCustomAnimations(
 				android.R.anim.slide_in_left,
-				android.R.anim.slide_out_right);
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.addToBackStack(null);
+                android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
 
@@ -123,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements IMainFunction {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-		SmsCallLogsLockFragment fragment = new SmsCallLogsLockFragment();
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.addToBackStack(null);
+        SmsCallLogsLockFragment fragment = new SmsCallLogsLockFragment();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 
 	}
@@ -156,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements IMainFunction {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-		BackupFragment fragment=new BackupFragment();
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.addToBackStack(null);
+        BackupFragment fragment = new BackupFragment();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 
     }

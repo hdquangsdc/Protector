@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ho on 4/21/2015.
+ * @author Ho Duy Quang
  */
 public class AppUtils {
     public static List<String> getApp(Context context) {
-        List<String> apps = new ArrayList<String>();
+        List<String> apps = new ArrayList<>();
         try {
             Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);

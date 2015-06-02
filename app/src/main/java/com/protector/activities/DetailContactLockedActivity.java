@@ -3,9 +3,6 @@
  */
 package com.protector.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -19,15 +16,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,9 +43,13 @@ import com.protector.utils.PhoneNumberUtils;
 import com.protector.utils.SmsLocker;
 import com.protector.views.CustomDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @author SDC-Deverloper
+ * @author Quang
  */
+
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DetailContactLockedActivity extends AppCompatActivity implements
         OnClickListener {
@@ -128,7 +124,6 @@ public class DetailContactLockedActivity extends AppCompatActivity implements
         myArrayTmp = new ArrayList<>();
         myAdapter = new DetailContactLockedAdapter(this, myArray);
         myLv.setAdapter(myAdapter);
-
     }
 
     @Override
